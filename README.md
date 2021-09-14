@@ -1,3 +1,32 @@
+# 這是一個 MTR05 的 final project
+
+當前：
+> file tree
+```
+src
+ ┣ components
+ ┃ ┣ App.js
+ ┃ ┣ index.js
+ ┃ ┗ Navbar.js
+ ┣ pages
+ ┃ ┣ AboutPage
+ ┃ ┃ ┣ AboutPage.js
+ ┃ ┃ ┗ index.js
+ ┃ ┣ HomePage
+ ┃ ┃ ┣ BackgroundCircle.js
+ ┃ ┃ ┣ BackgroundCircleDashed.js
+ ┃ ┃ ┣ BackgroundRectangle.js
+ ┃ ┃ ┣ CircleNumber.js
+ ┃ ┃ ┣ Curve.js
+ ┃ ┃ ┣ HomePage.js
+ ┃ ┃ ┗ index.js
+ ┃ ┗ utils.js
+ ┣ styles
+ ┃ ┗ GlobalStyle.js
+ ┗ index.js
+```
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
