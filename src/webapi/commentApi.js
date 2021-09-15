@@ -38,6 +38,7 @@ export const updateComment = async (guestToken, issueId, commentId, nickname, co
   })
   const { data } = response
   const { ok, message } = data
+  console.log(data)
   if (!ok) return console.log(message)
   return ok
 }
