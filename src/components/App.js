@@ -3,6 +3,12 @@ import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 
 import Navbar from './Navbar'
 import HomePage from '../pages/HomePage/HomePage'
+import LoginPage from '../pages/LoginPage/LoginPage'
+import RegisterPage from '../pages/RegisterPage/RegisterPage'
+import UserPage from '../pages/UserPage/UserPage'
+import UpdatePassword from '../pages/UpdatePassword/UpdatePassword'
+import UpdateMe from '../pages/UpdateMe/UpdateMe'
+
 
 function App() {
   return (
@@ -12,11 +18,20 @@ function App() {
         <Route exact path='/'>
           <HomePage />
         </Route>
-        <Route exact path='/about'>
-          <h1>about</h1>
-        </Route>
         <Route exact path='/login'>
-          <h1>login</h1>
+          <LoginPage />
+        </Route>
+        <Route exact path='/register'>
+          <RegisterPage />
+        </Route>
+        <Route exact path='/user'>
+          <UserPage />
+        </Route>
+        <Route exact path='/user/me/update-password'>
+          <UpdatePassword />
+        </Route>
+        <Route exact path='/user/me'>
+          <UpdateMe />
         </Route>
       </Switch>
     </Router>
