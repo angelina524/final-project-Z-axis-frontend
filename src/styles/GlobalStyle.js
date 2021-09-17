@@ -7,7 +7,9 @@ const GlobalStyle = css`
     list-style: none;
     box-sizing: border-box;
   }
-  body,html, #root {
+  body,
+  html,
+  #root {
     width: 100%;
   }
 `

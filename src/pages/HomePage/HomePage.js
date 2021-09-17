@@ -1,3 +1,4 @@
+import React from 'react'
 import { Wrap } from '../utils'
 import BackgroundCircle from './BackgroundCircle'
 import BackgroundCircleDashed from './BackgroundCircleDashed'
