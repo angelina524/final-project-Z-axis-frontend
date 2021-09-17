@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { updateReply } from '../../../webapi/commentApi'
+import { topUserTokenContext } from '../WebApiTestPage'
 
 const UpdateReply = () => {
   const [userToken, setUserToken] = useState('')
   const [issueId, setIssueId] = useState('')
   const [commentId, setCommentId] = useState('')
   const [reply, setReply] = useState('')
+  const topUserToken = useContext(topUserTokenContext)
 
   const onFormSubmit = async (e) => {
     e.preventDefault()
@@ -16,12 +18,12 @@ const UpdateReply = () => {
       console.log(err)
       return
     }
-    alert('編輯 reply 成功')
-    setUserToken('')
-    setIssueId('')
-    setCommentId('')
-    setReply('')
+    alert('編輯 reply 成功，請自己到資料庫查看')
   }
+
+  useEffect(() => {
+    setUserToken(topUserToken)
+  }, [topUserToken])
 
   return (
     <form onSubmit={onFormSubmit}>

@@ -16,8 +16,8 @@ const DeleteComment = () => {
       alert('刪除 comment 失敗')
       return
     }
+    console.log('刪除 comment 成功')
     alert('刪除 comment 成功')
-    setGuestToken('')
     setCommentId('')
   }
 

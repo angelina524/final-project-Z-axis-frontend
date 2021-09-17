@@ -11,9 +11,8 @@ const UpdateComment = () => {
 
   const onFormSubmit = async (e) => {
     e.preventDefault()
-    let comment = null
     try {
-      comment = await updateComment(
+      await updateComment(
         guestToken,
         issueId,
         commentId,
@@ -25,12 +24,7 @@ const UpdateComment = () => {
       alert('編輯 comment 失敗')
       return
     }
-    console.log({ comment })
-    alert('編輯 comment 成功，請到 console 查看')
-    setGuestToken('')
-    setCommentId('')
-    setNickname('')
-    setContent('')
+    alert('編輯 comment 成功，請到自己到資料庫查看')
   }
 
   return (

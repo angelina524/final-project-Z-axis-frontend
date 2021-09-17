@@ -6,10 +6,16 @@ const GetIssue = () => {
 
   const onFormSubmit = async (e) => {
     e.preventDefault()
-    const issue = await getIssue(issueId)
-    if (!issue.ok) return console.log(issue)
+    let issue = null
+    try {
+      issue = await getIssue(issueId)
+    } catch (error) {
+      console.log(error)
+      alert('issue 讀取失敗')
+      return
+    }
     console.log(issue)
-    alert('獲取成功，請到 console 查看')
+    alert('issue 讀取成功，請到 console 查看')
     setIssueId('')
   }
 

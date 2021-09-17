@@ -1,25 +1,36 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { deleteMe } from '../../../webapi/userApi'
+import { topUserTokenContext } from '../WebApiTestPage'
 
 const DeleteMe = () => {
-  const [token, setToken] = useState('')
+  const [userToken, setUserToken] = useState('')
+  const topUserToken = useContext(topUserTokenContext)
 
   const onFormSubmit = async (e) => {
     e.preventDefault()
-    const ok = await deleteMe(token)
-    if (!ok) return alert('刪除失敗，再試一次')
-    alert('刪除成功')
-    setToken('')
+    try {
+      await deleteMe(userToken)
+    } catch (error) {
+      console.log(error)
+      alert('刪除 user 失敗')
+      return
+    }
+    console.log('刪除 user 成功')
+    alert('刪除 user 成功')
   }
+
+  useEffect(() => {
+    setUserToken(topUserToken)
+  }, [topUserToken])
 
   return (
     <form onSubmit={onFormSubmit}>
       <h4>刪除使用者</h4>
       <input
         type="text"
-        value={token}
-        onChange={(e) => setToken(e.target.value)}
-        placeholder="token"
+        value={userToken}
+        onChange={(e) => setUserToken(e.target.value)}
+        placeholder="userToken"
       />
       <button>送出</button>
     </form>

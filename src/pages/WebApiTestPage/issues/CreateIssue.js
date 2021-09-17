@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { createIssue } from '../../../webapi/issueApi'
+import { topUserTokenContext } from '../WebApiTestPage'
 
 const CreateIssue = () => {
   const [userToken, setUserToken] = useState('')
@@ -7,6 +8,7 @@ const CreateIssue = () => {
   const [description, setDescription] = useState('')
   const [beginTime, setBeginTime] = useState('')
   const [finishTime, setFinishTime] = useState('')
+  const topUserToken = useContext(topUserTokenContext)
 
   const onFormSubmit = async (e) => {
     e.preventDefault()
@@ -26,12 +28,15 @@ const CreateIssue = () => {
     }
     console.log({ issue })
     alert('新增 issue 成功，請到 console 查看')
-    setUserToken('')
     setTitle('')
     setDescription('')
     setBeginTime('')
     setFinishTime('')
   }
+
+  useEffect(() => {
+    setUserToken(topUserToken)
+  }, [topUserToken])
 
   return (
     <form onSubmit={onFormSubmit}>

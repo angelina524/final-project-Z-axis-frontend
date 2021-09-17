@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createContext, useState, useEffect } from 'react'
 import CreateComment from './comments/CreateComment'
 import DeleteComment from './comments/DeleteComment'
 import UpdateComment from './comments/UpdateComment'
@@ -16,41 +16,55 @@ import UpdateMe from './users/UpdateMe'
 import UpdatePassword from './users/UpdatePassword'
 import './WebApiTestPage.css'
 
+export const topUserTokenContext = createContext('')
+export const setTopUserTokenContext = createContext('')
 const WebApiTestPage = () => {
+  const [topUserToken, setTopUserToken] = useState('')
+
+  useEffect(() => {
+    const topUserToken = window.localStorage.getItem('userToken')
+    if (!topUserToken) return
+    setTopUserToken(topUserToken)
+  }, [])
+
   return (
-    <div style={{ margin: '2rem 5rem' }}>
-      <br />
-      <h2>使用者</h2>
-      <br />
-      <Register />
-      <Login />
-      <GetMe />
-      <UpdateMe />
-      <UpdatePassword />
-      <DeleteMe />
-      <br />
-      <hr />
-      <br />
-      <h2>Q&A</h2>
-      <br />
-      <CreateIssue />
-      <DeleteIssue />
-      <UpdateIssue />
-      <GetAllIssues />
-      <GetIssue />
-      <br />
-      <hr />
-      <br />
-      <h2>留言箱</h2>
-      <br />
-      <CreateComment />
-      <DeleteComment />
-      <UpdateComment />
-      <UpdateReply />
-      <br />
-      <br />
-      <br />
-    </div>
+    <topUserTokenContext.Provider value={topUserToken}>
+      <setTopUserTokenContext.Provider value={setTopUserToken}>
+        <div style={{ margin: '2rem 5rem' }}>
+          <br />
+          <h2>使用者</h2>
+          <br />
+          <Register />
+          <Login />
+          <GetMe />
+          <UpdateMe />
+          <UpdatePassword />
+          <DeleteMe />
+          <br />
+          <hr />
+          <br />
+          <h2>Q&A</h2>
+          <br />
+          <CreateIssue />
+          <DeleteIssue />
+          <UpdateIssue />
+          <GetAllIssues />
+          <GetIssue />
+          <br />
+          <hr />
+          <br />
+          <h2>留言箱</h2>
+          <br />
+          <CreateComment />
+          <DeleteComment />
+          <UpdateComment />
+          <UpdateReply />
+          <br />
+          <br />
+          <br />
+        </div>
+      </setTopUserTokenContext.Provider>
+    </topUserTokenContext.Provider>
   )
 }
 

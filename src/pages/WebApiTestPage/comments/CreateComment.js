@@ -19,7 +19,6 @@ const CreateComment = () => {
     }
     console.log({ comment })
     alert('新增 comment 成功，請到 console 查看')
-    setGuestToken('')
     setIssueId('')
     setNickname('')
     setContent('')

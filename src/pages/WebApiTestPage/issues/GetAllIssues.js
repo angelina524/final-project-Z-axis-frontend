@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { getAllIssues } from '../../../webapi/issueApi'
+import { topUserTokenContext } from '../WebApiTestPage'
 
 const GetAllIssues = () => {
   const [userToken, setUserToken] = useState('')
+  const topUserToken = useContext(topUserTokenContext)
 
   const onFormSubmit = async (e) => {
     e.preventDefault()
@@ -16,8 +18,11 @@ const GetAllIssues = () => {
     }
     console.log({ issues })
     alert('獲取 issues 成功，請到 console 查看')
-    setUserToken('')
   }
+
+  useEffect(() => {
+    setUserToken(topUserToken)
+  }, [topUserToken])
 
   return (
     <form onSubmit={onFormSubmit}>

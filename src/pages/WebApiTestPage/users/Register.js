@@ -1,16 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { register } from '../../../webapi/userApi'
+import { setTopUserTokenContext } from '../WebApiTestPage'
 
 const Register = () => {
   const [nickname, setNickname] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const setTopUserToken = useContext(setTopUserTokenContext)
 
   const onFormSubmit = async (e) => {
     e.preventDefault()
-    const token = await register(nickname, email, password)
+    let userToken = null
+    try {
+      userToken = await register(nickname, email, password)
+    } catch (error) {
+      console.log(error)
+      alert('註冊失敗')
+      return
+    }
+    console.log({ userToken })
     alert('註冊成功，請到 console 複製你的 token')
-    console.log({ token })
+    window.localStorage.setItem('userToken', userToken)
+    setTopUserToken(userToken)
+
     setNickname('')
     setEmail('')
     setPassword('')

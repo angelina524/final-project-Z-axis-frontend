@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { getIssue, updateIssue } from '../../../webapi/issueApi'
+import { topUserTokenContext } from '../WebApiTestPage'
 
 const UpdateIssue = () => {
   const [userToken, setUserToken] = useState('')
@@ -8,6 +9,7 @@ const UpdateIssue = () => {
   const [description, setDescription] = useState('')
   const [beginTime, setBeginTime] = useState('')
   const [finishTime, setFinishTime] = useState('')
+  const topUserToken = useContext(topUserTokenContext)
 
   const onFormSubmit = async (e) => {
     e.preventDefault()
@@ -29,13 +31,27 @@ const UpdateIssue = () => {
     }
     console.log({ issue })
     alert('編輯 issue 成功，請到 console 查看')
-    setUserToken('')
-    setIssueId('')
-    setTitle('')
-    setDescription('')
-    setBeginTime('')
-    setFinishTime('')
   }
+
+  useEffect(() => {
+    setUserToken(topUserToken)
+  }, [topUserToken])
+
+  useEffect(() => {
+    if (!issueId) {
+      setTitle('')
+      setDescription('')
+      return
+    }
+
+    const setField = async () => {
+      const issue = await getIssue(issueId)
+      setTitle(issue.title)
+      setDescription(issue.description)
+    }
+
+    setField()
+  }, [issueId])
 
   return (
     <form onSubmit={onFormSubmit}>

@@ -1,38 +1,48 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { updatePassword, getMe } from '../../../webapi/userApi'
+import { topUserTokenContext } from '../WebApiTestPage'
 
 const UpdatePassword = () => {
-  const [token, setToken] = useState('')
+  const [userToken, setUserToken] = useState('')
   const [oldPassword, setOldPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [againPassword, setAgainPassword] = useState('')
+  const topUserToken = useContext(topUserTokenContext)
 
   const onFormSubmit = async (e) => {
     e.preventDefault()
-    const ok = await updatePassword(
-      token,
-      oldPassword,
-      newPassword,
-      againPassword
-    )
-    if (!ok) alert('修改失敗，再試一次')
-    const user = await getMe(token)
-    alert('個人密碼修改成功，請到 console 看你的新個人資訊')
+    try {
+      await updatePassword(
+        userToken,
+        oldPassword,
+        newPassword,
+        againPassword
+      )
+    } catch (error) {
+      console.log(error)
+      alert('個人密碼修改失敗')
+      return
+    }
+    const user = await getMe(userToken)
     console.log({ user })
-    setToken('')
+    alert('個人密碼修改成功，請到 console 看你的新個人資訊（但 hash 你也看不懂）')
     setOldPassword('')
     setNewPassword('')
     setAgainPassword('')
   }
 
+  useEffect(() => {
+    setUserToken(topUserToken)
+  }, [topUserToken])
+
   return (
     <form onSubmit={onFormSubmit}>
-      <h4>修改個人資料</h4>
+      <h4>修改個人密碼</h4>
       <input
         type="text"
-        value={token}
-        onChange={(e) => setToken(e.target.value)}
-        placeholder="token"
+        value={userToken}
+        onChange={(e) => setUserToken(e.target.value)}
+        placeholder="userToken"
       />
       <input
         type="password"

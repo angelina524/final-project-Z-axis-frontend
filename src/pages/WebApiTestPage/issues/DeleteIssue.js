@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { deleteIssue } from '../../../webapi/issueApi'
+import { topUserTokenContext } from '../WebApiTestPage'
 
 const DeleteIssue = () => {
   const [userToken, setUserToken] = useState('')
   const [issueId, setIssueId] = useState('')
+  const topUserToken = useContext(topUserTokenContext)
 
   const onFormSubmit = async (e) => {
     e.preventDefault()
@@ -15,9 +17,12 @@ const DeleteIssue = () => {
       return
     }
     alert('刪除 issue 成功')
-    setUserToken('')
     setIssueId('')
   }
+
+  useEffect(() => {
+    setUserToken(topUserToken)
+  }, [topUserToken])
 
   return (
     <form onSubmit={onFormSubmit}>
