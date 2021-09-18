@@ -1,16 +1,18 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { deleteComment } from '../../../webapi/commentApi'
+import { topUserTokenContext } from '../WebApiTestPage'
 
 const DeleteComment = () => {
   const [guestToken, setGuestToken] = useState('')
+  const [userToken, setUserToken] = useState('')
+  const [issueId, setIssueId] = useState('')
   const [commentId, setCommentId] = useState('')
-
-  const issueId = '123' // issueId 不用輸入，但 api route 設計需要有東西，所以先隨便填
+  const topUserToken = useContext(topUserTokenContext)
 
   const onFormSubmit = async (e) => {
     e.preventDefault()
     try {
-      await deleteComment(guestToken, issueId, commentId)
+      await deleteComment(guestToken, userToken, issueId, commentId)
     } catch (err) {
       console.log(err)
       alert('刪除 comment 失敗')
@@ -21,6 +23,10 @@ const DeleteComment = () => {
     setCommentId('')
   }
 
+  useEffect(() => {
+    setUserToken(topUserToken)
+  }, [topUserToken])
+
   return (
     <form onSubmit={onFormSubmit}>
       <h4>刪除 Comment</h4>
@@ -30,7 +36,18 @@ const DeleteComment = () => {
         onChange={(e) => setGuestToken(e.target.value)}
         placeholder="guestToken"
       />
-      <input type="text" placeholder="issueId 不用填" disabled />
+      <input
+        type="text"
+        value={userToken}
+        onChange={(e) => setUserToken(e.target.value)}
+        placeholder="userToken"
+      />
+      <input
+        type="text"
+        value={issueId}
+        onChange={(e) => setIssueId(e.target.value)}
+        placeholder="issueId"
+      />
       <input
         type="text"
         value={commentId}

@@ -19,12 +19,18 @@ export const createComment = async (guestToken, issueId, nickname, content) => {
   return comment
 }
 
-export const deleteComment = async (guestToken, issueId, commentId) => {
+export const deleteComment = async (
+  guestToken,
+  userToken,
+  issueId,
+  commentId
+) => {
   const response = await instance.delete(
     `/issues/${issueId}/comments/${commentId}`,
     {
       headers: {
-        'guest-token': guestToken
+        'guest-token': guestToken,
+        Authorization: userToken
       }
     }
   )
