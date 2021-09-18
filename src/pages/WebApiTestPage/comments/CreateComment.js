@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { createComment } from '../../../webapi/commentApi'
+import { topGuestTokenContext } from '../WebApiTestPage'
 
 const CreateComment = () => {
   const [guestToken, setGuestToken] = useState('')
   const [issueId, setIssueId] = useState('')
   const [nickname, setNickname] = useState('')
   const [content, setContent] = useState('')
+  const topGuestToken = useContext(topGuestTokenContext)
 
   const onFormSubmit = async (e) => {
     e.preventDefault()
@@ -23,6 +25,10 @@ const CreateComment = () => {
     setNickname('')
     setContent('')
   }
+
+  useEffect(() => {
+    setGuestToken(topGuestToken)
+  }, [topGuestToken])
 
   return (
     <form onSubmit={onFormSubmit}>

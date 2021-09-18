@@ -1,24 +1,20 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { updateComment } from '../../../webapi/commentApi'
+import { topGuestTokenContext } from '../WebApiTestPage'
 
 const UpdateComment = () => {
   const [guestToken, setGuestToken] = useState('')
   const [commentId, setCommentId] = useState('')
   const [nickname, setNickname] = useState('')
   const [content, setContent] = useState('')
+  const topGuestToken = useContext(topGuestTokenContext)
 
   const issueId = '123' // issueId 不用輸入，但 api route 設計需要有東西，所以先隨便填
 
   const onFormSubmit = async (e) => {
     e.preventDefault()
     try {
-      await updateComment(
-        guestToken,
-        issueId,
-        commentId,
-        nickname,
-        content
-      )
+      await updateComment(guestToken, issueId, commentId, nickname, content)
     } catch (err) {
       console.log(err)
       alert('編輯 comment 失敗')
@@ -26,6 +22,10 @@ const UpdateComment = () => {
     }
     alert('編輯 comment 成功，請到自己到資料庫查看')
   }
+
+  useEffect(() => {
+    setGuestToken(topGuestToken)
+  }, [topGuestToken])
 
   return (
     <form onSubmit={onFormSubmit}>

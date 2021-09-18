@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { deleteComment } from '../../../webapi/commentApi'
-import { topUserTokenContext } from '../WebApiTestPage'
+import { topGuestTokenContext, topUserTokenContext } from '../WebApiTestPage'
 
 const DeleteComment = () => {
   const [guestToken, setGuestToken] = useState('')
@@ -8,6 +8,7 @@ const DeleteComment = () => {
   const [issueId, setIssueId] = useState('')
   const [commentId, setCommentId] = useState('')
   const topUserToken = useContext(topUserTokenContext)
+  const topGuestToken = useContext(topGuestTokenContext)
 
   const onFormSubmit = async (e) => {
     e.preventDefault()
@@ -26,6 +27,10 @@ const DeleteComment = () => {
   useEffect(() => {
     setUserToken(topUserToken)
   }, [topUserToken])
+
+  useEffect(() => {
+    setGuestToken(topGuestToken)
+  }, [topGuestToken])
 
   return (
     <form onSubmit={onFormSubmit}>
