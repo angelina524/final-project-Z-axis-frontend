@@ -1,4 +1,5 @@
-import styled from '@emotion/styled' 
+import React from 'react'
+import styled from '@emotion/styled'
 
 const Rectangle = styled.div`
   width: 80vw;
@@ -7,9 +8,7 @@ const Rectangle = styled.div`
 `
 
 const BackgroundRectangle = () => {
-  return (
-    <Rectangle />
-  )
+  return <Rectangle />
 }
 
 export default BackgroundRectangle
