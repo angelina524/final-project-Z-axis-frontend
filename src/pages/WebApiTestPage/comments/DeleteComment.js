@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { deleteComment } from '../../../webapi/commentApi'
+import { deleteComment, getAllComments } from '../../../webapi/commentApi'
+import { Button } from '../Button'
 import { topGuestTokenContext, topUserTokenContext } from '../WebApiTestPage'
 
 const DeleteComment = () => {
@@ -9,6 +10,12 @@ const DeleteComment = () => {
   const [commentId, setCommentId] = useState('')
   const topUserToken = useContext(topUserTokenContext)
   const topGuestToken = useContext(topGuestTokenContext)
+
+  const onClick = async () => {
+    if (!issueId) return
+    const comments = await getAllComments(issueId)
+    console.log(comments)
+  }
 
   const onFormSubmit = async (e) => {
     e.preventDefault()
@@ -35,6 +42,7 @@ const DeleteComment = () => {
   return (
     <form onSubmit={onFormSubmit}>
       <h4>刪除 Comment</h4>
+      <h5>（輸入 issueId 後會在 console 印出 comments）</h5>
       <input
         type="text"
         value={guestToken}
@@ -53,6 +61,7 @@ const DeleteComment = () => {
         onChange={(e) => setIssueId(e.target.value)}
         placeholder="issueId"
       />
+      <Button onClick={onClick}>查詢 comments</Button>
       <input
         type="text"
         value={commentId}

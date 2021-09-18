@@ -1,12 +1,7 @@
-import styled from '@emotion/styled'
 import React, { useContext } from 'react'
 import { createGuest } from '../../../webapi/guestApi'
+import { Button } from '../Button'
 import { setTopGuestTokenContext } from '../WebApiTestPage'
-
-const Button = styled.button`
-  display: block;
-  margin: 0 auto;
-`
 
 const CreateGuest = () => {
   const setTopGuestToken = useContext(setTopGuestTokenContext)
