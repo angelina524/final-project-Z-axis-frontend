@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react'
 import CreateComment from './comments/CreateComment'
 import DeleteComment from './comments/DeleteComment'
+import GetAllComments from './comments/GetAllComments'
 import UpdateComment from './comments/UpdateComment'
 import UpdateReply from './comments/UpdateReply'
 import CreateGuest from './guest/CreateGuest'
@@ -67,6 +68,7 @@ const WebApiTestPage = () => {
               <DeleteComment />
               <UpdateComment />
               <UpdateReply />
+              <GetAllComments />
               <br />
               <br />
               <br />
