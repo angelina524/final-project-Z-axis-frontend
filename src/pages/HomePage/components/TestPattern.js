@@ -32,8 +32,8 @@ const Clock = styled.div`
     width: 30px;
     height: 16px;
     border-radius: 8px;
-    top: 6px;
-    right: 0px;
+    top: 7px;
+    right: 1px;
   }
 `
 
@@ -43,20 +43,11 @@ const OuterClock = styled.div`
   height: 135px;
   border-radius: 50%;
   position: relative;
-  span {
-    background-color: #c4c4c4;
-    width: 15px;
-    height: 8px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
   span:nth-of-type(1) {
     top: 10%;
     left: 40%;
     transform-origin: center left;
-    transform: rotate(90deg) translate(-10px, -14px);
+    transform: rotate(90deg) translate(-10px, -13px);
   }
   span:nth-of-type(2) {
     top: 50%;
@@ -74,6 +65,16 @@ const OuterClock = styled.div`
   }
 `
 
+const Scale = styled.span`
+  background-color: #c4c4c4;
+  width: 15px;
+  height: 8px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`
+
 const InnerClock = styled.div`
   background-color: #c4c4c4;
   width: 20px;
@@ -88,26 +89,25 @@ const InnerClock = styled.div`
     display: block;
     background-color: #c4c4c4;
     width: 25px;
-    height: 7px;
-    transform: rotate(90deg) translate(10px, -10px);
-    transform-origin: center left;
+    height: 8px;
+    transform: rotate(90deg) translate(20px, 3px);
   }
   &:after {
     content: "";
     display: block;
     background-color: #c4c4c4;
-    height: 7px;
+    height: 8px;
     width: 40px;
-    transform: rotate(-45deg) translate(7px, 7px);
-    transform-origin: center left;
+    transform: rotate(-45deg) translate(13px, -7px);
   }
 `
 
 const ClockTop = styled.div`
-  width: 66px;
-  height: 30px;
+  width: 60px;
+  height: 34px;
   border-radius: 50px;
-  background-color: #c4c4c4;
+  border: 9px solid #c4c4c4;
+  background-color: #fff;
   position: absolute;
   top: -40px;
   left: 50%;
@@ -116,37 +116,25 @@ const ClockTop = styled.div`
     content: "";
     display: block;
     width: 20px;
-    height: 17px;
+    height: 16px;
     background-color: #c4c4c4;
     position: absolute;
-    bottom: -15px;
+    bottom: -17px;
     left: 50%;
     transform: translateX(-50%);
   }
-  &:after {
-    content: "";
-    display: block;
-    width: 44px;
-    height: 15px;
-    border-radius: 10px;
-    background-color: #fff;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
 `
 
-const BackgroundTest = () => {
+const TestPattern = () => {
   return (
     <Wrap>
       <Clock>
         <ClockTop />
         <OuterClock>
-          <span />
-          <span />
-          <span />
-          <span />
+          <Scale />
+          <Scale />
+          <Scale />
+          <Scale />
           <InnerClock />
         </OuterClock>
       </Clock>
@@ -154,4 +142,4 @@ const BackgroundTest = () => {
   )
 }
 
-export default BackgroundTest
+export default TestPattern

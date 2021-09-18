@@ -17,47 +17,37 @@ const Lottery = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  h1 {
-    width: 40px;
-    height: 64px;
-    margin: 3px;
-    font-family: Roboto, sans-serif;
-    font-size: 2.8rem;
-    background-color: #f9f9f9;
-    color: #c4c4c4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  h1:nth-of-type(1) {
+  h2:nth-of-type(1) {
     border-radius: 10px 0 0 10px;
   }
-  h1:nth-of-type(2) {
+  h2:nth-of-type(2) {
     border-radius: 0px;
   }
-  h1:nth-of-type(3) {
+  h2:nth-of-type(3) {
     border-radius: 0 10px 10px 0;
   }
 `
 
+const NumberWrap = styled.h2`
+  width: 40px;
+  height: 64px;
+  line-height: 64px;
+  text-align: center;
+  margin: 3px;
+  font-family: Roboto, sans-serif;
+  font-size: 2.8rem;
+  background-color: #f9f9f9;
+  color: #c4c4c4;
+`
+
 const LotteryTop = styled.div`
-  width: 80px;
-  height: 22px;
+  width: 60px;
+  height: 8px;
   border-radius: 10px;
   position: absolute;
-  top: -18px;
-  background-color: #c4c4c4;
-  &:after {
-    content: '';
-    display: block;
-    width: 60px;
-    height: 8px;
-    border-radius: 6px;
-    background-color: #fff;
-    position: absolute;
-    top: 8px;
-    left: 10px;
-  }
+  top: -8px;
+  background-color: #fff;
+  box-shadow: 0px 0px 0px 8px #c4c4c4;
 `
 
 const LotteryBottom = styled.div`
@@ -108,7 +98,7 @@ const LotteryRight = styled.div`
     background-color: #c4c4c4;
     position: absolute;
     bottom: 0;
-    left: -20px;
+    left: -19px;
   }
   &:after {
     content: '';
@@ -123,14 +113,14 @@ const LotteryRight = styled.div`
   }
 `
 
-const BackgroundLottery = () => {
+const LotteryPattern = () => {
   return(
     <Wrap>
       <Lottery>
         <LotteryTop />
-        <h1>7</h1>
-        <h1>7</h1>
-        <h1>7</h1>
+        <NumberWrap>7</NumberWrap>
+        <NumberWrap>7</NumberWrap>
+        <NumberWrap>7</NumberWrap>
         <LotteryRight />
         <LotteryBottom />
       </Lottery>
@@ -138,4 +128,4 @@ const BackgroundLottery = () => {
   )
 }
 
-export default BackgroundLottery
+export default LotteryPattern

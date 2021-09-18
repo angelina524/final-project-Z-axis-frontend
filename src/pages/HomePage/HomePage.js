@@ -5,14 +5,14 @@ import BackgroundRectangle from './BackgroundRectangle'
 import CircleNumber from './CircleNumber'
 import Curve from './Curve'
 
-import BackgroundIssue from './components/BackgroundIssue'
-import BackgroundTest from './components/BackgroundTest'
-import BackgroundLottery from './components/BackgroundLottery'
+import IssuePattern from './components/IssuePattern'
+import TestPattern from './components/TestPattern'
+import LotteryPattern from './components/LotteryPattern'
 
 import styled from '@emotion/styled'
 const Big = styled.div`
   display: inline-block;
-  transform: scale(1.5) translate(100%, -50%);
+  transform: scale(1.6) translate(100%, -50%);
 `
 
 const HomePage = () => {
@@ -29,12 +29,12 @@ const HomePage = () => {
       <CircleNumber>.04</CircleNumber>
       <BackgroundRectangle />
 
-      <BackgroundIssue />
-      <Big><BackgroundIssue /></Big>
-      <BackgroundTest />
-      <Big><BackgroundTest /></Big>
-      <BackgroundLottery />
-      <Big><BackgroundLottery /></Big>
+      <IssuePattern />
+      <Big><IssuePattern /></Big>
+      <TestPattern />
+      <Big><TestPattern /></Big>
+      <LotteryPattern />
+      <Big><LotteryPattern /></Big>
 
     </Wrap>
   )

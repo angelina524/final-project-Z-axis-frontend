@@ -9,12 +9,13 @@ const CommentWrap = styled.div`
   width: 200px;
   height: 60px;
   position: relative;
-  .avatar {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: #c4c4c4;
-  }
+`
+
+const Avatar = styled.div`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #c4c4c4;
 `
 
 const Comment = styled.div`
@@ -35,7 +36,6 @@ const Comment = styled.div`
     border-radius: 50%;
     top: -3px;
     left: -8px;
-    transform: rotate(30deg);
     z-index: -1;
   }
   &:after {
@@ -48,19 +48,18 @@ const Comment = styled.div`
     border-radius: 50%;
     top: -12px;
     left: -8px;
-    transform: rotate(30deg);
     z-index: -1;
   }
 `
 
-const BackgroundIssue = () => {
+const issuePattern = () => {
   return (
     <Wrap>
-      <CommentWrap><div className="avatar" /><Comment /></CommentWrap>
-      <CommentWrap><div className="avatar" /><Comment /></CommentWrap>
-      <CommentWrap><div className="avatar" /><Comment /></CommentWrap>
+      <CommentWrap><Avatar /><Comment /></CommentWrap>
+      <CommentWrap><Avatar /><Comment /></CommentWrap>
+      <CommentWrap><Avatar /><Comment /></CommentWrap>
     </Wrap>
   )
 }
 
-export default BackgroundIssue
+export default issuePattern
