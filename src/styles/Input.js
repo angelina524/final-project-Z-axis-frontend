@@ -1,14 +1,13 @@
 import styled from '@emotion/styled'
+import CenterAlignment from './CenterAlignment'
 
-const Input = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+const InputWrapper = styled.div`
+  ${CenterAlignment}
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.8rem;
 `
 
-const InputBox = styled.input`
+const InputText = styled.input`
   padding: 0.8rem;
   width: 300px;
   &::placeholder {
@@ -18,13 +17,4 @@ const InputBox = styled.input`
   border-radius: 3px;
 `
 
-const InputSubmit = styled.input`
-  padding:0.8rem;
-  width: 300px;
-  border: 1px #AAAAAA solid;
-  border-radius: 3px;
-  background: #4167B2;
-  color: #FFFFFF;
-`
-
-export { Input, InputBox, InputSubmit }
+export { InputWrapper, InputText}

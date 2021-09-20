@@ -1,11 +1,10 @@
 import styled from '@emotion/styled'
 import { Link } from 'react-router-dom'
 import Logo from './Logo'
+import CenterAlignment from '../styles/CenterAlignment'
 
 const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  ${CenterAlignment};
   width: 100%;
   position: fixed;
   top: 3.5rem;
@@ -23,7 +22,7 @@ const NavbarWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   a {
-    color: #000;
+    color: #000000;
     text-decoration: none;
   }
 `
