@@ -19,10 +19,11 @@ const NavbarWrap = styled.div`
 const Navbar = () => {
   return (
     <NavbarWrap>
-      <Link to="/">Z-axis</Link>
-      <Link to="/">首頁</Link>
-      <Link to="/about">關於</Link>
-      <Link to="/login">登入</Link>
+      <Link to='/'>Z-axis</Link>
+      <Link to='/'>首頁</Link>
+      <Link to='/about'>關於</Link>
+      <Link to='/login'>登入</Link>
+      <Link to='/loading'>載入</Link>
       <Link to="/test-web-api">測試 web api</Link>
     </NavbarWrap>
   )

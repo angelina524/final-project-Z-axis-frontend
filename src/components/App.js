@@ -2,7 +2,8 @@ import React from 'react'
 import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 
 import Navbar from './Navbar'
-import HomePage from '../pages/HomePage/HomePage'
+import HomePage from '../pages/HomePage'
+import LoadingPage from '../pages/LoadingPage'
 import WebApiTestPage from '../pages/WebApiTestPage/WebApiTestPage'
 
 function App () {
@@ -18,6 +19,9 @@ function App () {
         </Route>
         <Route exact path="/login">
           <h1>login</h1>
+        </Route>
+        <Route exact path='/loading'>
+          <LoadingPage />
         </Route>
         <Route exact path="/test-web-api">
           <WebApiTestPage />
