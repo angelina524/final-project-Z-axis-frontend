@@ -2,12 +2,12 @@ import React from 'react'
 import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 
 import Navbar from './Navbar'
-import HomePage from '../pages/HomePage/HomePage'
-import LoginPage from '../pages/LoginPage/LoginPage'
-import RegisterPage from '../pages/RegisterPage/RegisterPage'
+import HomePage from '../pages/HomePage'
+import LoginPage from '../pages/LoginPage'
+import RegisterPage from '../pages/RegisterPage'
 import UserPage from '../pages/UserPage/UserPage'
-import UpdatePassword from '../pages/UpdatePassword/UpdatePassword'
-import UpdateMe from '../pages/UpdateMe/UpdateMe'
+import UpdatePassword from '../pages/UpdatePassword'
+import UpdateMe from '../pages/UpdateMe'
 
 
 function App() {
