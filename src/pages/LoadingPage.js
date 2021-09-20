@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from '@emotion/styled'
 import { keyframes } from '@emotion/react'
 
@@ -10,7 +11,7 @@ const rotate = keyframes`
   }
 `
 
-const Wrap = styled.div`
+const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -45,25 +46,26 @@ const Circle = styled.span`
   position: absolute;
   top: 0;
   left: 0;
-  border: 2px solid #4167B2;
+  border: 2px solid #4167b2;
   animation: ${rotate} 5s linear infinite;
 `
 
 const LoadingText = styled.h2`
   font-family: consolas;
-  color: #4167B2;
+  color: #4167b2;
+  background-color: transparent;
 `
 
-const LoadingPage = () =>{
+const LoadingPage = () => {
   return (
-    <Wrap>
+    <Wrapper>
       <Loader>
         <Circle />
         <Circle />
         <Circle />
         <LoadingText>Z-axis</LoadingText>
       </Loader>
-    </Wrap>
+    </Wrapper>
   )
 }
 
