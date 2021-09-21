@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from '@emotion/styled'
 import { Link } from 'react-router-dom'
 import Logo from './Logo'
@@ -44,6 +45,7 @@ const Navbar = () => {
           <Link to='/register'>註冊</Link>
           {/* <Link to='/user'>後台</Link> */}
           {/* <Link to='/logout'>登出</Link> */}
+          <Link to="/test-web-api">測試 web api</Link>
         </NavbarLinks>
       </NavbarWrapper>
     </Wrapper>

@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from '@emotion/styled'
 
 const SvgWrap = styled.svg`
@@ -12,7 +13,12 @@ const SvgWrap = styled.svg`
 const Curve = () => {
   return (
     <SvgWrap>
-      <path d="M0 300 C150 270,150 120,300,0" stroke-dasharray="10,10" stroke="#c4c4c4" fill="none"/>
+      <path
+        d="M0 300 C150 270,150 120,300,0"
+        strokeDasharray="10,10"
+        stroke="#c4c4c4"
+        fill="none"
+      />
     </SvgWrap>
   )
 }
