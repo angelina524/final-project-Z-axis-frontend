@@ -1,8 +1,10 @@
 import React, { createContext, useState, useEffect } from 'react'
 import CreateComment from './comments/CreateComment'
 import DeleteComment from './comments/DeleteComment'
+import GetAllComments from './comments/GetAllComments'
 import UpdateComment from './comments/UpdateComment'
 import UpdateReply from './comments/UpdateReply'
+import CreateGuest from './guest/CreateGuest'
 import CreateIssue from './issues/CreateIssue'
 import DeleteIssue from './issues/DeleteIssue'
 import GetAllIssues from './issues/GetAllIssues'
@@ -18,51 +20,61 @@ import './WebApiTestPage.css'
 
 export const topUserTokenContext = createContext('')
 export const setTopUserTokenContext = createContext('')
+export const topGuestTokenContext = createContext('')
+export const setTopGuestTokenContext = createContext('')
 const WebApiTestPage = () => {
   const [topUserToken, setTopUserToken] = useState('')
+  const [topGuestToken, setTopGuestToken] = useState('')
 
   useEffect(() => {
-    const topUserToken = window.localStorage.getItem('userToken')
-    if (!topUserToken) return
-    setTopUserToken(topUserToken)
+    const userToken = window.localStorage.getItem('userToken')
+    const guestToken = window.localStorage.getItem('guestToken')
+    if (userToken) setTopUserToken(userToken)
+    if (guestToken) setTopGuestToken(guestToken)
   }, [])
 
   return (
     <topUserTokenContext.Provider value={topUserToken}>
       <setTopUserTokenContext.Provider value={setTopUserToken}>
-        <div style={{ margin: '2rem 5rem' }}>
-          <br />
-          <h2>使用者</h2>
-          <br />
-          <Register />
-          <Login />
-          <GetMe />
-          <UpdateMe />
-          <UpdatePassword />
-          <DeleteMe />
-          <br />
-          <hr />
-          <br />
-          <h2>Q&A</h2>
-          <br />
-          <CreateIssue />
-          <DeleteIssue />
-          <UpdateIssue />
-          <GetAllIssues />
-          <GetIssue />
-          <br />
-          <hr />
-          <br />
-          <h2>留言箱</h2>
-          <br />
-          <CreateComment />
-          <DeleteComment />
-          <UpdateComment />
-          <UpdateReply />
-          <br />
-          <br />
-          <br />
-        </div>
+        <topGuestTokenContext.Provider value={topGuestToken}>
+          <setTopGuestTokenContext.Provider value={setTopGuestToken}>
+            <div style={{ margin: '2rem 5rem' }}>
+              <CreateGuest />
+              <br />
+              <h2>使用者</h2>
+              <br />
+              <Register />
+              <Login />
+              <GetMe />
+              <UpdateMe />
+              <UpdatePassword />
+              <DeleteMe />
+              <br />
+              <hr />
+              <br />
+              <h2>Q&A</h2>
+              <br />
+              <CreateIssue />
+              <DeleteIssue />
+              <UpdateIssue />
+              <GetAllIssues />
+              <GetIssue />
+              <br />
+              <hr />
+              <br />
+              <h2>留言箱</h2>
+              <br />
+              <CreateComment />
+              <DeleteComment />
+              <UpdateComment />
+              <UpdateReply />
+              <GetAllComments />
+              <br />
+              <br />
+              <br />
+            </div>
+          </setTopGuestTokenContext.Provider>
+        </topGuestTokenContext.Provider>
       </setTopUserTokenContext.Provider>
     </topUserTokenContext.Provider>
   )
