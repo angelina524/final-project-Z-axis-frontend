@@ -12,7 +12,7 @@ const UpdateMe = () => {
         <InputText type='email' placeholder='信箱' />
       </InputWrapper>
       <SubmitBtn type='submit'>送出</SubmitBtn>
-        <PromptLink to='/user/me/update-password'>修改密碼？  按此修改</PromptLink>
+      <PromptLink to='/user/me/update-password'>修改密碼？  按此修改</PromptLink>
     </>
   )
 }
