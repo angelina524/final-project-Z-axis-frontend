@@ -1,4 +1,4 @@
-const colors = {
+const theme = {
   // primary
   primary: '#4167B2',
 
@@ -7,13 +7,12 @@ const colors = {
   secondary_100: '#333333',
   secondary_200: '#666666',
   secondary_300: '#AAAAAA',
-  secondary_500: '#c4c4c4',
   secondary_850: '#F9F9F9',
   secondary_900: '#FFFFFF',
-
-  // background
-  // bg_900: '#FFFFFF',
-
+  
+  // box-shadow
+  boxShadow: '0 0 20px 2px rgba(0,0,0,.1)',
+  border: 'solid 1px rgba(0,0,0,.1)',
 }
 
-export default colors
+export default theme

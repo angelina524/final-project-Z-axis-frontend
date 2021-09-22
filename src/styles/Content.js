@@ -1,9 +1,9 @@
 import styled from "@emotion/styled"
-import CenterAlignment from "./CenterAlignment"
+import flexCenter from "./flexCenter"
 import { Link } from "react-router-dom"
 
 const Title = styled.h1`
-  ${CenterAlignment};
+  ${flexCenter};
   margin-top: 11.5rem;
   margin-bottom: 2rem;
   color: #4167B2;
