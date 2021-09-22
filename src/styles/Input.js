@@ -1,8 +1,8 @@
 import styled from '@emotion/styled'
-import CenterAlignment from './CenterAlignment'
+import flexCenter from './flexCenter'
 
 const InputWrapper = styled.div`
-  ${CenterAlignment}
+  ${flexCenter}
   flex-direction: column;
   gap: 1.8rem;
 `
