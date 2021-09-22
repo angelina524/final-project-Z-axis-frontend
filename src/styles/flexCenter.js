@@ -1,7 +1,7 @@
-const CenterAlignment = {
+const flexCenter = {
   'display': 'flex',
   'align-items': 'center',
   'justify-content': 'center',
 }
 
-export default CenterAlignment
+export default flexCenter

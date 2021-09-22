@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom'
 import styled from '@emotion/styled'
 import React from 'react'
-import CenterAlignment from '../../styles/CenterAlignment'
+import flexCenter from '../../styles/flexCenter'
 
 const Test = styled.div`
-  ${CenterAlignment};
+  ${flexCenter};
   a {
     text-decoration: none;
     color: #4167B2;
