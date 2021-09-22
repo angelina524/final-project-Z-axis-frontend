@@ -9,10 +9,10 @@ const theme = {
   secondary_300: '#AAAAAA',
   secondary_850: '#F9F9F9',
   secondary_900: '#FFFFFF',
-  
+
   // box-shadow
   boxShadow: '0 0 20px 2px rgba(0,0,0,.1)',
-  border: 'solid 1px rgba(0,0,0,.1)',
+  border: 'solid 1px rgba(0,0,0,.1)'
 }
 
 export default theme

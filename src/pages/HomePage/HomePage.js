@@ -31,12 +31,17 @@ const HomePage = () => {
       <BackgroundRectangle />
 
       <IssuePattern />
-      <Big><IssuePattern /></Big>
+      <Big>
+        <IssuePattern />
+      </Big>
       <TestPattern />
-      <Big><TestPattern /></Big>
+      <Big>
+        <TestPattern />
+      </Big>
       <LotteryPattern />
-      <Big><LotteryPattern /></Big>
-
+      <Big>
+        <LotteryPattern />
+      </Big>
     </Wrap>
   )
 }

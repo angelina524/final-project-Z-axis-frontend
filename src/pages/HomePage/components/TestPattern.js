@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from '@emotion/styled'
 
 const Wrap = styled.div`
@@ -17,8 +18,9 @@ const Clock = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  &:before, &:after {
-    content: "";
+  &:before,
+  &:after {
+    content: '';
     display: block;
     background-color: #c4c4c4;
     width: 15px;
@@ -85,7 +87,7 @@ const InnerClock = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   &:before {
-    content: "";
+    content: '';
     display: block;
     background-color: #c4c4c4;
     width: 25px;
@@ -93,7 +95,7 @@ const InnerClock = styled.div`
     transform: rotate(90deg) translate(20px, 3px);
   }
   &:after {
-    content: "";
+    content: '';
     display: block;
     background-color: #c4c4c4;
     height: 8px;
@@ -113,7 +115,7 @@ const ClockTop = styled.div`
   left: 50%;
   transform: translateX(-50%);
   &:before {
-    content: "";
+    content: '';
     display: block;
     width: 20px;
     height: 16px;
