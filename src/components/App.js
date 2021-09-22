@@ -19,19 +19,19 @@ function App () {
         <Route exact path="/">
           <HomePage />
         </Route>
-        <Route exact path='/login'>
+        <Route exact path="/login">
           <LoginPage />
         </Route>
-        <Route exact path='/register'>
+        <Route exact path="/register">
           <RegisterPage />
         </Route>
-        <Route exact path='/user'>
+        <Route exact path="/user">
           <UserPage />
         </Route>
-        <Route exact path='/user/me/update-password'>
+        <Route exact path="/user/me/update-password">
           <UpdatePassword />
         </Route>
-        <Route exact path='/user/me'>
+        <Route exact path="/user/me">
           <UpdateMe />
         </Route>
         <Route exact path="/test-web-api">

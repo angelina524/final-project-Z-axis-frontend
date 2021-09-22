@@ -11,10 +11,10 @@ const InputText = styled.input`
   padding: 0.8rem;
   width: 300px;
   &::placeholder {
-    color: #AAAAAA;
+    color: #aaaaaa;
   }
-  border: 1px #AAAAAA solid;
+  border: 1px #aaaaaa solid;
   border-radius: 3px;
 `
 
-export { InputWrapper, InputText}
+export { InputWrapper, InputText }

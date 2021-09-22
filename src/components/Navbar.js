@@ -15,8 +15,8 @@ const Wrapper = styled.div`
 const NavbarWrapper = styled.div`
   width: 85%;
   height: 5rem;
-  box-shadow:0 0 20px 2px rgba(0,0,0,.1);
-  border: solid 1px rgba(0,0,0,.1);
+  box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.1);
+  border: solid 1px rgba(0, 0, 0, 0.1);
   border-radius: 2.5rem;
   padding: 0em 1.5rem;
   display: flex;
@@ -40,9 +40,9 @@ const Navbar = () => {
       <NavbarWrapper>
         <Logo />
         <NavbarLinks>
-          <Link to='/'>首頁</Link>
-          <Link to='/login'>登入</Link>
-          <Link to='/register'>註冊</Link>
+          <Link to="/">首頁</Link>
+          <Link to="/login">登入</Link>
+          <Link to="/register">註冊</Link>
           {/* <Link to='/user'>後台</Link> */}
           {/* <Link to='/logout'>登出</Link> */}
           <Link to="/test-web-api">測試 web api</Link>

@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from '@emotion/styled'
 
 const Wrap = styled.div`
@@ -114,7 +115,7 @@ const LotteryRight = styled.div`
 `
 
 const LotteryPattern = () => {
-  return(
+  return (
     <Wrap>
       <Lottery>
         <LotteryTop />

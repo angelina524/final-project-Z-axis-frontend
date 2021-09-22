@@ -1,7 +1,7 @@
 const flexCenter = {
-  'display': 'flex',
+  display: 'flex',
   'align-items': 'center',
-  'justify-content': 'center',
+  'justify-content': 'center'
 }
 
 export default flexCenter

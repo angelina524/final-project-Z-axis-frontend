@@ -7,7 +7,7 @@ const Test = styled.div`
   ${flexCenter};
   a {
     text-decoration: none;
-    color: #4167B2;
+    color: #4167b2;
     margin: 0.5rem;
   }
   margin-top: 12rem;
@@ -18,8 +18,8 @@ const User = () => {
   return (
     <>
       <Test>
-        <Link to='/user/me/update-password'>修改密碼</Link>
-        <Link to='/user/me'>修改個人資料</Link>
+        <Link to="/user/me/update-password">修改密碼</Link>
+        <Link to="/user/me">修改個人資料</Link>
       </Test>
     </>
   )

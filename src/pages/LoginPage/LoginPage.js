@@ -8,11 +8,11 @@ const LoginPage = () => {
     <>
       <Title>登入</Title>
       <InputWrapper>
-        <InputText type='email' placeholder='信箱' />
-        <InputText type='password' placeholder='密碼' />
+        <InputText type="email" placeholder="信箱" />
+        <InputText type="password" placeholder="密碼" />
       </InputWrapper>
-      <SubmitBtn type='submit'>送出</SubmitBtn>
-      <PromptLink to='/register'>還沒有帳號？  按此註冊</PromptLink>
+      <SubmitBtn type="submit">送出</SubmitBtn>
+      <PromptLink to="/register">還沒有帳號？ 按此註冊</PromptLink>
     </>
   )
 }
