@@ -16,13 +16,13 @@ const Avatar = styled.div`
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background-color: #c4c4c4;
+  background-color: ${({ theme }) => theme.secondary_300};
 `
 
 const Comment = styled.div`
   width: 150px;
   height: 40px;
-  background-color: #c4c4c4;
+  background-color: ${({ theme }) => theme.secondary_300};
   border-radius: 12px;
   position: absolute;
   right: 0;
@@ -31,7 +31,7 @@ const Comment = styled.div`
     content: '';
     display: block;
     position: absolute;
-    background-color: #c4c4c4;
+    background-color: ${({ theme }) => theme.secondary_300};
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -43,7 +43,7 @@ const Comment = styled.div`
     content: '';
     display: block;
     position: absolute;
-    background-color: #fff;
+    background-color: ${({ theme }) => theme.secondary_900};
     width: 20px;
     height: 20px;
     border-radius: 50%;

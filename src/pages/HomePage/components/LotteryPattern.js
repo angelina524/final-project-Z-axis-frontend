@@ -1,23 +1,20 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import flexCenter from '../../../styles/flexCenter'
 
 const Wrap = styled.div`
   width: 200px;
   height: 200px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  ${flexCenter()}
 `
 
 const Lottery = styled.div`
   width: 160px;
   height: 92px;
-  background-color: #c4c4c4;
+  background-color: ${({ theme }) => theme.secondary_300};
   border-radius: 20px;
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  ${flexCenter()}
   h2:nth-of-type(1) {
     border-radius: 10px 0 0 10px;
   }
@@ -37,8 +34,8 @@ const NumberWrap = styled.h2`
   margin: 3px;
   font-family: Roboto, sans-serif;
   font-size: 2.8rem;
-  background-color: #f9f9f9;
-  color: #c4c4c4;
+  background-color: ${({ theme }) => theme.secondary_850};
+  color: ${({ theme }) => theme.secondary_300};
 `
 
 const LotteryTop = styled.div`
@@ -48,7 +45,7 @@ const LotteryTop = styled.div`
   position: absolute;
   top: -8px;
   background-color: #fff;
-  box-shadow: 0px 0px 0px 8px #c4c4c4;
+  box-shadow: 0px 0px 0px 8px ${({ theme }) => theme.secondary_300};
 `
 
 const LotteryBottom = styled.div`
@@ -57,7 +54,7 @@ const LotteryBottom = styled.div`
   border-radius: 15px;
   position: absolute;
   bottom: -35px;
-  background-color: #c4c4c4;
+  background-color: ${({ theme }) => theme.secondary_300};
   &:before {
     content: '';
     display: block;
@@ -67,7 +64,7 @@ const LotteryBottom = styled.div`
     top: 8px;
     left: 10px;
     border-radius: 6px;
-    background-color: #fff;
+    background-color: ${({ theme }) => theme.secondary_900};
   }
   &:after {
     content: '';
@@ -75,18 +72,18 @@ const LotteryBottom = styled.div`
     width: 60px;
     height: 5px;
     border-radius: 5px;
-    box-shadow: 0 0 0 6px #c4c4c4;
+    box-shadow: 0 0 0 6px ${({ theme }) => theme.secondary_300};
     position: absolute;
     top: 18px;
     left: 60px;
-    background-color: #fff;
+    background-color: ${({ theme }) => theme.secondary_900};
   }
 `
 
 const LotteryRight = styled.div`
   height: 50px;
   width: 10px;
-  background-color: #c4c4c4;
+  background-color: ${({ theme }) => theme.secondary_300};
   border-radius: 0 0 6px 0;
   position: absolute;
   top: -5px;
@@ -96,7 +93,7 @@ const LotteryRight = styled.div`
     display: block;
     width: 20px;
     height: 10px;
-    background-color: #c4c4c4;
+    background-color: ${({ theme }) => theme.secondary_300};
     position: absolute;
     bottom: 0;
     left: -19px;
@@ -107,7 +104,7 @@ const LotteryRight = styled.div`
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background-color: #c4c4c4;
+    background-color: ${({ theme }) => theme.secondary_300};
     position: absolute;
     top: -10px;
     left: -5px;

@@ -2,7 +2,7 @@ import styled from '@emotion/styled'
 import flexCenter from './flexCenter'
 
 const InputWrapper = styled.div`
-  ${flexCenter}
+  ${flexCenter()}
   flex-direction: column;
   gap: 1.8rem;
 `
@@ -11,9 +11,9 @@ const InputText = styled.input`
   padding: 0.8rem;
   width: 300px;
   &::placeholder {
-    color: #aaaaaa;
+    color: ${({ theme }) => theme.secondary_300};
   }
-  border: 1px #aaaaaa solid;
+  border: ${({ theme }) => theme.border};
   border-radius: 3px;
 `
 

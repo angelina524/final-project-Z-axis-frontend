@@ -3,10 +3,10 @@ import flexCenter from './flexCenter'
 import { Link } from 'react-router-dom'
 
 const Title = styled.h1`
-  ${flexCenter};
+  ${flexCenter()}
   margin-top: 11.5rem;
   margin-bottom: 2rem;
-  color: #4167b2;
+  color: ${({ theme }) => theme.primary};
 `
 
 const PromptLink = styled(Link)`
@@ -14,7 +14,7 @@ const PromptLink = styled(Link)`
   margin-top: 3.5rem;
   text-align: center;
   text-decoration: none;
-  color: #4167b2;
+  color: ${({ theme }) => theme.primary};
 `
 
 export { Title, PromptLink }

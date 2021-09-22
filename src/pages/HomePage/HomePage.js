@@ -1,5 +1,5 @@
 import React from 'react'
-import { Wrap } from '../utils'
+import { Wrapper } from '../utils'
 import BackgroundCircle from './BackgroundCircle'
 import BackgroundCircleDashed from './BackgroundCircleDashed'
 import BackgroundRectangle from './BackgroundRectangle'
@@ -18,7 +18,7 @@ const Big = styled.div`
 
 const HomePage = () => {
   return (
-    <Wrap>
+    <Wrapper>
       <Curve />
       <h1>homepage</h1>
       <p>z-axis</p>
@@ -42,7 +42,7 @@ const HomePage = () => {
       <Big>
         <LotteryPattern />
       </Big>
-    </Wrap>
+    </Wrapper>
   )
 }
 

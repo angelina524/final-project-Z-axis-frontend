@@ -6,10 +6,10 @@ const SubmitBtn = styled.button`
   margin-top: 2.5rem;
   padding: 0.8rem;
   width: 300px;
-  border: 1px #aaaaaa solid;
+  border: ${({ theme }) => theme.border};
   border-radius: 3px;
-  background: #4167b2;
-  color: #ffffff;
+  background: ${({ theme }) => theme.primary};
+  color: ${({ theme }) => theme.secondary_900};
 `
 
 export default SubmitBtn

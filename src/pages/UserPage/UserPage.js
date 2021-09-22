@@ -4,10 +4,10 @@ import React from 'react'
 import flexCenter from '../../styles/flexCenter'
 
 const Test = styled.div`
-  ${flexCenter};
+  ${flexCenter()}
   a {
     text-decoration: none;
-    color: #4167b2;
+    color: ${({ theme }) => theme.primary};
     margin: 0.5rem;
   }
   margin-top: 12rem;
