@@ -8,6 +8,7 @@ import {
   questionIcon
 } from '../../styles/icon'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
+import Menu from '../../components/Menu'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -66,6 +67,7 @@ const CardText = styled.div`
 const AddPage = () => {
   return (
     <Wrapper>
+      <Menu nickname="嘎嘎嗚拉拉" />
       <Navbar>
         {plusIcon('1x', '#666666')}
         <div>建立</div>

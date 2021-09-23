@@ -10,7 +10,8 @@ import {
   faTrashAlt,
   faThumbsUp,
   faReply,
-  faCommentDots
+  faCommentDots,
+  faBars
 } from '@fortawesome/free-solid-svg-icons'
 import { faBuffer } from '@fortawesome/free-brands-svg-icons'
 
@@ -46,4 +47,7 @@ export const replyIcon = (size, color) => (
 )
 export const backstageIcon = (size, color) => (
   <FontAwesomeIcon icon={faBuffer} size={size} color={color} />
+)
+export const hamburgerIcon = (size, color) => (
+  <FontAwesomeIcon icon={faBars} size={size} color={color} />
 )
