@@ -2,7 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 import flexJustifyAlign from '../../../styles/flexJustifyAlign'
 
-const Wrap = styled.div`
+const Wrapper = styled.div`
   width: 200px;
   height: 200px;
   ${flexJustifyAlign()}
@@ -26,7 +26,7 @@ const Lottery = styled.div`
   }
 `
 
-const NumberWrap = styled.h2`
+const NumberWrapper = styled.h2`
   width: 40px;
   height: 64px;
   line-height: 64px;
@@ -113,16 +113,17 @@ const LotteryRight = styled.div`
 
 const LotteryPattern = () => {
   return (
-    <Wrap>
+
+    <Wrapper>
       <Lottery>
         <LotteryTop />
-        <NumberWrap>7</NumberWrap>
-        <NumberWrap>7</NumberWrap>
-        <NumberWrap>7</NumberWrap>
+        <NumberWrapper>7</NumberWrapper>
+        <NumberWrapper>7</NumberWrapper>
+        <NumberWrapper>7</NumberWrapper>
         <LotteryRight />
         <LotteryBottom />
       </Lottery>
-    </Wrap>
+    </Wrapper>
   )
 }
 

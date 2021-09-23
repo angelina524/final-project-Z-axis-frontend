@@ -1,12 +1,12 @@
 import React from 'react'
 import styled from '@emotion/styled'
 
-const Wrap = styled.div`
+const Wrapper = styled.div`
   width: 200px;
   height: 200px;
 `
 
-const CommentWrap = styled.div`
+const CommentWrapper = styled.div`
   width: 200px;
   height: 60px;
   position: relative;
@@ -55,20 +55,21 @@ const Comment = styled.div`
 
 const issuePattern = () => {
   return (
-    <Wrap>
-      <CommentWrap>
+    <Wrapper>
+      <CommentWrapper>
         <Avatar />
         <Comment />
-      </CommentWrap>
-      <CommentWrap>
+      </CommentWrapper>
+      <CommentWrapper>
         <Avatar />
         <Comment />
-      </CommentWrap>
-      <CommentWrap>
+      </CommentWrapper>
+      <CommentWrapper>
         <Avatar />
         <Comment />
-      </CommentWrap>
-    </Wrap>
+      </CommentWrapper>
+    </Wrapper>
+
   )
 }
 

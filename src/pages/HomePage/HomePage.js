@@ -11,7 +11,7 @@ import TestPattern from './components/TestPattern'
 import LotteryPattern from './components/LotteryPattern'
 
 import styled from '@emotion/styled'
-const Big = styled.div`
+const BiggerPattern = styled.div`
   display: inline-block;
   transform: scale(1.6) translate(100%, -50%);
 `
@@ -31,18 +31,20 @@ const HomePage = () => {
       <BackgroundRectangle />
 
       <IssuePattern />
-      <Big>
+      <BiggerPattern>
         <IssuePattern />
-      </Big>
+      </BiggerPattern>
       <TestPattern />
-      <Big>
+      <BiggerPattern>
         <TestPattern />
-      </Big>
+      </BiggerPattern>
       <LotteryPattern />
-      <Big>
+      <BiggerPattern>
         <LotteryPattern />
-      </Big>
+
+      </BiggerPattern>
     </Wrapper>
+
   )
 }
 
