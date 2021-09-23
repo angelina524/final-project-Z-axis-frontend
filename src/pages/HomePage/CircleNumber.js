@@ -1,8 +1,8 @@
 import styled from '@emotion/styled'
-import flexCenter from '../../styles/flexCenter'
+import flexJustifyAlign from '../../styles/flexJustifyAlign'
 
 const CircleNumber = styled.div`
-  ${flexCenter()}
+  ${flexJustifyAlign()}
   width: 4rem;
   height: 4rem;
   border-radius: 50%;

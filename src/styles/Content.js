@@ -1,9 +1,9 @@
 import styled from '@emotion/styled'
-import flexCenter from './flexCenter'
+import flexJustifyAlign from './flexJustifyAlign'
 import { Link } from 'react-router-dom'
 
 const Title = styled.h1`
-  ${flexCenter()}
+  ${flexJustifyAlign()}
   margin-top: 11.5rem;
   margin-bottom: 2rem;
   color: ${({ theme }) => theme.primary};

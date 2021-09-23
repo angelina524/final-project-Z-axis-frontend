@@ -8,10 +8,15 @@ const GlobalStyle = css`
     list-style: none;
     box-sizing: border-box;
   }
+
   body,
   html,
   #root {
     width: 100%;
+  }
+
+  a {
+    text-decoration: none;
   }
 `
 

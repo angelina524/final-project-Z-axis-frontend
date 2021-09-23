@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import flexCenter from '../../../styles/flexCenter'
+import flexJustifyAlign from '../../../styles/flexJustifyAlign'
 
 const Wrap = styled.div`
   width: 200px;
   height: 200px;
-  ${flexCenter()}
+  ${flexJustifyAlign()}
 `
 
 const Lottery = styled.div`
@@ -14,7 +14,7 @@ const Lottery = styled.div`
   background-color: ${({ theme }) => theme.secondary_300};
   border-radius: 20px;
   position: relative;
-  ${flexCenter()}
+  ${flexJustifyAlign()}
   h2:nth-of-type(1) {
     border-radius: 10px 0 0 10px;
   }

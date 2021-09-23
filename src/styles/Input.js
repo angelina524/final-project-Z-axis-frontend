@@ -1,8 +1,8 @@
 import styled from '@emotion/styled'
-import flexCenter from './flexCenter'
+import flexJustifyAlign from './flexJustifyAlign'
 
 const InputWrapper = styled.div`
-  ${flexCenter()}
+  ${flexJustifyAlign()}
   flex-direction: column;
   gap: 1.8rem;
 `

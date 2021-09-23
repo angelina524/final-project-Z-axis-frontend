@@ -2,10 +2,10 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { Link } from 'react-router-dom'
 import Logo from './Logo'
-import flexCenter from '../styles/flexCenter'
+import flexJustifyAlign from '../styles/flexJustifyAlign'
 
 const Wrapper = styled.div`
-  ${flexCenter()}
+  ${flexJustifyAlign()}
   width: 100%;
   position: fixed;
   top: 3.5rem;
@@ -19,11 +19,10 @@ const NavbarWrapper = styled.div`
   border: ${({ theme }) => theme.border};
   border-radius: 2.5rem;
   padding: 0em 1.5rem;
-  ${flexCenter('space-between', 'center')}
+  ${flexJustifyAlign('space-between', 'center')}
   background-color: ${({ theme }) => theme.secondary_900};
   a {
-    color: #000000;
-    text-decoration: none;
+    color: ${({ theme }) => theme.secondary_000};
   }
 `
 

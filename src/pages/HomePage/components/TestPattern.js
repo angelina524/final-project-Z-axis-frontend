@@ -1,12 +1,12 @@
 import React from 'react'
 import styled from '@emotion/styled'
 
-import flexCenter from '../../../styles/flexCenter'
+import flexJustifyAlign from '../../../styles/flexJustifyAlign'
 
 const Wrap = styled.div`
   width: 200px;
   height: 200px;
-  ${flexCenter('center', 'flex-end')}
+  ${flexJustifyAlign('center', 'flex-end')}
 `
 
 const Clock = styled.div`
@@ -15,7 +15,7 @@ const Clock = styled.div`
   height: 170px;
   border-radius: 50%;
   position: relative;
-  ${flexCenter()}
+  ${flexJustifyAlign()}
   &:before,
   &:after {
     content: '';
