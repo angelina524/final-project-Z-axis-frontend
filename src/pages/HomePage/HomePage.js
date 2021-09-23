@@ -43,6 +43,7 @@ const HomePage = () => {
         <LotteryPattern />
       </BiggerPattern>
     </Wrapper>
+
   )
 }
 

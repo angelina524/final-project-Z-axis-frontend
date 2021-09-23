@@ -116,6 +116,7 @@ const LotteryRight = styled.div`
 
 const LotteryPattern = () => {
   return (
+
     <Wrapper>
       <Lottery>
         <LotteryTop />

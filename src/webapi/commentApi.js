@@ -19,12 +19,18 @@ export const createComment = async (guestToken, issueId, nickname, content) => {
   return comment
 }
 
-export const deleteComment = async (guestToken, issueId, commentId) => {
+export const deleteComment = async (
+  guestToken,
+  userToken,
+  issueId,
+  commentId
+) => {
   const response = await instance.delete(
     `/issues/${issueId}/comments/${commentId}`,
     {
       headers: {
-        'guest-token': guestToken
+        'guest-token': guestToken,
+        Authorization: userToken
       }
     }
   )
@@ -54,7 +60,6 @@ export const updateComment = async (
   )
   const { data } = response
   const { ok, message } = data
-  console.log(data)
   if (!ok) throw Error(message)
 }
 
@@ -73,4 +78,12 @@ export const updateReply = async (userToken, issueId, commentId, reply) => {
   const { data } = response
   const { ok, message } = data
   if (!ok) throw Error(message)
+}
+
+export const getAllComments = async (issueId) => {
+  const response = await instance.get(`/issues/${issueId}/comments`)
+  const { data } = response
+  const { ok, comments, message } = data
+  if (!ok) throw Error(message)
+  return comments
 }

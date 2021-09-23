@@ -2,6 +2,18 @@ import React, { useState, useContext, useEffect } from 'react'
 import { getIssue, updateIssue } from '../../../webapi/issueApi'
 import { topUserTokenContext } from '../WebApiTestPage'
 
+const padStartWithZero = (num) => {
+  const str = num.toString(10)
+  return str.length < 2 ? `0${str}` : str
+}
+
+const dateToString = (fullDate) => {
+  const year = new Date(fullDate).getFullYear()
+  const month = new Date(fullDate).getMonth() + 1
+  const date = new Date(fullDate).getDate()
+  return `${year}-${padStartWithZero(month)}-${padStartWithZero(date)}`
+}
+
 const UpdateIssue = () => {
   const [userToken, setUserToken] = useState('')
   const [issueId, setIssueId] = useState('')
@@ -48,6 +60,8 @@ const UpdateIssue = () => {
       const issue = await getIssue(issueId)
       setTitle(issue.title)
       setDescription(issue.description)
+      setBeginTime(dateToString(issue.beginTime))
+      setFinishTime(dateToString(issue.finishTime))
     }
 
     setField()
