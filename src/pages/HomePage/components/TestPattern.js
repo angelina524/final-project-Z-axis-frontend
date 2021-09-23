@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 
-const Wrap = styled.div`
+const Wrapper = styled.div`
   width: 200px;
   height: 200px;
   display: flex;
@@ -129,7 +129,7 @@ const ClockTop = styled.div`
 
 const TestPattern = () => {
   return (
-    <Wrap>
+    <Wrapper>
       <Clock>
         <ClockTop />
         <OuterClock>
@@ -140,7 +140,7 @@ const TestPattern = () => {
           <InnerClock />
         </OuterClock>
       </Clock>
-    </Wrap>
+    </Wrapper>
   )
 }
 

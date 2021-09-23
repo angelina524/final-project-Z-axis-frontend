@@ -49,6 +49,7 @@ const Navbar = () => {
         </NavbarLinks>
       </NavbarWrapper>
     </Wrapper>
+
   )
 }
 

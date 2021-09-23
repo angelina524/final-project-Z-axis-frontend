@@ -1,5 +1,5 @@
 import React from 'react'
-import { Wrap } from '../utils'
+import { Wrapper } from '../utils'
 import BackgroundCircle from './BackgroundCircle'
 import BackgroundCircleDashed from './BackgroundCircleDashed'
 import BackgroundRectangle from './BackgroundRectangle'
@@ -11,14 +11,14 @@ import TestPattern from './components/TestPattern'
 import LotteryPattern from './components/LotteryPattern'
 
 import styled from '@emotion/styled'
-const Big = styled.div`
+const BiggerPattern = styled.div`
   display: inline-block;
   transform: scale(1.6) translate(100%, -50%);
 `
 
 const HomePage = () => {
   return (
-    <Wrap>
+    <Wrapper>
       <Curve />
       <h1>homepage</h1>
       <p>z-axis</p>
@@ -31,18 +31,19 @@ const HomePage = () => {
       <BackgroundRectangle />
 
       <IssuePattern />
-      <Big>
+      <BiggerPattern>
         <IssuePattern />
-      </Big>
+      </BiggerPattern>
       <TestPattern />
-      <Big>
+      <BiggerPattern>
         <TestPattern />
-      </Big>
+      </BiggerPattern>
       <LotteryPattern />
-      <Big>
+      <BiggerPattern>
         <LotteryPattern />
-      </Big>
-    </Wrap>
+      </BiggerPattern>
+    </Wrapper>
+
   )
 }
 
