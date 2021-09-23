@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
 
-
 import flexJustifyAlign from '../../../styles/flexJustifyAlign'
 
 const Wrapper = styled.div`
