@@ -41,6 +41,7 @@ const HomePage = () => {
       <LotteryPattern />
       <BiggerPattern>
         <LotteryPattern />
+
       </BiggerPattern>
     </Wrapper>
 

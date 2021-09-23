@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom'
 import styled from '@emotion/styled'
 import React from 'react'
-import flexCenter from '../../styles/flexCenter'
+import flexJustifyAlign from '../../styles/flexJustifyAlign'
 
 const Test = styled.div`
-  ${flexCenter};
+  ${flexJustifyAlign()}
   a {
     text-decoration: none;
-    color: #4167b2;
+    color: ${({ theme }) => theme.primary};
     margin: 0.5rem;
   }
   margin-top: 12rem;

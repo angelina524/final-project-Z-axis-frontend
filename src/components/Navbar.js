@@ -2,29 +2,27 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { Link } from 'react-router-dom'
 import Logo from './Logo'
-import flexCenter from '../styles/flexCenter'
+import flexJustifyAlign from '../styles/flexJustifyAlign'
 
 const Wrapper = styled.div`
-  ${flexCenter};
+  ${flexJustifyAlign()}
   width: 100%;
   position: fixed;
   top: 3.5rem;
-  z-index: 1;
+  z-index: 5;
 `
 
 const NavbarWrapper = styled.div`
   width: 85%;
   height: 5rem;
-  box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.1);
-  border: solid 1px rgba(0, 0, 0, 0.1);
+  box-shadow: ${({ theme }) => theme.boxShadow};
+  border: ${({ theme }) => theme.border};
   border-radius: 2.5rem;
   padding: 0em 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  ${flexJustifyAlign('space-between', 'center')}
+  background-color: ${({ theme }) => theme.secondary_900};
   a {
-    color: #000000;
-    text-decoration: none;
+    color: ${({ theme }) => theme.secondary_000};
   }
 `
 
@@ -45,7 +43,8 @@ const Navbar = () => {
           <Link to="/register">註冊</Link>
           {/* <Link to='/user'>後台</Link> */}
           {/* <Link to='/logout'>登出</Link> */}
-          <Link to="/test-web-api">測試 web api</Link>
+
+          {/* <Link to="/test-web-api">測試 web api</Link> */}
         </NavbarLinks>
       </NavbarWrapper>
     </Wrapper>

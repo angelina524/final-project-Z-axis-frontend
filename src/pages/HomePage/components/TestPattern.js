@@ -1,28 +1,27 @@
 import React from 'react'
 import styled from '@emotion/styled'
 
+
+import flexJustifyAlign from '../../../styles/flexJustifyAlign'
+
 const Wrapper = styled.div`
   width: 200px;
   height: 200px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
+  ${flexJustifyAlign('center', 'flex-end')}
 `
 
 const Clock = styled.div`
-  background-color: #c4c4c4;
+  background-color: ${({ theme }) => theme.secondary_300};
   width: 170px;
   height: 170px;
   border-radius: 50%;
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  ${flexJustifyAlign()}
   &:before,
   &:after {
     content: '';
     display: block;
-    background-color: #c4c4c4;
+    background-color: ${({ theme }) => theme.secondary_300};
     width: 15px;
     height: 15px;
     position: absolute;
@@ -68,7 +67,7 @@ const OuterClock = styled.div`
 `
 
 const Scale = styled.span`
-  background-color: #c4c4c4;
+  background-color: ${({ theme }) => theme.secondary_300};
   width: 15px;
   height: 8px;
   position: absolute;
@@ -78,7 +77,7 @@ const Scale = styled.span`
 `
 
 const InnerClock = styled.div`
-  background-color: #c4c4c4;
+  background-color: ${({ theme }) => theme.secondary_300};
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -89,7 +88,7 @@ const InnerClock = styled.div`
   &:before {
     content: '';
     display: block;
-    background-color: #c4c4c4;
+    background-color: ${({ theme }) => theme.secondary_300};
     width: 25px;
     height: 8px;
     transform: rotate(90deg) translate(20px, 3px);
@@ -97,7 +96,7 @@ const InnerClock = styled.div`
   &:after {
     content: '';
     display: block;
-    background-color: #c4c4c4;
+    background-color: ${({ theme }) => theme.secondary_300};
     height: 8px;
     width: 40px;
     transform: rotate(-45deg) translate(13px, -7px);
@@ -108,8 +107,8 @@ const ClockTop = styled.div`
   width: 60px;
   height: 34px;
   border-radius: 50px;
-  border: 9px solid #c4c4c4;
-  background-color: #fff;
+  border: 9px solid ${({ theme }) => theme.secondary_300};
+  background-color: ${({ theme }) => theme.secondary_900};
   position: absolute;
   top: -40px;
   left: 50%;
@@ -119,7 +118,7 @@ const ClockTop = styled.div`
     display: block;
     width: 20px;
     height: 16px;
-    background-color: #c4c4c4;
+    background-color: ${({ theme }) => theme.secondary_300};
     position: absolute;
     bottom: -17px;
     left: 50%;

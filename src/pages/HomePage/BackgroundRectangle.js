@@ -4,7 +4,7 @@ import styled from '@emotion/styled'
 const Rectangle = styled.div`
   width: 80vw;
   height: 400px;
-  background-color: #f9f9f9;
+  background-color: ${({ theme }) => theme.secondary_850};
 `
 
 const BackgroundRectangle = () => {
