@@ -8,7 +8,11 @@ import {
   questionIcon
 } from '../../styles/icon'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
-import Menu from '../../components/Menu'
+// import Menu from '../../components/Menu'
+import SubmitBtn from '../../styles/Button'
+import { InputWrapper, InputText } from '../../styles/Input'
+
+import { DateRangePicker } from 'rsuite'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -47,17 +51,19 @@ const Card = styled.div`
   border-radius: 1rem;
 
   svg {
-    margin: 0 0.5rem;
+    margin: 0 1rem;
   }
 `
 
 const CardContent = styled.div`
   text-align: center;
+  width: 70%;
+  margin: 0 1rem;
 `
 
 const CardTitle = styled.div`
   font-size: 1rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 `
 
 const CardText = styled.div`
@@ -67,7 +73,7 @@ const CardText = styled.div`
 const AddPage = () => {
   return (
     <Wrapper>
-      <Menu nickname="嘎嘎嗚拉拉" />
+      {/* <Menu nickname="嘎嘎嗚拉拉" /> */}
       <Navbar>
         {plusIcon('1x', '#666666')}
         <div>建立</div>
@@ -102,6 +108,15 @@ const AddPage = () => {
           {questionIcon('3x', '#4167B2')}
         </Card>
       </CardWrapper>
+      <form>
+        <InputWrapper>
+          <InputText name="title" />
+          <InputText name="description" />
+          <InputText name="beginTime" />
+          <DateRangePicker showOneCalendar />
+        </InputWrapper>
+        <SubmitBtn type="submit">送出</SubmitBtn>
+      </form>
     </Wrapper>
   )
 }
