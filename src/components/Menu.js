@@ -11,6 +11,7 @@ import {
   lotteryIcon,
   questionIcon
 } from './../styles/icon'
+import { useTheme } from '@emotion/react'
 
 const MenuWrapper = styled.aside`
   position: fixed;
@@ -95,6 +96,8 @@ const OptionBtn = styled.div`
 const Text = styled.div``
 
 const Menu = ({ nickname }) => {
+  const theme = useTheme()
+
   return (
     <MenuWrapper>
       <Nickname>{nickname}</Nickname>
@@ -105,27 +108,27 @@ const Menu = ({ nickname }) => {
         </Profile>
         <OptionWrapper>
           <OptionBtn>
-            {plusIcon('2x', '#AAAAAA')}
+            {plusIcon('2x', theme.secondary_300)}
             <Text>建立</Text>
           </OptionBtn>
           <OptionBtn>
-            {backstageIcon('2x', '#AAAAAA')}
+            {backstageIcon('2x', theme.secondary_300)}
             <Text>後台</Text>
           </OptionBtn>
           <OptionBtn>
-            {issueIcon('2x', '#AAAAAA')}
+            {issueIcon('2x', theme.secondary_300)}
             <Text>留言箱</Text>
           </OptionBtn>
           <OptionBtn>
-            {testIcon('2x', '#AAAAAA')}
+            {testIcon('2x', theme.secondary_300)}
             <Text>測驗</Text>
           </OptionBtn>
           <OptionBtn>
-            {lotteryIcon('2x', '#AAAAAA')}
+            {lotteryIcon('2x', theme.secondary_300)}
             <Text>抽獎</Text>
           </OptionBtn>
           <OptionBtn>
-            {questionIcon('2x', '#AAAAAA')}
+            {questionIcon('2x', theme.secondary_300)}
             <Text>問卷</Text>
           </OptionBtn>
         </OptionWrapper>

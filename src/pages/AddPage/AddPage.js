@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
+import { useTheme } from '@emotion/react'
 import {
   plusIcon,
   issueIcon,
@@ -9,10 +10,7 @@ import {
 } from '../../styles/icon'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 // import Menu from '../../components/Menu'
-import SubmitBtn from '../../styles/Button'
-import { InputWrapper, InputText } from '../../styles/Input'
-
-import { DateRangePicker } from 'rsuite'
+import Form from '../../components/Form'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -43,7 +41,7 @@ const CardWrapper = styled.div`
 
 const Card = styled.div`
   width: 100%;
-  margin: 1rem;
+  margin: 0.9rem;
   padding: 2rem 1rem;
   ${flexJustifyAlign()}
   box-shadow: ${({ theme }) => theme.boxShadow};
@@ -58,43 +56,48 @@ const Card = styled.div`
 const CardContent = styled.div`
   text-align: center;
   width: 70%;
-  margin: 0 1rem;
+  margin: 0 0.8rem;
 `
 
 const CardTitle = styled.div`
-  font-size: 1rem;
-  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  margin-bottom: 0.6rem;
 `
 
 const CardText = styled.div`
-  font-size: 0.5rem;
+  font-size: 0.9rem;
 `
 
 const AddPage = () => {
+  const theme = useTheme()
+  const [isIssueFormOpen, setIsIssueFormOpen] = useState(false)
   return (
     <Wrapper>
       {/* <Menu nickname="嘎嘎嗚拉拉" /> */}
       <Navbar>
-        {plusIcon('1x', '#666666')}
+        {plusIcon('1x', theme.secondary_200)}
         <div>建立</div>
       </Navbar>
       <CardWrapper>
-        <Card>
-          {issueIcon('3x', '#4167B2')}
+        <Card onClick={() => setIsIssueFormOpen(!isIssueFormOpen)}>
+          {issueIcon('3x', theme.primary)}
           <CardContent>
             <CardTitle>留言箱</CardTitle>
-            <CardText>創建專屬話題，提供即時留言與您輕鬆地進行話題討</CardText>
+            <CardText>
+              創建專屬話題屬話題，創建專屬話題屬話題，創建專屬話題屬話
+            </CardText>
           </CardContent>
         </Card>
+        {isIssueFormOpen && <Form />}
         <Card>
           <CardContent>
             <CardTitle>測驗</CardTitle>
             <CardText>創建專屬話題，提供即時留言與您輕鬆地進行話題討</CardText>
           </CardContent>
-          {testIcon('3x', '#4167B2')}
+          {testIcon('3x', theme.primary)}
         </Card>
         <Card>
-          {lotteryIcon('3x', '#4167B2')}
+          {lotteryIcon('3x', theme.primary)}
           <CardContent>
             <CardTitle>抽獎</CardTitle>
             <CardText>創建專屬話題，提供即時留言與您輕鬆地進行話題討</CardText>
@@ -105,18 +108,9 @@ const AddPage = () => {
             <CardTitle>問卷</CardTitle>
             <CardText>創建專屬話題，提供即時留言與您輕鬆地進行話題討</CardText>
           </CardContent>
-          {questionIcon('3x', '#4167B2')}
+          {questionIcon('3x', theme.primary)}
         </Card>
       </CardWrapper>
-      <form>
-        <InputWrapper>
-          <InputText name="title" />
-          <InputText name="description" />
-          <InputText name="beginTime" />
-          <DateRangePicker showOneCalendar />
-        </InputWrapper>
-        <SubmitBtn type="submit">送出</SubmitBtn>
-      </form>
     </Wrapper>
   )
 }
