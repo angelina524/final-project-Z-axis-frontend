@@ -69,7 +69,6 @@ const issuePattern = () => {
         <Comment />
       </CommentWrapper>
     </Wrapper>
-
   )
 }
 
