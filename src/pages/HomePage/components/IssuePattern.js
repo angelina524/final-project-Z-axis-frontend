@@ -8,25 +8,25 @@ const Wrapper = styled.div`
 
 const CommentWrapper = styled.div`
   width: 200px;
-  height: 60px;
+  height: 64px;
   position: relative;
 `
 
 const Avatar = styled.div`
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background-color: ${({ theme }) => theme.secondary_300};
 `
 
 const Comment = styled.div`
-  width: 150px;
-  height: 40px;
+  width: 146px;
+  height: 46px;
   background-color: ${({ theme }) => theme.secondary_300};
-  border-radius: 12px;
+  border-radius: 13px;
   position: absolute;
   right: 0;
-  top: 15px;
+  top: 18px;
   &:before {
     content: '';
     display: block;
@@ -43,13 +43,19 @@ const Comment = styled.div`
     content: '';
     display: block;
     position: absolute;
-    background-color: ${({ theme }) => theme.secondary_900};
+    background-color: ${({ theme }) => theme.secondary_850};
     width: 20px;
     height: 20px;
     border-radius: 50%;
     top: -12px;
     left: -8px;
     z-index: -1;
+  }
+`
+
+const LastComment = styled(Comment)`
+  &:after {
+    background-color: ${({ theme }) => theme.secondary_900};
   }
 `
 
@@ -66,7 +72,7 @@ const issuePattern = () => {
       </CommentWrapper>
       <CommentWrapper>
         <Avatar />
-        <Comment />
+        <LastComment />
       </CommentWrapper>
     </Wrapper>
   )
