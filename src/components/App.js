@@ -12,6 +12,7 @@ import UpdatePassword from '../pages/UpdatePassword'
 import UpdateMe from '../pages/UpdateMe'
 import WebApiTestPage from '../pages/WebApiTestPage/WebApiTestPage'
 import AddPage from '../pages/AddPage'
+import FormPage from '../pages/FormPage'
 
 function App () {
   return (
@@ -44,6 +45,9 @@ function App () {
         </Route>
         <Route exact path="/add">
           <AddPage />
+        </Route>
+        <Route exact path="/form">
+          <FormPage />
         </Route>
       </Switch>
     </Router>
