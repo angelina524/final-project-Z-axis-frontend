@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { Link } from 'react-router-dom'
 import styled from '@emotion/styled'
 import { useTheme } from '@emotion/react'
 import {
@@ -9,44 +10,36 @@ import {
   questionIcon
 } from '../../styles/icon'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
+import { BackstageNavbar } from '../../components/BackstageNavbar'
 // import Menu from '../../components/Menu'
-import Form from '../../components/Form'
 
 const Wrapper = styled.div`
+  top: 4rem;
   width: 100%;
   position: relative;
   overflow: hidden;
-  padding: 1rem;
+  padding: 0 1rem;
   ${flexJustifyAlign()}
   flex-direction: column;
-`
-
-const Navbar = styled.div`
-  width: 100%;
-  height: 20%;
-  background: ${({ theme }) => theme.secondary_900};
-  ${flexJustifyAlign('flex-start')}
-
-  svg {
-    margin: 0 10px;
-  }
 `
 
 const CardWrapper = styled.div`
+  margin: 0.9rem;
   width: 90%;
-  margin: 0.5rem 0;
   ${flexJustifyAlign()}
   flex-direction: column;
+  gap: 1.5rem;
 `
 
-const Card = styled.div`
+const Card = styled(Link)`
   width: 100%;
-  margin: 0.9rem;
   padding: 2rem 1rem;
   ${flexJustifyAlign()}
+  color: ${({ theme }) => theme.secondary_000};
   box-shadow: ${({ theme }) => theme.boxShadow};
   border: ${({ theme }) => theme.border};
   border-radius: 1rem;
+  cursor: pointer;
 
   svg {
     margin: 0 1rem;
@@ -70,16 +63,12 @@ const CardText = styled.div`
 
 const AddPage = () => {
   const theme = useTheme()
-  const [isIssueFormOpen, setIsIssueFormOpen] = useState(false)
   return (
     <Wrapper>
       {/* <Menu nickname="嘎嘎嗚拉拉" /> */}
-      <Navbar>
-        {plusIcon('1x', theme.secondary_200)}
-        <div>建立</div>
-      </Navbar>
+      <BackstageNavbar iconName={plusIcon} title="建立" />
       <CardWrapper>
-        <Card onClick={() => setIsIssueFormOpen(!isIssueFormOpen)}>
+        <Card to="/form">
           {issueIcon('3x', theme.primary)}
           <CardContent>
             <CardTitle>留言箱</CardTitle>
@@ -88,7 +77,6 @@ const AddPage = () => {
             </CardText>
           </CardContent>
         </Card>
-        {isIssueFormOpen && <Form />}
         <Card>
           <CardContent>
             <CardTitle>測驗</CardTitle>

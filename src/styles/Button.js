@@ -2,8 +2,7 @@ import styled from '@emotion/styled'
 
 const SubmitBtn = styled.button`
   display: block;
-  margin: 0 auto;
-  margin-top: 2.5rem;
+  margin: 2.5rem auto 0;
   padding: 0.8rem;
   width: 300px;
   border: ${({ theme }) => theme.border};

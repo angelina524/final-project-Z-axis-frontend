@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom'
 
 const Title = styled.h1`
   ${flexJustifyAlign()}
-  margin-top: 11.5rem;
-  margin-bottom: 2rem;
+  margin: 11.5rem 0 2rem;
   color: ${({ theme }) => theme.primary};
 `
 
