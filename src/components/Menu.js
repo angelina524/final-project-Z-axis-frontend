@@ -4,7 +4,8 @@ import { useTheme } from '@emotion/react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import flexJustifyAlign from '../styles/flexJustifyAlign'
-import { issueIcon, hamburgerIcon } from '../styles/icon'
+import { hamburgerIcon } from '../styles/icon'
+import ForestageContent from './forestage'
 
 const MenuWrapper = styled.aside`
   position: fixed;
@@ -22,41 +23,6 @@ const MenuWrapper = styled.aside`
 const Nickname = styled.p`
   color: ${({ theme }) => theme.secondary_300};
   font-size: 0.9rem;
-`
-
-const ActivityWrapper = styled.div`
-  ${flexJustifyAlign('', 'flex-start')}
-  flex-direction: column;
-  gap: 1.5rem;
-  margin-top: 1.5rem;
-`
-
-const ActivityType = styled.div`
-  ${flexJustifyAlign('flex-start')}
-  gap: 1rem;
-`
-
-const ActivityDuration = styled.p`
-  font-size: 0.8rem;
-  color: ${({ theme }) => theme.secondary_300};
-`
-
-const ActivityDescription = styled.p`
-  font-size: 0.9rem;
-  line-height: 2rem;
-`
-
-const Button = styled.button`
-  background-color: ${({ theme }) => theme.primary};
-  color: ${({ theme }) => theme.secondary_900};
-  font-size: 1rem;
-  height: 2.5rem;
-  padding: 0 1.5rem;
-  border-radius: 1.125rem;
-  border: none;
-  margin: 0 auto;
-  display: block;
-  margin-top: 1.5rem;
 `
 
 const Footer = styled.footer`
@@ -101,15 +67,7 @@ const StyledHamburger = styled(Hamburger)`
   transform: translateX(${({ isMenuOpen }) => (isMenuOpen ? '-2rem' : '3rem')});
 `
 
-const Menu = ({
-  userId,
-  nickname,
-  title,
-  description,
-  beginDate,
-  finishDate
-}) => {
-  const theme = useTheme()
+const Menu = ({ userId, nickname }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   return (
     <MenuWrapper isMenuOpen={isMenuOpen}>
@@ -118,19 +76,12 @@ const Menu = ({
         onClick={() => setIsMenuOpen((prev) => !prev)}
       />
       <Nickname>{nickname}</Nickname>
-      <ActivityWrapper>
-        <ActivityType>
-          {issueIcon('2x', theme.secondary_300)}
-          <p>留言箱</p>
-        </ActivityType>
-        <p>{title}</p>
-        <ActivityDuration>
-          {beginDate} - {finishDate}
-        </ActivityDuration>
-        <ActivityDescription>{description}</ActivityDescription>
-      </ActivityWrapper>
-      {/* 判斷 userId 是否跟該 issue 的 userId 吻合，再顯示"進入此後台" */}
-      <Button>進入此後台</Button>
+      <ForestageContent
+        title="你所不知道的 hooks 十八招起手氣，十八招起手氣"
+        description="這是一個呱呱呱呱跟啦啦啦簡介，沒什麼內容，顆顆顆顆，這是一個呱呱’呱呱跟啦啦的簡介，沒什麼內容，顆顆顆顆，這是一個呱呱呱呱啦啦啦的簡介，沒什麼內容顆顆顆顆顆，這是一個呱呱呱跟啦啦啦的簡介，沒什麼容，顆顆"
+        beginDate="2021/01/01"
+        finishDate="2021/01/07"
+      />
       <Footer>
         {/* 後台頁面不會有後台按鈕 */}
         {userId && <Link to="/">後台</Link>}
@@ -146,11 +97,7 @@ const Menu = ({
 
 Menu.propTypes = {
   userId: PropTypes.number,
-  nickname: PropTypes.string,
-  title: PropTypes.string,
-  description: PropTypes.string,
-  beginDate: PropTypes.string,
-  finishDate: PropTypes.string
+  nickname: PropTypes.string
 }
 
 export default Menu

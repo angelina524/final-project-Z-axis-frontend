@@ -67,14 +67,7 @@ const CardText = styled.div`
 const AddPage = () => {
   return (
     <Wrapper>
-      <Menu
-        userId={1}
-        nickname="嘎嘎嗚拉拉"
-        title="你所不知道的 hooks 十八招起手氣，十八招起手氣"
-        description="這是一個呱呱呱呱跟啦啦啦簡介，沒什麼內容，顆顆顆顆，這是一個呱呱’呱呱跟啦啦的簡介，沒什麼內容，顆顆顆顆，這是一個呱呱呱呱啦啦啦的簡介，沒什麼內容顆顆顆顆顆，這是一個呱呱呱跟啦啦啦的簡介，沒什麼容，顆顆"
-        beginDate="2021/01/01"
-        finishDate="2021/01/07"
-      />
+      <Menu userId={1} nickname="嘎嘎嗚拉拉" />
       <Navbar>
         {plusIcon('1x', '#666666')}
         <div>建立</div>
