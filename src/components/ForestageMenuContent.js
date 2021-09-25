@@ -40,7 +40,12 @@ const Button = styled.button`
   margin-top: 1.5rem;
 `
 
-const ForestageContent = ({ title, description, beginDate, finishDate }) => {
+const ForestageMenuContent = ({
+  title,
+  description,
+  beginDate,
+  finishDate
+}) => {
   const theme = useTheme()
   return (
     <>
@@ -61,11 +66,11 @@ const ForestageContent = ({ title, description, beginDate, finishDate }) => {
   )
 }
 
-ForestageContent.propTypes = {
+ForestageMenuContent.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   beginDate: PropTypes.string,
   finishDate: PropTypes.string
 }
 
-export default ForestageContent
+export default ForestageMenuContent

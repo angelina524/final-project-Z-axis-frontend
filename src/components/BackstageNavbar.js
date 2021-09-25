@@ -14,6 +14,7 @@ const Navbar = styled.div`
   z-index: 5;
   background: ${({ theme }) => theme.secondary_900};
   ${flexJustifyAlign('flex-start')}
+  padding-left: 15%;
 
   svg {
     margin: 0 10px;
@@ -49,7 +50,6 @@ const SearchBtn = styled.button`
   cursor: pointer;
 `
 
-// todo: 加漢堡
 export const BackstageNavbar = ({ iconName, title }) => {
   const theme = useTheme()
   return (
@@ -85,6 +85,6 @@ export const BackstageSearchNavbar = () => {
 }
 
 BackstageNavbar.propTypes = {
-  iconName: PropTypes.function,
+  iconName: PropTypes.func,
   title: PropTypes.string
 }

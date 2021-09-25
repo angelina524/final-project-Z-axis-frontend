@@ -4,28 +4,19 @@ import { useTheme } from '@emotion/react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import flexJustifyAlign from '../styles/flexJustifyAlign'
-// import ForestageContent from './forestage'
-import {
-  plusIcon,
-  backstageIcon,
-  issueIcon,
-  testIcon,
-  lotteryIcon,
-  questionIcon,
-  hamburgerIcon
-} from './../styles/icon'
-
+import { hamburgerIcon } from './../styles/icon'
 
 const MenuWrapper = styled.aside`
+  z-index: 10;
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
   right: 20vw;
   background-color: ${({ theme }) => theme.secondary_900};
-  box-shadow: ${({ theme }) => theme.boxShadow};
+  box-shadow: ${({ theme, isMenuOpen }) => isMenuOpen && theme.boxShadow};
   padding: 1.5rem;
-  transition: transform 500ms ease;
+  transition: transform 500ms ease, box-shadow 500ms ease;
   transform: ${({ isMenuOpen }) => !isMenuOpen && 'translate(-80vw)'};
 `
 
@@ -74,57 +65,8 @@ const StyledHamburger = styled(Hamburger)`
   transform: translateX(${({ isMenuOpen }) => (isMenuOpen ? '-2rem' : '3rem')});
 `
 
-const BackStageMenu = styled.div`
-  ${flexJustifyAlign()}
-  flex-direction: column;
-`
-
-const Profile = styled.div`
-  ${flexJustifyAlign()}
-  flex-direction: column;
-`
-
-const Avatar = styled.div`
-  width: 5.5rem;
-  height: 5.5rem;
-  margin: 1rem 0;
-  border-radius: 50%;
-  border: ${({ theme }) => theme.border};
-`
-
-const EditBtn = styled.div`
-  font-size: 0.9rem;
-  padding: 0.3rem 1rem;
-  border-radius: 2.5rem;
-  border: ${({ theme }) => theme.border};
-  color: ${({ theme }) => theme.secondary_300};
-`
-
-const OptionWrapper = styled.div`
-  margin: 1.5rem 0;
-  ${flexJustifyAlign()}
-  flex-wrap: wrap;
-  gap: 1.5em;
-`
-
-const OptionBtn = styled.div`
-  width: 7rem;
-  height: 6rem;
-  border: ${({ theme }) => theme.border};
-  border-radius: 1rem;
-  ${flexJustifyAlign()}
-  flex-direction: column;
-
-  svg {
-    margin-bottom: 1rem;
-  }
-`
-
-const Text = styled.div``
-
-const Menu = ({ userId, nickname }) => {
+export const Menu = ({ userId, nickname, MenuContent }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const theme = useTheme()
   return (
     <MenuWrapper isMenuOpen={isMenuOpen}>
       <StyledHamburger
@@ -132,50 +74,9 @@ const Menu = ({ userId, nickname }) => {
         onClick={() => setIsMenuOpen((prev) => !prev)}
       />
       <Nickname>{nickname}</Nickname>
-      {/* <ForestageContent
-        title="你所不知道的 hooks 十八招起手氣，十八招起手氣"
-        description="這是一個呱呱呱呱跟啦啦啦簡介，沒什麼內容，顆顆顆顆，這是一個呱呱’呱呱跟啦啦的簡介，沒什麼內容，顆顆顆顆，這是一個呱呱呱呱啦啦啦的簡介，沒什麼內容顆顆顆顆顆，這是一個呱呱呱跟啦啦啦的簡介，沒什麼容，顆顆"
-        beginDate="2021/01/01"
-        finishDate="2021/01/07"
-      /> */}
-      <BackStageMenu>
-        <Profile>
-          <Avatar />
-          <EditBtn>修改個人資料</EditBtn>
-        </Profile>
-        <OptionWrapper>
-          <OptionBtn>
-            {plusIcon('2x', theme.secondary_300)}
-            <Text>建立</Text>
-          </OptionBtn>
-          <OptionBtn>
-            {backstageIcon('2x', theme.secondary_300)}
-            <Text>後台</Text>
-          </OptionBtn>
-          <OptionBtn>
-            {issueIcon('2x', theme.secondary_300)}
-            <Text>留言箱</Text>
-          </OptionBtn>
-          <OptionBtn>
-            {testIcon('2x', theme.secondary_300)}
-            <Text>測驗</Text>
-          </OptionBtn>
-          <OptionBtn>
-            {lotteryIcon('2x', theme.secondary_300)}
-            <Text>抽獎</Text>
-          </OptionBtn>
-          <OptionBtn>
-            {questionIcon('2x', theme.secondary_300)}
-            <Text>問卷</Text>
-          </OptionBtn>
-        </OptionWrapper>
-      </BackStageMenu>
+      <MenuContent />
       <Footer>
-        {/* 後台頁面不會有後台按鈕 */}
-        {userId && <Link to="/">後台</Link>}
         {userId && <Link to="/">登出</Link>}
-        {!userId && <Link to="/register">註冊</Link>}
-        {!userId && <Link to="/login">登入</Link>}
         <Link to="/">首頁</Link>
         <p>© Z-axis 2021</p>
       </Footer>
@@ -185,7 +86,6 @@ const Menu = ({ userId, nickname }) => {
 
 Menu.propTypes = {
   userId: PropTypes.number,
-  nickname: PropTypes.string
+  nickname: PropTypes.string,
+  MenuContent: PropTypes.func
 }
-
-export default Menu

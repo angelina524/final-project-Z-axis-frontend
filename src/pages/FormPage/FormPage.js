@@ -8,6 +8,8 @@ import { InputWrapper, InputText } from '../../styles/Input'
 import SubmitBtn from '../../styles/Button'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import { BackstageNavbar } from '../../components/BackstageNavbar'
+import { Menu } from '../../components/Menu'
+import BackstageMenuContent from '../../components/BackstageMenuContent'
 
 const FormWrapper = styled.div`
   height: 100vh;
@@ -24,6 +26,8 @@ const FormTitle = styled.h2`
 `
 
 const ErrorMessage = styled.div`
+  position: absolute;
+  bottom: 15%;
   color: ${({ theme }) => theme.warning};
 `
 
@@ -83,6 +87,11 @@ const FormPage = () => {
 
   return (
     <>
+      <Menu
+        userId={1}
+        nickname="嘎嘎嗚拉拉"
+        MenuContent={BackstageMenuContent}
+      />
       <BackstageNavbar iconName={plusIcon} title="建立" />
       <form onSubmit={handleFormSubmit}>
         <FormWrapper>
