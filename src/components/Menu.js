@@ -1,17 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
+import { useTheme } from '@emotion/react'
 import PropTypes from 'prop-types'
-import flexJustifyAlign from '../styles/flexJustifyAlign'
 import { Link } from 'react-router-dom'
+import flexJustifyAlign from '../styles/flexJustifyAlign'
+// import ForestageContent from './forestage'
 import {
   plusIcon,
   backstageIcon,
   issueIcon,
   testIcon,
   lotteryIcon,
-  questionIcon
+  questionIcon,
+  hamburgerIcon
 } from './../styles/icon'
-import { useTheme } from '@emotion/react'
+
 
 const MenuWrapper = styled.aside`
   position: fixed;
@@ -22,6 +25,8 @@ const MenuWrapper = styled.aside`
   background-color: ${({ theme }) => theme.secondary_900};
   box-shadow: ${({ theme }) => theme.boxShadow};
   padding: 1.5rem;
+  transition: transform 500ms ease;
+  transform: ${({ isMenuOpen }) => !isMenuOpen && 'translate(-80vw)'};
 `
 
 const Nickname = styled.p`
@@ -45,6 +50,28 @@ const Footer = styled.footer`
   p {
     font-size: 0.9rem;
   }
+`
+
+const Hamburger = ({ onClick, className }) => {
+  const theme = useTheme()
+  return (
+    <div onClick={onClick} className={className}>
+      {hamburgerIcon('2x', theme.primary)}
+    </div>
+  )
+}
+
+Hamburger.propTypes = {
+  onClick: PropTypes.func,
+  className: PropTypes.string
+}
+
+const StyledHamburger = styled(Hamburger)`
+  position: absolute;
+  top: 1rem;
+  right: 0;
+  transition: transform 500ms ease;
+  transform: translateX(${({ isMenuOpen }) => (isMenuOpen ? '-2rem' : '3rem')});
 `
 
 const BackStageMenu = styled.div`
@@ -95,12 +122,22 @@ const OptionBtn = styled.div`
 
 const Text = styled.div``
 
-const Menu = ({ nickname }) => {
+const Menu = ({ userId, nickname }) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const theme = useTheme()
-
   return (
-    <MenuWrapper>
+    <MenuWrapper isMenuOpen={isMenuOpen}>
+      <StyledHamburger
+        isMenuOpen={isMenuOpen}
+        onClick={() => setIsMenuOpen((prev) => !prev)}
+      />
       <Nickname>{nickname}</Nickname>
+      {/* <ForestageContent
+        title="你所不知道的 hooks 十八招起手氣，十八招起手氣"
+        description="這是一個呱呱呱呱跟啦啦啦簡介，沒什麼內容，顆顆顆顆，這是一個呱呱’呱呱跟啦啦的簡介，沒什麼內容，顆顆顆顆，這是一個呱呱呱呱啦啦啦的簡介，沒什麼內容顆顆顆顆顆，這是一個呱呱呱跟啦啦啦的簡介，沒什麼容，顆顆"
+        beginDate="2021/01/01"
+        finishDate="2021/01/07"
+      /> */}
       <BackStageMenu>
         <Profile>
           <Avatar />
@@ -134,8 +171,11 @@ const Menu = ({ nickname }) => {
         </OptionWrapper>
       </BackStageMenu>
       <Footer>
-        {/* <Link to="/">後台</Link> */}
-        <Link to="/">登出</Link>
+        {/* 後台頁面不會有後台按鈕 */}
+        {userId && <Link to="/">後台</Link>}
+        {userId && <Link to="/">登出</Link>}
+        {!userId && <Link to="/register">註冊</Link>}
+        {!userId && <Link to="/login">登入</Link>}
         <Link to="/">首頁</Link>
         <p>© Z-axis 2021</p>
       </Footer>
@@ -144,6 +184,7 @@ const Menu = ({ nickname }) => {
 }
 
 Menu.propTypes = {
+  userId: PropTypes.number,
   nickname: PropTypes.string
 }
 

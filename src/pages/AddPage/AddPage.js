@@ -65,7 +65,7 @@ const AddPage = () => {
   const theme = useTheme()
   return (
     <Wrapper>
-      {/* <Menu nickname="嘎嘎嗚拉拉" /> */}
+      {/* <Menu userId={1} nickname="嘎嘎嗚拉拉" /> */}
       <BackstageNavbar iconName={plusIcon} title="建立" />
       <CardWrapper>
         <Card to="/form">
