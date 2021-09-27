@@ -29,7 +29,7 @@ const RegisterPage = () => {
     try {
       userToken = await register(nickname, email, password)
     } catch (error) {
-      setErrorMessage('註冊失敗，請在試一次')
+      setErrorMessage('註冊失敗，請再試一次')
       return
     }
 
