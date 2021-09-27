@@ -1,11 +1,16 @@
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router'
-import { InputWrapper, InputText } from '../../styles/Input'
-import SubmitBtn from '../../styles/Button'
-import { Title, PromptLink } from '../../styles/Content'
-import { ErrorMessage } from '../utils'
+
 import { register } from '../../webapi/userApi'
 import useForm from '../../hooks/useForm'
+import {
+  UserFormWrapper,
+  FormTitle,
+  InputText,
+  ErrorMessage,
+  SubmitBtn,
+  PromptLink
+} from '../utils'
 
 const RegisterPage = () => {
   const {
@@ -42,34 +47,32 @@ const RegisterPage = () => {
   }, [nickname, email, password])
 
   return (
-    <>
-      <Title>註冊</Title>
-      <InputWrapper>
-        <InputText
-          value={nickname}
-          onChange={(e) => setNickname(e.target.value)}
-          type="text"
-          placeholder="暱稱"
-        />
-        <InputText
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          type="email"
-          placeholder="信箱"
-        />
-        <InputText
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          type="password"
-          placeholder="密碼"
-        />
-        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-      </InputWrapper>
+    <UserFormWrapper>
+      <FormTitle>註冊</FormTitle>
+      <InputText
+        value={nickname}
+        onChange={(e) => setNickname(e.target.value)}
+        type="text"
+        placeholder="暱稱"
+      />
+      <InputText
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        type="email"
+        placeholder="信箱"
+      />
+      <InputText
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        type="password"
+        placeholder="密碼"
+      />
+      {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       <SubmitBtn onClick={handleSubmit} type="submit">
         送出
       </SubmitBtn>
       <PromptLink to="/login">已經有帳號？ 按此登入</PromptLink>
-    </>
+    </UserFormWrapper>
   )
 }
 

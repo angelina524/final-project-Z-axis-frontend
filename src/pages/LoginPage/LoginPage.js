@@ -1,11 +1,16 @@
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router'
-import { InputWrapper, InputText } from '../../styles/Input'
-import SubmitBtn from '../../styles/Button'
-import { Title, PromptLink } from '../../styles/Content'
+
 import { login } from '../../webapi/userApi'
-import { ErrorMessage } from '../utils'
 import useForm from '../../hooks/useForm'
+import {
+  PromptLink,
+  UserFormWrapper,
+  FormTitle,
+  InputText,
+  ErrorMessage,
+  SubmitBtn
+} from '../utils'
 
 const LoginPage = () => {
   const {
@@ -40,28 +45,24 @@ const LoginPage = () => {
   }, [email, password])
 
   return (
-    <>
-      <Title>登入</Title>
-      <InputWrapper>
-        <InputText
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          type="email"
-          placeholder="信箱"
-        />
-        <InputText
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          type="password"
-          placeholder="密碼"
-        />
-        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-      </InputWrapper>
-      <SubmitBtn onClick={handleSubmit} type="submit">
-        送出
-      </SubmitBtn>
+    <UserFormWrapper>
+      <FormTitle>登入</FormTitle>
+      <InputText 
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        type="email"
+        placeholder="信箱"
+      />
+      <InputText
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        type="password"
+        placeholder="密碼"
+      />
+      {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+      <SubmitBtn onClick={handleSubmit} type="submit">送出</SubmitBtn>
       <PromptLink to="/register">還沒有帳號？ 按此註冊</PromptLink>
-    </>
+    </UserFormWrapper>
   )
 }
 

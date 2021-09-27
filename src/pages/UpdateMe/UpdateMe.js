@@ -1,11 +1,16 @@
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router'
-import { InputWrapper, InputText } from '../../styles/Input'
-import SubmitBtn from '../../styles/Button'
-import { Title, PromptLink } from '../../styles/Content'
-import { ErrorMessage } from '../utils'
+
 import { getMe, updateMe } from '../../webapi/userApi'
 import useForm from '../../hooks/useForm'
+import {
+  UserFormWrapper,
+  FormTitle,
+  InputText,
+  ErrorMessage,
+  SubmitBtn,
+  PromptLink
+} from '../utils'
 
 const UpdateMe = () => {
   const {
@@ -58,28 +63,26 @@ const UpdateMe = () => {
   }, [nickname, email])
 
   return (
-    <>
-      <Title>修改個人資料</Title>
-      <InputWrapper>
-        <InputText
-          value={nickname}
-          onChange={(e) => setNickname(e.target.value)}
-          type="text"
-          placeholder="暱稱"
-        />
-        <InputText
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          type="email"
-          placeholder="信箱"
-        />
-        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-      </InputWrapper>
+    <UserFormWrapper>
+    <FormTitle>修改個人資料</FormTitle>
+      <InputText
+        value={nickname}
+        onChange={(e) => setNickname(e.target.value)}
+        type="text"
+        placeholder="暱稱"
+      />
+      <InputText
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        type="email"
+        placeholder="信箱"
+      />
+      {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       <SubmitBtn onClick={handleSubmit} type="submit">
         送出
       </SubmitBtn>
       <PromptLink to="/user/me/update-password">修改密碼？ 按此修改</PromptLink>
-    </>
+    </UserFormWrapper>
   )
 }
 

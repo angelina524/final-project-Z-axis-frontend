@@ -2,6 +2,9 @@ const theme = {
   // primary
   primary: '#4167B2',
 
+  // warning text
+  warning: '#E0A800',
+
   // secondary
   secondary_000: '#000000',
   secondary_100: '#333333',

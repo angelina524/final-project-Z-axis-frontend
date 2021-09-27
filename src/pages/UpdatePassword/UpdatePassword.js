@@ -1,11 +1,16 @@
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router'
-import { InputWrapper, InputText } from '../../styles/Input'
-import SubmitBtn from '../../styles/Button'
-import { Title, PromptLink } from '../../styles/Content'
-import { ErrorMessage } from '../utils'
+
 import { updatePassword } from '../../webapi/userApi'
 import useForm from '../../hooks/useForm'
+import {
+  UserFormWrapper,
+  FormTitle,
+  InputText,
+  ErrorMessage,
+  SubmitBtn,
+  PromptLink
+} from '../utils'
 
 const UpdatePassword = () => {
   const {
@@ -43,34 +48,32 @@ const UpdatePassword = () => {
   }, [oldPassword, newPassword, againPassword])
 
   return (
-    <>
-      <Title>修改密碼</Title>
-      <InputWrapper>
-        <InputText
-          value={oldPassword}
-          onChange={(e) => setOldPassword(e.target.value)}
-          type="password"
-          placeholder="原密碼"
-        />
-        <InputText
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          type="password"
-          placeholder="新密碼"
-        />
-        <InputText
-          value={againPassword}
-          onChange={(e) => setAgainPassword(e.target.value)}
-          type="password"
-          placeholder="新密碼再次輸入"
-        />
-        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-      </InputWrapper>
+    <UserFormWrapper>
+      <FormTitle>修改密碼</FormTitle>
+      <InputText
+        value={oldPassword}
+        onChange={(e) => setOldPassword(e.target.value)}
+        type="password"
+        placeholder="原密碼"
+      />
+      <InputText
+        value={newPassword}
+        onChange={(e) => setNewPassword(e.target.value)}
+        type="password"
+        placeholder="新密碼"
+      />
+      <InputText
+        value={againPassword}
+        onChange={(e) => setAgainPassword(e.target.value)}
+        type="password"
+        placeholder="新密碼再次輸入"
+      />
+      {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       <SubmitBtn onClick={handleSubmit} type="submit">
         送出
       </SubmitBtn>
       <PromptLink to="/user/me">修改個人資料？ 按此修改</PromptLink>
-    </>
+    </UserFormWrapper>
   )
 }
 
