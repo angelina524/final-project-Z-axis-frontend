@@ -1,72 +1,82 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from '@emotion/styled'
-import { useFormik } from 'formik'
 
-import { InputWrapper, InputText } from '../../styles/Input'
-import SubmitBtn from '../../styles/Button'
-import { Title } from '../../styles/Content'
-import Section from './components/Section'
 import { register } from '../../webapi/userApi'
 import { setUserToken } from '../../localStorageApi'
+import useForm from '../../hooks/useForm'
+import {
+  UserFormWrapper,
+  FormTitle,
+  InputText,
+  ErrorMessage,
+  SubmitBtn,
+  PromptLink
+} from '../utils'
 
-const HomeTitle = styled(Title)`
-  margin-top: 0;
+const HomeUserFormWrapper = styled(UserFormWrapper)`
+  margin: 5rem 0 8rem;
 `
 
-const RegisterSection = styled(Section)`
-  min-height: 75vh;
-`
+const RegisterSection = () => {
+  const {
+    nickname,
+    setNickname,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    errorMessage,
+    setErrorMessage,
+    validateRegister
+  } = useForm()
 
-const HomePage = () => {
-  const formik = useFormik({
-    initialValues: {
-      nickname: '',
-      email: '',
-      password: ''
-    },
-    onSubmit: async (value) => {
-      const { nickname, email, password } = value
-      console.log(nickname, email, password)
-      try {
-        const token = await register(nickname, email, password)
-        setUserToken(token)
-      } catch (err) {
-        console.log(err)
-      }
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    const isFormValid = validateRegister()
+    if (!isFormValid) return
+
+    let userToken = ''
+    try {
+      userToken = await register(nickname, email, password)
+    } catch (error) {
+      setErrorMessage('註冊失敗，請再試一次')
+      return
     }
-  })
+
+    setUserToken(userToken)
+  }
+
+  useEffect(() => {
+    setErrorMessage('')
+  }, [nickname, email, password])
 
   return (
-    <RegisterSection>
-      <HomeTitle>立即註冊</HomeTitle>
-      <form onSubmit={formik.handleSubmit}>
-        <InputWrapper>
-          <InputText
-            type="text"
-            placeholder="暱稱"
-            name="nickname"
-            onChange={formik.handleChange}
-            value={formik.values.nickname}
-          />
-          <InputText
-            type="email"
-            placeholder="信箱"
-            name="email"
-            onChange={formik.handleChange}
-            value={formik.values.email}
-          />
-          <InputText
-            type="password"
-            placeholder="密碼"
-            name="password"
-            onChange={formik.handleChange}
-            value={formik.values.password}
-          />
-        </InputWrapper>
-        <SubmitBtn type="submit">送出</SubmitBtn>
-      </form>
-    </RegisterSection>
+    <HomeUserFormWrapper onSubmit={handleSubmit}>
+      <FormTitle>立即註冊</FormTitle>
+      <InputText
+        value={nickname}
+        onChange={(e) => setNickname(e.target.value)}
+        type="text"
+        placeholder="暱稱"
+      />
+      <InputText
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        type="email"
+        placeholder="信箱"
+      />
+      <InputText
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        type="password"
+        placeholder="密碼"
+      />
+      {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+      <SubmitBtn type="submit">送出</SubmitBtn>
+      <PromptLink to="/login">已經有帳號？ 按此登入</PromptLink>
+    </HomeUserFormWrapper>
   )
 }
 
-export default HomePage
+export default RegisterSection
