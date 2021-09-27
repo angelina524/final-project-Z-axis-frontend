@@ -1,35 +1,18 @@
-import React, { useState } from 'react'
-import styled from '@emotion/styled'
+import React, { useEffect, useState } from 'react'
 import { plusIcon } from '../../styles/icon'
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
 import { DateRange } from 'react-date-range'
-import { InputWrapper, InputText } from '../../styles/Input'
-import SubmitBtn from '../../styles/Button'
-import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import { BackstageNavbar } from '../../components/BackstageNavbar'
 import { Menu } from '../../components/Menu'
 import BackstageMenuContent from '../../components/BackstageMenuContent'
-
-const FormWrapper = styled.div`
-  height: 100vh;
-  top: 4rem;
-  margin: 1rem 0;
-  border-radius: 1rem;
-  ${flexJustifyAlign()}
-  flex-direction: column;
-`
-
-const FormTitle = styled.h2`
-  margin-bottom: 1rem;
-  color: ${({ theme }) => theme.primary};
-`
-
-const ErrorMessage = styled.div`
-  position: absolute;
-  bottom: 15%;
-  color: ${({ theme }) => theme.warning};
-`
+import {
+  AddFormWrapper,
+  FormTitle,
+  InputText,
+  ErrorMessage,
+  SubmitBtn
+} from '../utils'
 
 const FormPage = () => {
   const [title, setTitle] = useState('')
@@ -41,21 +24,22 @@ const FormPage = () => {
       key: 'selection'
     }
   ])
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState('')
+
+  useEffect(() => {
+    setErrorMessage('')
+  }, [title, description, date])
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value)
-    setErrorMessage(null)
   }
 
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value)
-    setErrorMessage(null)
   }
 
   const handleDateChange = (e) => {
     setDate([e.selection])
-    setErrorMessage(null)
   }
 
   const handleFormSubmit = (e) => {
@@ -93,34 +77,30 @@ const FormPage = () => {
         MenuContent={BackstageMenuContent}
       />
       <BackstageNavbar iconName={plusIcon} title="建立" />
-      <form onSubmit={handleFormSubmit}>
-        <FormWrapper>
-          <FormTitle>新增留言箱</FormTitle>
-          <InputWrapper>
-            <InputText
-              value={title}
-              onChange={handleTitleChange}
-              name="title"
-              placeholder="標題"
-            />
-            <InputText
-              value={description}
-              onChange={handleDescriptionChange}
-              name="description"
-              placeholder="描述"
-            />
-            <DateRange
-              editableDateInputs={true}
-              onChange={handleDateChange}
-              moveRangeOnFirstSelection={false}
-              ranges={date}
-              minDate={new Date()}
-            />
-          </InputWrapper>
-          {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-          <SubmitBtn type="submit">送出</SubmitBtn>
-        </FormWrapper>
-      </form>
+      <AddFormWrapper onSubmit={handleFormSubmit}>
+        <FormTitle>新增留言箱</FormTitle>
+        <InputText
+          value={title}
+          onChange={handleTitleChange}
+          name="title"
+          placeholder="標題"
+        />
+        <InputText
+          value={description}
+          onChange={handleDescriptionChange}
+          name="description"
+          placeholder="描述"
+        />
+        <DateRange
+          editableDateInputs={true}
+          onChange={handleDateChange}
+          moveRangeOnFirstSelection={false}
+          ranges={date}
+          minDate={new Date()}
+        />
+        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+        <SubmitBtn type="submit">送出</SubmitBtn>
+      </AddFormWrapper>
     </>
   )
 }

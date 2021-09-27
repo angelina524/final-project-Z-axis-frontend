@@ -14,7 +14,7 @@ const Navbar = styled.div`
   z-index: 5;
   background: ${({ theme }) => theme.secondary_900};
   ${flexJustifyAlign('flex-start')}
-  padding-left: 15%;
+  padding-left: 4rem;
 
   svg {
     margin: 0 10px;

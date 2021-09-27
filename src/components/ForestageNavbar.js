@@ -34,7 +34,7 @@ const TotalComments = styled.div`
 `
 
 // todo: 加漢堡
-// todo: 塞選功能
+// todo: 篩選功能
 export const ForestageIssueNavbar = () => {
   return (
     <Navbar>

@@ -87,5 +87,5 @@ export const Menu = ({ userId, nickname, MenuContent }) => {
 Menu.propTypes = {
   userId: PropTypes.number,
   nickname: PropTypes.string,
-  MenuContent: PropTypes.func
+  MenuContent: PropTypes.elementType
 }

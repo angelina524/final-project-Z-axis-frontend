@@ -1,18 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from '@emotion/styled'
+import PropTypes from 'prop-types'
 import { useTheme } from '@emotion/react'
-import {
-  plusIcon,
-  issueIcon,
-  testIcon,
-  lotteryIcon,
-  questionIcon
-} from '../../styles/icon'
+import { plusIcon } from '../../styles/icon'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import { BackstageNavbar } from '../../components/BackstageNavbar'
 import { Menu } from '../../components/Menu'
 import BackstageMenuContent from '../../components/BackstageMenuContent'
+import cardList from '../../constants/cardList'
 
 const Wrapper = styled.div`
   top: 4rem;
@@ -24,7 +20,7 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 
-const CardWrapper = styled.div`
+const CardsWrapper = styled.div`
   margin: 0.9rem;
   width: 90%;
   ${flexJustifyAlign()}
@@ -62,8 +58,27 @@ const CardText = styled.div`
   font-size: 0.9rem;
 `
 
-const AddPage = () => {
+const CardContainer = ({ path, iconName, cardTitle, cardText }) => {
   const theme = useTheme()
+  return (
+    <Card to={path}>
+      {iconName('3x', theme.primary)}
+      <CardContent>
+        <CardTitle>{cardTitle}</CardTitle>
+        <CardText>{cardText}</CardText>
+      </CardContent>
+    </Card>
+  )
+}
+
+CardContainer.propTypes = {
+  path: PropTypes.string,
+  iconName: PropTypes.func,
+  cardTitle: PropTypes.string,
+  cardText: PropTypes.string
+}
+
+const AddPage = () => {
   return (
     <Wrapper>
       <Menu
@@ -72,38 +87,17 @@ const AddPage = () => {
         MenuContent={BackstageMenuContent}
       />
       <BackstageNavbar iconName={plusIcon} title="建立" />
-      <CardWrapper>
-        <Card to="/form">
-          {issueIcon('3x', theme.primary)}
-          <CardContent>
-            <CardTitle>留言箱</CardTitle>
-            <CardText>
-              創建專屬話題屬話題，創建專屬話題屬話題，創建專屬話題屬話
-            </CardText>
-          </CardContent>
-        </Card>
-        <Card to="/add">
-          <CardContent>
-            <CardTitle>測驗</CardTitle>
-            <CardText>創建專屬話題，提供即時留言與您輕鬆地進行話題討</CardText>
-          </CardContent>
-          {testIcon('3x', theme.primary)}
-        </Card>
-        <Card to="/add">
-          {lotteryIcon('3x', theme.primary)}
-          <CardContent>
-            <CardTitle>抽獎</CardTitle>
-            <CardText>創建專屬話題，提供即時留言與您輕鬆地進行話題討</CardText>
-          </CardContent>
-        </Card>
-        <Card to="/add">
-          <CardContent>
-            <CardTitle>問卷</CardTitle>
-            <CardText>創建專屬話題，提供即時留言與您輕鬆地進行話題討</CardText>
-          </CardContent>
-          {questionIcon('3x', theme.primary)}
-        </Card>
-      </CardWrapper>
+      <CardsWrapper>
+        {cardList.map((card) => (
+          <CardContainer
+            key={card.cardTitle}
+            path={card.path}
+            iconName={card.iconName}
+            cardTitle={card.cardTitle}
+            cardText={card.cardText}
+          />
+        ))}
+      </CardsWrapper>
     </Wrapper>
   )
 }
