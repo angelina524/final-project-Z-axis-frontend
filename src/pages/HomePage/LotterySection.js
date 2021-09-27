@@ -1,11 +1,12 @@
 import React from 'react'
 import styled from '@emotion/styled'
 
-import IssuePattern from './components/IssuePattern'
+import LotteryPattern from './components/LotteryPattern'
 
 import BackgroundRectangle from './components/BackgroundRectangle'
 import CircleNumber from './components/CircleNumber'
-import Session from './components/Session'
+import Section from './components/Section'
+import TitleWrapper from './components/TitleWrapper'
 
 const LeftBackgroundRectangle = styled(BackgroundRectangle)`
   position: absolute;
@@ -27,38 +28,23 @@ const LocateCircleNumber = styled.div`
   left: ${(props) => props.left};
 `
 
-const TitleWrapper = styled.div`
-  margin: 0 2rem;
-  letter-spacing: 2px;
-  h3 {
-    color: ${({ theme }) => theme.primary};
-    font-size: 1.6rem;
-    margin-bottom: 0.6rem;
-  }
-  p {
-    line-height: 2;
-    letter-spacing: 1px;
-  }
-`
-
-const IssueSession = () => {
+const LotterySection = () => {
   return (
-    <Session>
+    <Section>
       <LocateCircleNumber top="-32px" left="74vw">
-        <CircleNumber>.01</CircleNumber>
+        <CircleNumber>.03</CircleNumber>
       </LocateCircleNumber>
       <LeftBackgroundRectangle />
-      <LocatePatternRight top="200px">
-        <IssuePattern />
+      <LocatePatternRight top="180px">
+        <LotteryPattern />
       </LocatePatternRight>
       <TitleWrapper>
-        <h3>留言箱</h3>
-        <p>您可以創建專屬話題，提供觀</p>
-        <p>署名或匿名即時留言，與您輕</p>
-        <p>地進</p>
+        <h3>抽獎系統</h3>
+        <p>您可以創建抽獎活動，</p>
+        <p>刺激觀眾於當前話題的參與度。</p>
       </TitleWrapper>
-    </Session>
+    </Section>
   )
 }
 
-export default IssueSession
+export default LotterySection

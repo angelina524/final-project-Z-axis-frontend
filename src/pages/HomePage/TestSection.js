@@ -6,7 +6,8 @@ import TestPattern from './components/TestPattern'
 import BackgroundRectangle from './components/BackgroundRectangle'
 import CircleNumber from './components/CircleNumber'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
-import Session from './components/Session'
+import Section from './components/Section'
+import TitleWrapper from './components/TitleWrapper'
 
 const AllBackgroundRectangle = styled(BackgroundRectangle)`
   width: 100%;
@@ -29,28 +30,14 @@ const LocateCircleNumber = styled.div`
   left: ${(props) => props.left};
 `
 
-const TitleWrapper = styled.div`
-  margin: 0 2rem;
-  letter-spacing: 2px;
-  h3 {
-    color: ${({ theme }) => theme.primary};
-    font-size: 1.6rem;
-    margin-bottom: 0.6rem;
-  }
-  p {
-    line-height: 2;
-    letter-spacing: 1px;
-  }
-`
-
 const TitleWrapperRight = styled(TitleWrapper)`
   ${flexJustifyAlign('center', 'flex-end')}
   flex-direction: column;
 `
 
-const TestSession = () => {
+const TestSection = () => {
   return (
-    <Session>
+    <Section>
       <LocateCircleNumber top="-32px" left="10vw">
         <CircleNumber>.02</CircleNumber>
       </LocateCircleNumber>
@@ -63,8 +50,8 @@ const TestSession = () => {
         <p>您可以創建測驗問答，</p>
         <p>讓與參問答的觀眾進行限時測驗。</p>
       </TitleWrapperRight>
-    </Session>
+    </Section>
   )
 }
 
-export default TestSession
+export default TestSection

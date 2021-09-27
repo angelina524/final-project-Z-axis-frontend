@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Logo from './Logo'
 import flexJustifyAlign from '../styles/flexJustifyAlign'
 
@@ -32,27 +32,7 @@ const NavbarLinks = styled.div`
   }
 `
 
-const RegisterNow = styled.div`
-  display: inline-block;
-  width: 6rem;
-  height: 2.6rem;
-  border-radius: 1.3rem;
-  line-height: 2.6rem;
-  text-align: center;
-  background-color: ${({ theme }) => theme.primary};
-  color: ${({ theme }) => theme.secondary_900};
-  cursor: pointer;
-`
-
-const Navbar = () => {
-  const location = useLocation()
-  const goToBottom = () => {
-    window.scrollTo({
-      top: document.body.scrollHeight,
-      behavior: 'smooth'
-    })
-  }
-
+const HomePageNavbar = () => {
   return (
     <Wrapper>
       <NavbarWrapper>
@@ -60,21 +40,11 @@ const Navbar = () => {
         <NavbarLinks>
           <Link to="/">首頁</Link>
           <Link to="/login">登入</Link>
-          {location.pathname === '/'
-            ? (
-            <RegisterNow onClick={goToBottom}>立即註冊</RegisterNow>
-              )
-            : (
-            <Link to="/register">註冊</Link>
-              )}
-          {/* <Link to='/user'>後台</Link> */}
-          {/* <Link to='/logout'>登出</Link> */}
-
-          {/* <Link to="/test-web-api">測試 web api</Link> */}
+          <Link to="/register">立即註冊</Link>
         </NavbarLinks>
       </NavbarWrapper>
     </Wrapper>
   )
 }
 
-export default Navbar
+export default HomePageNavbar

@@ -4,6 +4,7 @@ import styled from '@emotion/styled'
 import BackgroundCircle from './components/BackgroundCircle'
 import BackgroundCircleDashed from './components/BackgroundCircleDashed'
 import Curve from './components/Curve'
+import Section from './components/Section'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 
 const FirstBackgroundCircleDashed = styled(BackgroundCircleDashed)`
@@ -12,13 +13,7 @@ const FirstBackgroundCircleDashed = styled(BackgroundCircleDashed)`
   top: 83vh;
 `
 
-const Session = styled.div`
-  min-height: 80vh;
-  position: relative;
-  padding-top: 2rem;
-`
-
-const MainSessionWrapper = styled(Session)`
+const MainSectionWrapper = styled(Section)`
   min-height: 100vh;
 `
 
@@ -28,6 +23,7 @@ const MainTitleWrapper = styled.div`
   flex-direction: column;
   letter-spacing: 2px;
   h1 {
+    color: ${({ theme }) => theme.secondary_100};
     font-size: 2.6rem;
     margin-bottom: 2rem;
   }
@@ -36,9 +32,9 @@ const MainTitleWrapper = styled.div`
   }
 `
 
-const MainSession = () => {
+const MainSection = () => {
   return (
-    <MainSessionWrapper>
+    <MainSectionWrapper>
       <Curve />
       <BackgroundCircle />
       <FirstBackgroundCircleDashed />
@@ -46,8 +42,8 @@ const MainSession = () => {
         <h1>Z-axis</h1>
         <p>為您的演說帶來無限的可能</p>
       </MainTitleWrapper>
-    </MainSessionWrapper>
+    </MainSectionWrapper>
   )
 }
 
-export default MainSession
+export default MainSection
