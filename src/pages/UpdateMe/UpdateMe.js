@@ -64,7 +64,7 @@ const UpdateMe = () => {
 
   return (
     <UserFormWrapper>
-    <FormTitle>修改個人資料</FormTitle>
+      <FormTitle>修改個人資料</FormTitle>
       <InputText
         value={nickname}
         onChange={(e) => setNickname(e.target.value)}

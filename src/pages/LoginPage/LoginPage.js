@@ -47,7 +47,7 @@ const LoginPage = () => {
   return (
     <UserFormWrapper>
       <FormTitle>登入</FormTitle>
-      <InputText 
+      <InputText
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         type="email"
@@ -60,7 +60,9 @@ const LoginPage = () => {
         placeholder="密碼"
       />
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-      <SubmitBtn onClick={handleSubmit} type="submit">送出</SubmitBtn>
+      <SubmitBtn onClick={handleSubmit} type="submit">
+        送出
+      </SubmitBtn>
       <PromptLink to="/register">還沒有帳號？ 按此註冊</PromptLink>
     </UserFormWrapper>
   )
