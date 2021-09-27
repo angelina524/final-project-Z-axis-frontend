@@ -64,7 +64,6 @@ Option.propTypes = {
 }
 
 const BackstageMenuContent = () => {
-  // const theme = useTheme()
   return (
     <BackStageMenu>
       <Profile>

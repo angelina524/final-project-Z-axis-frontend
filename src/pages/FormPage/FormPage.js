@@ -30,18 +30,6 @@ const FormPage = () => {
     setErrorMessage('')
   }, [title, description, date])
 
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value)
-  }
-
-  const handleDescriptionChange = (e) => {
-    setDescription(e.target.value)
-  }
-
-  const handleDateChange = (e) => {
-    setDate([e.selection])
-  }
-
   const handleFormSubmit = (e) => {
     e.preventDefault()
     const startDate = new Date(date[0].startDate)
@@ -81,19 +69,19 @@ const FormPage = () => {
         <FormTitle>新增留言箱</FormTitle>
         <InputText
           value={title}
-          onChange={handleTitleChange}
+          onChange={(e) => setTitle(e.target.value)}
           name="title"
           placeholder="標題"
         />
         <InputText
           value={description}
-          onChange={handleDescriptionChange}
+          onChange={(e) => setDescription(e.target.value)}
           name="description"
           placeholder="描述"
         />
         <DateRange
           editableDateInputs={true}
-          onChange={handleDateChange}
+          onChange={(e) => setDate([e.selection])}
           moveRangeOnFirstSelection={false}
           ranges={date}
           minDate={new Date()}
