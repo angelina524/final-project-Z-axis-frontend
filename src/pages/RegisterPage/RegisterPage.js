@@ -26,7 +26,9 @@ const RegisterPage = () => {
   } = useForm()
   const history = useHistory()
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
     const isFormValid = validateRegister()
     if (!isFormValid) return
 
@@ -47,7 +49,7 @@ const RegisterPage = () => {
   }, [nickname, email, password])
 
   return (
-    <UserFormWrapper>
+    <UserFormWrapper onSubmit={handleSubmit}>
       <FormTitle>註冊</FormTitle>
       <InputText
         value={nickname}
@@ -68,9 +70,7 @@ const RegisterPage = () => {
         placeholder="密碼"
       />
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-      <SubmitBtn onClick={handleSubmit} type="submit">
-        送出
-      </SubmitBtn>
+      <SubmitBtn type="submit">送出</SubmitBtn>
       <PromptLink to="/login">已經有帳號？ 按此登入</PromptLink>
     </UserFormWrapper>
   )

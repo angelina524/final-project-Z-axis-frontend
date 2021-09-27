@@ -29,7 +29,9 @@ const UpdatePassword = () => {
   // 暫時在這裡拿 userToken
   const userToken = window.localStorage.getItem('userToken')
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
     const isFormValid = validateUpdatePassword()
     if (!isFormValid) return
 
@@ -48,7 +50,7 @@ const UpdatePassword = () => {
   }, [oldPassword, newPassword, againPassword])
 
   return (
-    <UserFormWrapper>
+    <UserFormWrapper onSubmit={handleSubmit}>
       <FormTitle>修改密碼</FormTitle>
       <InputText
         value={oldPassword}
@@ -69,9 +71,7 @@ const UpdatePassword = () => {
         placeholder="新密碼再次輸入"
       />
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-      <SubmitBtn onClick={handleSubmit} type="submit">
-        送出
-      </SubmitBtn>
+      <SubmitBtn type="submit">送出</SubmitBtn>
       <PromptLink to="/user/me">修改個人資料？ 按此修改</PromptLink>
     </UserFormWrapper>
   )
