@@ -3,7 +3,7 @@ import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 
 // import Navbar from './Navbar'
 
-import LoadingPage from '../pages/LoadingPage'
+import LoadingPage from '../pages/LoadingPage.js'
 import HomePage from '../pages/HomePage'
 import LoginPage from '../pages/LoginPage'
 import RegisterPage from '../pages/RegisterPage'
@@ -13,6 +13,7 @@ import UpdateMe from '../pages/UpdateMe'
 import WebApiTestPage from '../pages/WebApiTestPage/WebApiTestPage'
 import AddPage from '../pages/AddPage'
 import FormPage from '../pages/FormPage'
+import BackstagePage from '../pages/BackstagePage/BackstagePage'
 
 function App () {
   return (
@@ -48,6 +49,9 @@ function App () {
         </Route>
         <Route exact path="/form">
           <FormPage />
+        </Route>
+        <Route exact path="/backstage">
+          <BackstagePage />
         </Route>
       </Switch>
     </Router>

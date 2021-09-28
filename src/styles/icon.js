@@ -13,6 +13,7 @@ import {
   faCommentDots,
   faBars
 } from '@fortawesome/free-solid-svg-icons'
+import { faCommentAlt } from '@fortawesome/free-regular-svg-icons'
 import { faBuffer } from '@fortawesome/free-brands-svg-icons'
 
 export const plusIcon = (size, color) => (
@@ -50,4 +51,7 @@ export const backstageIcon = (size, color) => (
 )
 export const hamburgerIcon = (size, color) => (
   <FontAwesomeIcon icon={faBars} size={size} color={color} />
+)
+export const commentIcon = (size, color) => (
+  <FontAwesomeIcon icon={faCommentAlt} size={size} color={color} />
 )
