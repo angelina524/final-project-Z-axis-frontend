@@ -60,13 +60,11 @@ const Navbar = () => {
         <NavbarLinks>
           <Link to="/">首頁</Link>
           <Link to="/login">登入</Link>
-          {location.pathname === '/'
-            ? (
+          {location.pathname === '/' && (
             <RegisterNow onClick={goToBottom}>立即註冊</RegisterNow>
-              )
-            : (
-            <Link to="/register">註冊</Link>
-              )}
+          )}
+          {location.pathname !== '/' && <Link to="/register">註冊</Link>}
+
           {/* <Link to='/user'>後台</Link> */}
           {/* <Link to='/logout'>登出</Link> */}
 

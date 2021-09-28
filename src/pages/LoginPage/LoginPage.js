@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 
 import { login } from '../../webapi/userApi'
 import useForm from '../../hooks/useForm'
+import storage from '../../localStorageApi'
 import {
   PromptLink,
   UserFormWrapper,
@@ -38,7 +39,7 @@ const LoginPage = () => {
       return
     }
 
-    window.localStorage.setItem('userToken', userToken)
+    storage.setUserToken(userToken)
     history.push('/')
   }
 

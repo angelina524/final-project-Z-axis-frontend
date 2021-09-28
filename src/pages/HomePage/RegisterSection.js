@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import styled from '@emotion/styled'
 
 import { register } from '../../webapi/userApi'
-import { setUserToken } from '../../localStorageApi'
+import storage from '../../localStorageApi'
 import useForm from '../../hooks/useForm'
 import {
   UserFormWrapper,
@@ -44,7 +44,7 @@ const RegisterSection = () => {
       return
     }
 
-    setUserToken(userToken)
+    storage.setUserToken(userToken)
   }
 
   useEffect(() => {

@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 
 import { register } from '../../webapi/userApi'
 import useForm from '../../hooks/useForm'
+import storage from '../../localStorageApi'
 import {
   UserFormWrapper,
   FormTitle,
@@ -40,7 +41,7 @@ const RegisterPage = () => {
       return
     }
 
-    window.localStorage.setItem('userToken', userToken)
+    storage.setUserToken(userToken)
     history.push('/')
   }
 

@@ -1,8 +1,6 @@
 import React from 'react'
 import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 
-// import Navbar from './Navbar'
-
 import LoadingPage from '../pages/LoadingPage'
 import HomePage from '../pages/HomePage'
 import LoginPage from '../pages/LoginPage'
