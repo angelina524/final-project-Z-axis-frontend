@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { createGuest } from '../../../webapi/guestApi'
 import { Button } from '../Button'
 import { setTopGuestTokenContext } from '../WebApiTestPage'
+import storage from '../../../localStorageApi'
 
 const CreateGuest = () => {
   const setTopGuestToken = useContext(setTopGuestTokenContext)
@@ -16,7 +17,7 @@ const CreateGuest = () => {
     }
     console.log({ guest })
     setTopGuestToken(guest.guestToken)
-    window.localStorage.setItem('guestToken', guest.guestToken)
+    storage.setGuestToken(guest.guestToken)
     alert('guest 產生成功，請到 console 查看')
   }
 
