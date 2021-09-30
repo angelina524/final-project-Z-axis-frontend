@@ -1,7 +1,7 @@
 import React from 'react'
 import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 
-// import Navbar from './Navbar'
+import Navbar from './Navbar'
 
 import LoadingPage from '../pages/LoadingPage'
 import HomePage from '../pages/HomePage'
@@ -13,34 +13,40 @@ import UpdateMe from '../pages/UpdateMe'
 import WebApiTestPage from '../pages/WebApiTestPage/WebApiTestPage'
 import AddPage from '../pages/AddPage'
 import FormPage from '../pages/FormPage'
+import IssuePage from '../pages/IssuePage'
 
 function App () {
   return (
     <Router>
-      {/* <Navbar /> */}
       <Switch>
         <Route exact path="/">
+          <Navbar />
           <HomePage />
         </Route>
         <Route exact path="/login">
+          <Navbar />
           <LoginPage />
         </Route>
         <Route exact path="/register">
+          <Navbar />
           <RegisterPage />
         </Route>
         <Route exact path="/user">
           <UserPage />
         </Route>
         <Route exact path="/user/me/update-password">
+          <Navbar />
           <UpdatePassword />
         </Route>
         <Route exact path="/user/me">
+          <Navbar />
           <UpdateMe />
         </Route>
         <Route exact path="/loading">
           <LoadingPage />
         </Route>
         <Route exact path="/test-web-api">
+          <Navbar />
           <WebApiTestPage />
         </Route>
         <Route exact path="/add">
@@ -48,6 +54,9 @@ function App () {
         </Route>
         <Route exact path="/form">
           <FormPage />
+        </Route>
+        <Route exact path="/issue">
+          <IssuePage />
         </Route>
       </Switch>
     </Router>

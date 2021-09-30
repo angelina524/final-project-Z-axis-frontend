@@ -73,9 +73,15 @@ export const Menu = ({ userId, nickname, MenuContent }) => {
         isMenuOpen={isMenuOpen}
         onClick={() => setIsMenuOpen((prev) => !prev)}
       />
-      <Nickname>{nickname}</Nickname>
+      <Nickname>{nickname || 'Anonymous'}</Nickname>
       <MenuContent />
       <Footer>
+        {!userId && (
+          <>
+            <Link to="/register">註冊</Link>
+            <Link to="/login">登入</Link>
+          </>
+        )}
         {userId && <Link to="/">登出</Link>}
         <Link to="/">首頁</Link>
         <p>© Z-axis 2021</p>
