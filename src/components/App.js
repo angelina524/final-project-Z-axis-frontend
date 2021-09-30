@@ -14,6 +14,7 @@ import WebApiTestPage from '../pages/WebApiTestPage/WebApiTestPage'
 import AddPage from '../pages/AddPage'
 import FormPage from '../pages/FormPage'
 import BackstagePage from '../pages/BackstagePage/BackstagePage'
+import IssueListPage from '../pages/BackstagePage/IssueListPage.js'
 
 function App () {
   return (
@@ -52,6 +53,9 @@ function App () {
         </Route>
         <Route exact path="/backstage">
           <BackstagePage />
+        </Route>
+        <Route exact path="/issues">
+          <IssueListPage />
         </Route>
       </Switch>
     </Router>
