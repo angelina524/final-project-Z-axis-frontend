@@ -13,8 +13,7 @@ import UpdateMe from '../pages/UpdateMe'
 import WebApiTestPage from '../pages/WebApiTestPage/WebApiTestPage'
 import AddPage from '../pages/AddPage'
 import FormPage from '../pages/FormPage'
-import BackstagePage from '../pages/BackstagePage/BackstagePage'
-import IssueListPage from '../pages/BackstagePage/IssueListPage.js'
+import { BackstagePage, IssueListPage } from '../pages/BackstagePages'
 
 function App () {
   return (

@@ -121,7 +121,7 @@ const BackstagePage = () => {
             </ActivityDescription>
           </ActivityContent>
           <PositionedButton color={theme.secondary_300}>
-            <StyledLink to="/issues">看更多</StyledLink>
+            <StyledLink to="/add">看更多</StyledLink>
           </PositionedButton>
         </ActivitiesContainer>
       </ActivityWrapper>
