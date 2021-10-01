@@ -19,7 +19,7 @@ const Wrapper = styled.div`
   min-height: calc(100vh - 2rem);
 `
 
-const Loader = styled.div`
+const LoaderWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -51,22 +51,21 @@ const Circle = styled.span`
 `
 
 const LoadingText = styled.h2`
-  font-family: consolas;
   color: #4167b2;
   background-color: transparent;
 `
 
-const LoadingPage = () => {
+const Loader = () => {
   return (
     <Wrapper>
-      <Loader>
+      <LoaderWrapper>
         <Circle />
         <Circle />
         <Circle />
         <LoadingText>Z-axis</LoadingText>
-      </Loader>
+      </LoaderWrapper>
     </Wrapper>
   )
 }
 
-export default LoadingPage
+export default Loader

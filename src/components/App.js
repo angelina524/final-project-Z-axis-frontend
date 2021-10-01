@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 
 import Navbar from './Navbar'
-import LoadingPage from '../pages/LoadingPage'
+import Loader from '../components/Loader'
 import HomePage from '../pages/HomePage'
 import LoginPage from '../pages/LoginPage'
 import RegisterPage from '../pages/RegisterPage'
@@ -15,6 +15,7 @@ import FormPage from '../pages/FormPage'
 import IssuePage from '../pages/IssuePage'
 import { GuestTokenContext, UserTokenContext } from '../contexts/tokenContexts'
 import { createGuest } from '../webapi/guestApi'
+import { BackstagePage, IssueListPage } from '../pages/BackstagePages'
 
 function App () {
   const [guestToken, setGuestToken] = useState(
@@ -66,13 +67,6 @@ function App () {
               <Navbar />
               <UpdateMe />
             </Route>
-            <Route exact path="/loading">
-              <LoadingPage />
-            </Route>
-            <Route exact path="/test-web-api">
-              <Navbar />
-              <WebApiTestPage />
-            </Route>
             <Route exact path="/add">
               <AddPage />
             </Route>
@@ -82,12 +76,19 @@ function App () {
             <Route exact path="/issue">
               <IssuePage />
             </Route>
+            <Route exact path="/backstage">
+              <BackstagePage />
+            </Route>
+            <Route exact path="/issues">
+              <IssueListPage />
+            </Route>
             {/* loading page */}
             <Route exact path="/loading">
-              <LoadingPage />
+              <Loader />
             </Route>
             {/* dev test */}
             <Route exact path="/test-web-api">
+              <Navbar />
               <WebApiTestPage />
             </Route>
           </Switch>

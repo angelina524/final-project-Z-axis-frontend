@@ -11,7 +11,7 @@ import {
   InputText,
   ErrorMessage,
   SubmitBtn
-} from '../utils'
+} from '../../components/form'
 
 const LoginPage = () => {
   const {

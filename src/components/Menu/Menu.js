@@ -3,8 +3,9 @@ import styled from '@emotion/styled'
 import { useTheme } from '@emotion/react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import flexJustifyAlign from '../styles/flexJustifyAlign'
-import { hamburgerIcon } from './../styles/icon'
+
+import flexJustifyAlign from '../../styles/flexJustifyAlign'
+import { hamburgerIcon } from '../icons'
 
 const MenuWrapper = styled.aside`
   z-index: 10;
@@ -63,9 +64,10 @@ const StyledHamburger = styled(Hamburger)`
   right: 0;
   transition: transform 500ms ease;
   transform: translateX(${({ isMenuOpen }) => (isMenuOpen ? '-2rem' : '3rem')});
+  cursor: pointer;
 `
 
-export const Menu = ({ userId, nickname, MenuContent }) => {
+const Menu = ({ userId, nickname, MenuContent }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   return (
     <MenuWrapper isMenuOpen={isMenuOpen}>
@@ -95,3 +97,5 @@ Menu.propTypes = {
   nickname: PropTypes.string,
   MenuContent: PropTypes.elementType
 }
+
+export default Menu

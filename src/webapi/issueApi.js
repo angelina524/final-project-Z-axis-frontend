@@ -72,9 +72,9 @@ export const getAllIssues = async (userToken) => {
     }
   })
   const { data } = response
-  const { ok, issues, message } = data
+  const { ok, issuesWithURL, message } = data
   if (!ok) throw Error(message)
-  return issues
+  return issuesWithURL
 }
 
 export const getIssue = async (issueURL) => {

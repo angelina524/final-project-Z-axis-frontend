@@ -5,7 +5,7 @@ import {
   testIcon,
   lotteryIcon,
   questionIcon
-} from './../styles/icon'
+} from '../components/icons'
 
 const optionList = [
   { iconName: plusIcon, optionName: '建立' },
