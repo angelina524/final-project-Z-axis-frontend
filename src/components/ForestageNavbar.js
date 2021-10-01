@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
+import PropTypes from 'prop-types'
 import flexJustifyAlign from '../styles/flexJustifyAlign'
 
 const Navbar = styled.div`
@@ -12,12 +13,13 @@ const Navbar = styled.div`
   z-index: 5;
   background: ${({ theme }) => theme.secondary_900};
   ${flexJustifyAlign('space-between')}
+  padding-left: 4rem;
   padding-right: 10%;
 `
 
 const FilterWrapper = styled.div`
   ${flexJustifyAlign()}
-  gap: 1.5rem;
+  gap: 1rem;
 `
 
 const FilterOption = styled.div`
@@ -25,7 +27,8 @@ const FilterOption = styled.div`
   cursor: pointer;
   padding: 0.5rem;
 
-  border-bottom: 1px solid ${({ theme }) => theme.primary};
+  border-bottom: ${({ active, theme }) =>
+    active ? `1px solid ${theme.primary}` : ''};
 `
 
 const TotalComments = styled.div`
@@ -33,17 +36,28 @@ const TotalComments = styled.div`
   font-size: 0.9rem;
 `
 
-// todo: 加漢堡
 // todo: 篩選功能
-export const ForestageIssueNavbar = () => {
+export const ForestageIssueNavbar = ({ totalComments }) => {
+  const [isActiveAll, setIsActiveAll] = useState(true)
+
   return (
     <Navbar>
       <FilterWrapper>
-        <FilterOption>所有</FilterOption>
-        <FilterOption>熱門</FilterOption>
-        <FilterOption>已讀</FilterOption>
+        <FilterOption active={isActiveAll} onClick={() => setIsActiveAll(true)}>
+          所有
+        </FilterOption>
+        <FilterOption
+          active={!isActiveAll}
+          onClick={() => setIsActiveAll(false)}
+        >
+          熱門
+        </FilterOption>
       </FilterWrapper>
-      <TotalComments>留言數 20 筆</TotalComments>
+      <TotalComments>留言數 {totalComments} 筆</TotalComments>
     </Navbar>
   )
+}
+
+ForestageIssueNavbar.propTypes = {
+  totalComments: PropTypes.number
 }

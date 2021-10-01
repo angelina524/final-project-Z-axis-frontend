@@ -77,10 +77,10 @@ export const getAllIssues = async (userToken) => {
   return issues
 }
 
-export const getIssue = async (issueId) => {
+export const getIssue = async (issueURL) => {
   let response = null
   try {
-    response = await instance.get(`/issues/${issueId}`)
+    response = await instance.get(`/issues/${issueURL}`)
   } catch (err) {
     console.log(err)
     return err

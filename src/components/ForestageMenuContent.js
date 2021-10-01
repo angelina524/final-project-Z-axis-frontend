@@ -41,6 +41,8 @@ const Button = styled.button`
 `
 
 const ForestageMenuContent = ({
+  userId,
+  issueUserId,
   title,
   description,
   beginDate,
@@ -60,13 +62,14 @@ const ForestageMenuContent = ({
         </ActivityDuration>
         <ActivityDescription>{description}</ActivityDescription>
       </ActivityWrapper>
-      {/* 判斷 userId 是否跟該 issue 的 userId 吻合，再顯示"進入此後台" */}
-      <Button>進入此後台</Button>
+      {userId === issueUserId && <Button>進入此後台</Button>}
     </>
   )
 }
 
 ForestageMenuContent.propTypes = {
+  userId: PropTypes.number,
+  issueUserId: PropTypes.number,
   title: PropTypes.string,
   description: PropTypes.string,
   beginDate: PropTypes.string,
