@@ -55,6 +55,7 @@ function App () {
               <RegisterPage />
             </Route>
             <Route exact path="/user">
+              <Navbar />
               <UserPage />
             </Route>
             <Route exact path="/user/me/update-password">
@@ -80,6 +81,14 @@ function App () {
             </Route>
             <Route exact path="/issue">
               <IssuePage />
+            </Route>
+            {/* loading page */}
+            <Route exact path="/loading">
+              <LoadingPage />
+            </Route>
+            {/* dev test */}
+            <Route exact path="/test-web-api">
+              <WebApiTestPage />
             </Route>
           </Switch>
         </Router>

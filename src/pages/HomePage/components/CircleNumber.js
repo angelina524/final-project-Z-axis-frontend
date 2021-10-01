@@ -1,12 +1,15 @@
 import styled from '@emotion/styled'
-import flexJustifyAlign from '../../styles/flexJustifyAlign'
+import flexJustifyAlign from '../../../styles/flexJustifyAlign'
 
 const CircleNumber = styled.div`
   ${flexJustifyAlign()}
-  width: 4rem;
-  height: 4rem;
+  width: 5rem;
+  height: 5rem;
   border-radius: 50%;
   border: 2px solid ${({ theme }) => theme.secondary_300};
+  color: ${({ theme }) => theme.secondary_300};
+  font-size: 1.8rem;
+  font-weight: 700;
   background-color: transparent;
 `
 

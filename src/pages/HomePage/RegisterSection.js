@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import styled from '@emotion/styled'
 
 import { register } from '../../webapi/userApi'
-import useForm from '../../hooks/useForm'
 import storage from '../../localStorageApi'
+import useForm from '../../hooks/useForm'
 import {
   UserFormWrapper,
   FormTitle,
@@ -13,7 +13,11 @@ import {
   PromptLink
 } from '../utils'
 
-const RegisterPage = () => {
+const HomeUserFormWrapper = styled(UserFormWrapper)`
+  margin: 5rem 0 8rem;
+`
+
+const RegisterSection = () => {
   const {
     nickname,
     setNickname,
@@ -25,7 +29,6 @@ const RegisterPage = () => {
     setErrorMessage,
     validateRegister
   } = useForm()
-  const history = useHistory()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -42,7 +45,6 @@ const RegisterPage = () => {
     }
 
     storage.setUserToken(userToken)
-    history.push('/')
   }
 
   useEffect(() => {
@@ -50,8 +52,8 @@ const RegisterPage = () => {
   }, [nickname, email, password])
 
   return (
-    <UserFormWrapper onSubmit={handleSubmit}>
-      <FormTitle>註冊</FormTitle>
+    <HomeUserFormWrapper onSubmit={handleSubmit}>
+      <FormTitle>立即註冊</FormTitle>
       <InputText
         value={nickname}
         onChange={(e) => setNickname(e.target.value)}
@@ -73,8 +75,8 @@ const RegisterPage = () => {
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       <SubmitBtn type="submit">送出</SubmitBtn>
       <PromptLink to="/login">已經有帳號？ 按此登入</PromptLink>
-    </UserFormWrapper>
+    </HomeUserFormWrapper>
   )
 }
 
-export default RegisterPage
+export default RegisterSection

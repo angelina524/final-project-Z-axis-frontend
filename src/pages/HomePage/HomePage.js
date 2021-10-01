@@ -1,50 +1,29 @@
 import React from 'react'
-import { Wrapper } from '../utils'
-import BackgroundCircle from './BackgroundCircle'
-import BackgroundCircleDashed from './BackgroundCircleDashed'
-import BackgroundRectangle from './BackgroundRectangle'
-import CircleNumber from './CircleNumber'
-import Curve from './Curve'
-
-import IssuePattern from './components/IssuePattern'
-import TestPattern from './components/TestPattern'
-import LotteryPattern from './components/LotteryPattern'
-
 import styled from '@emotion/styled'
-const BiggerPattern = styled.div`
-  display: inline-block;
-  transform: scale(1.6) translate(100%, -50%);
+
+import MainSection from './MainSection'
+import TextSection from './TextSection'
+import IssueSection from './IssueSection'
+import TestSection from './TestSection'
+import LotterySection from './LotterySection'
+import RegisterSection from './RegisterSection'
+
+import { Wrapper } from '../utils'
+
+const HomePageWrapper = styled(Wrapper)`
+  min-height: 300vh;
 `
 
 const HomePage = () => {
   return (
-    <Wrapper>
-      <Curve />
-      <h1>homepage</h1>
-      <p>z-axis</p>
-      <BackgroundCircle />
-      <BackgroundCircleDashed />
-      <CircleNumber>.01</CircleNumber>
-      <CircleNumber>.02</CircleNumber>
-      <CircleNumber>.03</CircleNumber>
-      <CircleNumber>.04</CircleNumber>
-      <BackgroundRectangle />
-
-      <IssuePattern />
-      <BiggerPattern>
-        <IssuePattern />
-      </BiggerPattern>
-      <TestPattern />
-      <BiggerPattern>
-        <TestPattern />
-      </BiggerPattern>
-      <LotteryPattern />
-      <BiggerPattern>
-        <LotteryPattern />
-
-      </BiggerPattern>
-    </Wrapper>
-
+    <HomePageWrapper>
+      <MainSection />
+      <TextSection />
+      <IssueSection />
+      <TestSection />
+      <LotterySection />
+      <RegisterSection />
+    </HomePageWrapper>
   )
 }
 

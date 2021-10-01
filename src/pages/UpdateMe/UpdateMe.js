@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
-import { useHistory } from 'react-router'
+import { useHistory } from 'react-router-dom'
 
 import { getMe, updateMe } from '../../webapi/userApi'
 import useForm from '../../hooks/useForm'
+import storage from '../../localStorageApi'
 import {
   UserFormWrapper,
   FormTitle,
@@ -25,9 +26,11 @@ const UpdateMe = () => {
   const history = useHistory()
 
   // 暫時在這裡拿 userToken
-  const userToken = window.localStorage.getItem('userToken')
+  const userToken = storage.getUserToken()
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
     const isFormValid = validateUpdateMe()
     if (!isFormValid) return
 
@@ -39,7 +42,7 @@ const UpdateMe = () => {
       return
     }
 
-    window.localStorage.setItem('userToken', newUserToken)
+    storage.setUserToken(newUserToken)
     history.push('/user')
   }
 
@@ -63,7 +66,7 @@ const UpdateMe = () => {
   }, [nickname, email])
 
   return (
-    <UserFormWrapper>
+    <UserFormWrapper onSubmit={handleSubmit}>
       <FormTitle>修改個人資料</FormTitle>
       <InputText
         value={nickname}
@@ -78,9 +81,7 @@ const UpdateMe = () => {
         placeholder="信箱"
       />
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-      <SubmitBtn onClick={handleSubmit} type="submit">
-        送出
-      </SubmitBtn>
+      <SubmitBtn type="submit">送出</SubmitBtn>
       <PromptLink to="/user/me/update-password">修改密碼？ 按此修改</PromptLink>
     </UserFormWrapper>
   )

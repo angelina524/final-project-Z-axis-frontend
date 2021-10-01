@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
-import { useHistory } from 'react-router'
+import { useHistory } from 'react-router-dom'
 
 import { login } from '../../webapi/userApi'
 import useForm from '../../hooks/useForm'
+import storage from '../../localStorageApi'
 import {
   PromptLink,
   UserFormWrapper,
@@ -24,7 +25,9 @@ const LoginPage = () => {
   } = useForm()
   const history = useHistory()
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
     const isFormValid = validateLogin()
     if (!isFormValid) return
 
@@ -36,7 +39,7 @@ const LoginPage = () => {
       return
     }
 
-    window.localStorage.setItem('userToken', userToken)
+    storage.setUserToken(userToken)
     history.push('/')
   }
 
@@ -45,7 +48,7 @@ const LoginPage = () => {
   }, [email, password])
 
   return (
-    <UserFormWrapper>
+    <UserFormWrapper onSubmit={handleSubmit}>
       <FormTitle>登入</FormTitle>
       <InputText
         value={email}
@@ -60,9 +63,7 @@ const LoginPage = () => {
         placeholder="密碼"
       />
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-      <SubmitBtn onClick={handleSubmit} type="submit">
-        送出
-      </SubmitBtn>
+      <SubmitBtn type="submit">送出</SubmitBtn>
       <PromptLink to="/register">還沒有帳號？ 按此註冊</PromptLink>
     </UserFormWrapper>
   )

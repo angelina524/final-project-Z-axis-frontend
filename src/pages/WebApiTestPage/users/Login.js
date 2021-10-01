@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { login } from '../../../webapi/userApi'
 import { setTopUserTokenContext } from '../WebApiTestPage'
+import storage from '../../../localStorageApi'
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -20,7 +21,7 @@ const Login = () => {
     }
     console.log({ userToken })
     alert('翻迎肥來，請到 console 複製你的 token')
-    window.localStorage.setItem('userToken', userToken)
+    storage.setUserToken(userToken)
     setTopUserToken(userToken)
 
     setEmail('')

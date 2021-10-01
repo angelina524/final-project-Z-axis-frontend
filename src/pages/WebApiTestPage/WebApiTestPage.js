@@ -18,6 +18,7 @@ import Register from './users/Register'
 import UpdateMe from './users/UpdateMe'
 import UpdatePassword from './users/UpdatePassword'
 import WebApiTestPageStyle from './WebApiTestPageStyle'
+import storage from '../../localStorageApi'
 
 export const topUserTokenContext = createContext('')
 export const setTopUserTokenContext = createContext('')
@@ -28,8 +29,8 @@ const WebApiTestPage = () => {
   const [topGuestToken, setTopGuestToken] = useState('')
 
   useEffect(() => {
-    const userToken = window.localStorage.getItem('userToken')
-    const guestToken = window.localStorage.getItem('guestToken')
+    const userToken = storage.getUserToken()
+    const guestToken = storage.getGuestToken()
     if (userToken) setTopUserToken(userToken)
     if (guestToken) setTopGuestToken(guestToken)
   }, [])
