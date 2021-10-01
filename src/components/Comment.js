@@ -179,7 +179,7 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
   const [reply, setReply] = useState(comment.reply || '')
   const [isReplyOpen, setIsReplyOpen] = useState(false)
   const [isReplyFormOpen, setIsReplyFormOpen] = useState(false)
-  const [isOptionOpen, setIsOptionOpen] = useState(false)
+  const [isOptionsOpen, setIsOptionsOpen] = useState(false)
   const [isCommentFormOpen, setIsCommentFormOpen] = useState(false)
 
   const { IssueId, id } = comment
@@ -192,18 +192,18 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
 
   const handleReplyClick = async (e) => {
     e.preventDefault()
-    if (reply === '') return
+    if (!reply) return
     await updateReply(userToken, IssueId, id, reply)
 
     setReply('')
     setIsReplyFormOpen(false)
-    setIsOptionOpen(false)
+    setIsOptionsOpen(false)
   }
 
   const handleDeleteReplyClick = async () => {
     await updateReply(userToken, IssueId, id, '')
 
-    setIsOptionOpen(false)
+    setIsOptionsOpen(false)
   }
 
   const handleUpdateCommentClick = async (e) => {
@@ -214,13 +214,13 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
     setNickname('')
     setContent('')
     setIsCommentFormOpen(false)
-    setIsOptionOpen(false)
+    setIsOptionsOpen(false)
   }
 
   const handleDeleteCommentClick = async () => {
     await deleteComment(guestToken, userToken, IssueId, id)
 
-    setIsOptionOpen(false)
+    setIsOptionsOpen(false)
   }
 
   return (
@@ -232,7 +232,7 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
           {!isCommentFormOpen && (
             <>
               <Text>{comment.content}</Text>
-              <LikesBtn onClick={() => setLikesNum(likesNum + 1)}>
+              <LikesBtn onClick={() => setLikesNum((prev) => prev + 1)}>
                 {thumbsUpIcon('1x', theme.secondary_300)}
                 {likesNum}
               </LikesBtn>
@@ -245,13 +245,13 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
                   rows="1"
                   value={nickname}
                   onChange={(e) => setNickname(e.target.value)}
-                  placeholder={'輸入暱稱'}
+                  placeholder="輸入暱稱"
                 />
                 <CommentInput
                   rows="3"
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  placeholder={'輸入留言'}
+                  placeholder="輸入留言"
                 />
               </div>
               <SubmitCommentBtn onClick={handleUpdateCommentClick}>
@@ -273,7 +273,7 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
                 rows="3"
                 value={reply}
                 onChange={(e) => setReply(e.target.value)}
-                placeholder={'輸入回覆'}
+                placeholder="輸入回覆"
               />
               <SubmitReplyBtn onClick={handleReplyClick}>
                 {sendIcon('2x', theme.primary)}
@@ -281,7 +281,7 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
             </ReplyForm>
           </Reply>
         )}
-        {isOptionOpen && (
+        {isOptionsOpen && (
           <CommentBottom>
             {userId === issueUserId && !comment.reply && (
               <>
@@ -347,7 +347,7 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
         <CreatedTime>{moment(comment.createdAt).fromNow()}</CreatedTime>
         <div
           onClick={() => {
-            setIsOptionOpen(!isOptionOpen)
+            setIsOptionsOpen(!isOptionsOpen)
             setIsReplyFormOpen(false)
             setIsCommentFormOpen(false)
           }}

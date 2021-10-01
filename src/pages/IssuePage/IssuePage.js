@@ -35,27 +35,18 @@ const CommentsWrapper = styled.div`
 `
 
 const IssuePage = () => {
-  const [issue, setIssue] = useState([])
+  const [issue, setIssue] = useState({})
   const [comments, setComments] = useState([])
   const [userId, setUserId] = useState(null)
   const [userNickname, setUserNickname] = useState(null)
-  const [userToken, setUserToken] = useState(null)
   const [guestToken, setGuestToken] = useState(null)
+  const userToken = window.localStorage.getItem('userToken')
 
   // issueURL 暫時寫死
-  // guestToken, userToken 待優化
+  // guestToken 待優化
   // filter 待完成
   // websocket 待完成
   useEffect(() => {
-    const getUserToken = async () => {
-      await setUserToken(localStorage.getItem('userToken'))
-      if (userToken) {
-        const userData = await getMe(localStorage.getItem('userToken'))
-        setUserId(userData.id)
-        setUserNickname(userData.nickname)
-      }
-    }
-
     const getGuestToken = async () => {
       if (localStorage.getItem('guestToken')) {
         setGuestToken(localStorage.getItem('guestToken'))
@@ -66,17 +57,24 @@ const IssuePage = () => {
       }
     }
 
-    const getIssueAndComments = async (issueURL) => {
-      const issueData = await getIssue(issueURL)
+    getGuestToken()
+
+    const doAsyncEffects = async () => {
+      const issueData = await getIssue('0e36ddb504d5ca0cf414fe0fd16fb9bf')
       setIssue(issueData)
+
       const commentsData = await getAllComments(issueData.id)
-      return setComments(commentsData)
+      setComments(commentsData)
+
+      if (userToken) {
+        const userData = await getMe(localStorage.getItem('userToken'))
+        setUserId(userData.id)
+        setUserNickname(userData.nickname)
+      }
     }
 
-    getUserToken()
-    getGuestToken()
-    getIssueAndComments('0e36ddb504d5ca0cf414fe0fd16fb9bf')
-  }, [userToken, guestToken])
+    doAsyncEffects()
+  }, [])
 
   const menuContent = () => {
     const beginTime = new Date(issue.beginTime).toLocaleDateString()

@@ -27,11 +27,7 @@ const FilterOption = styled.div`
   cursor: pointer;
   padding: 0.5rem;
 
-  ${(props) =>
-    props.active === 'active' &&
-    `
-      border-bottom: 1px solid #4167B2;
-    `}
+  border-bottom: ${({ active }) => (active ? '1px solid #4167B2' : '')};
 `
 
 const TotalComments = styled.div`
@@ -53,16 +49,10 @@ export const ForestageIssueNavbar = ({ totalComments }) => {
   return (
     <Navbar>
       <FilterWrapper>
-        <FilterOption
-          active={isActiveAll ? 'active' : ''}
-          onClick={handleFilterAllClick}
-        >
+        <FilterOption active={isActiveAll} onClick={handleFilterAllClick}>
           所有
         </FilterOption>
-        <FilterOption
-          active={isActiveAll ? '' : 'active'}
-          onClick={handleFilterPopularClick}
-        >
+        <FilterOption active={!isActiveAll} onClick={handleFilterPopularClick}>
           熱門
         </FilterOption>
       </FilterWrapper>
@@ -72,6 +62,5 @@ export const ForestageIssueNavbar = ({ totalComments }) => {
 }
 
 ForestageIssueNavbar.propTypes = {
-  setCurrentFilter: PropTypes.func,
   totalComments: PropTypes.number
 }

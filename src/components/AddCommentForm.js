@@ -46,7 +46,7 @@ const CommentInput = styled.input`
   }
 `
 
-const CommentSubmitBtn = styled.div`
+const CommentSubmitBtn = styled.button`
   background: none;
   border: none;
   cursor: pointer;
@@ -57,19 +57,18 @@ const AddCommentForm = ({ IssueId, guestToken }) => {
   const [nickname, setNickname] = useState('')
   const [content, setContent] = useState('')
 
-  const handleCommentSubmit = async (e) => {
+  const handleCommentFormSubmit = async (e) => {
     e.preventDefault()
-    if (content === '') {
-      return
-    }
+    if (!content) return
     await createComment(guestToken, IssueId, nickname, content)
 
     setNickname('')
     setContent('')
+    return console.log(nickname, content)
   }
 
   return (
-    <AddCommentFormWrapper>
+    <AddCommentFormWrapper onSubmit={handleCommentFormSubmit}>
       <NicknameInput
         value={nickname}
         onChange={(e) => setNickname(e.target.value)}
@@ -80,9 +79,7 @@ const AddCommentForm = ({ IssueId, guestToken }) => {
         onChange={(e) => setContent(e.target.value)}
         placeholder="輸入留言"
       />
-      <CommentSubmitBtn onClick={handleCommentSubmit}>
-        {sendIcon('2x', theme.primary)}
-      </CommentSubmitBtn>
+      <CommentSubmitBtn>{sendIcon('2x', theme.primary)}</CommentSubmitBtn>
     </AddCommentFormWrapper>
   )
 }
