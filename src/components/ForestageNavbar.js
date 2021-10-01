@@ -39,21 +39,17 @@ const TotalComments = styled.div`
 // todo: 篩選功能
 export const ForestageIssueNavbar = ({ totalComments }) => {
   const [isActiveAll, setIsActiveAll] = useState(true)
-  const handleFilterAllClick = () => {
-    setIsActiveAll(true)
-  }
-
-  const handleFilterPopularClick = () => {
-    setIsActiveAll(false)
-  }
 
   return (
     <Navbar>
       <FilterWrapper>
-        <FilterOption active={isActiveAll} onClick={handleFilterAllClick}>
+        <FilterOption active={isActiveAll} onClick={() => setIsActiveAll(true)}>
           所有
         </FilterOption>
-        <FilterOption active={!isActiveAll} onClick={handleFilterPopularClick}>
+        <FilterOption
+          active={!isActiveAll}
+          onClick={() => setIsActiveAll(false)}
+        >
           熱門
         </FilterOption>
       </FilterWrapper>
