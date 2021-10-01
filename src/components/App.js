@@ -16,6 +16,7 @@ import IssuePage from '../pages/IssuePage'
 import { GuestTokenContext, UserTokenContext } from '../contexts/tokenContexts'
 import { createGuest } from '../webapi/guestApi'
 import { BackstagePage, IssueListPage } from '../pages/BackstagePages'
+import BackstageSinglePage from '../pages/BackstageSinglePage'
 
 function App () {
   const [guestToken, setGuestToken] = useState(
@@ -78,6 +79,9 @@ function App () {
             </Route>
             <Route exact path="/backstage">
               <BackstagePage />
+            </Route>
+            <Route exact path="/backstage/issues/:url">
+              <BackstageSinglePage />
             </Route>
             <Route exact path="/issues">
               <IssueListPage />
