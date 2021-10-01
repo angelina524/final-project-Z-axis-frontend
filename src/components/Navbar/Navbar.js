@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { Link, useLocation } from 'react-router-dom'
-import Logo from './Logo'
-import flexJustifyAlign from '../styles/flexJustifyAlign'
+import Logo from '../Logo'
+import flexJustifyAlign from '../../styles/flexJustifyAlign'
 
 const Wrapper = styled.div`
   ${flexJustifyAlign()}

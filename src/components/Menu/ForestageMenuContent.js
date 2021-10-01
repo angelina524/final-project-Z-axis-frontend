@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import PropTypes from 'prop-types'
-import flexJustifyAlign from '../styles/flexJustifyAlign'
-import { issueIcon } from '../styles/icon'
 import { useTheme } from '@emotion/react'
+import PropTypes from 'prop-types'
+import flexJustifyAlign from '../../styles/flexJustifyAlign'
+import { issueIcon } from '../icons'
 
 const ActivityWrapper = styled.div`
   ${flexJustifyAlign('', 'flex-start')}

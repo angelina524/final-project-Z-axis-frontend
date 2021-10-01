@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import PropTypes from 'prop-types'
-import flexJustifyAlign from '../styles/flexJustifyAlign'
+import flexJustifyAlign from '../../styles/flexJustifyAlign'
 
 const Navbar = styled.div`
   width: 100%;

@@ -7,7 +7,7 @@ import IssueSection from './IssueSection'
 import TestSection from './TestSection'
 import LotterySection from './LotterySection'
 import RegisterSection from './RegisterSection'
-import Wrapper from '../components/Wrapper'
+import Wrapper from '../../components/Wrapper'
 
 const HomePageWrapper = styled(Wrapper)`
   min-height: 300vh;

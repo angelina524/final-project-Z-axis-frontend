@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import PropTypes from 'prop-types'
 import { useTheme } from '@emotion/react'
-import { sendIcon } from './../styles/icon'
+import { sendIcon } from './icons'
 import flexJustifyAlign from './../styles/flexJustifyAlign'
 import { createComment } from './../webapi/commentApi'
 

@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react'
 import styled from '@emotion/styled'
+
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
-import { ForestageIssueNavbar } from '../../components/ForestageNavbar'
-import { Menu } from '../../components/Menu'
-import ForestageMenuContent from '../../components/ForestageMenuContent'
+import { ForestageIssueNavbar } from '../../components/Navbar/ForestageNavbar'
+import Menu from '../../components/Menu/Menu'
+import ForestageMenuContent from '../../components/Menu/ForestageMenuContent'
 import Comment from '../../components/Comment'
 import AddCommentForm from '../../components/AddCommentForm'
 import { getAllComments } from '../../webapi/commentApi'

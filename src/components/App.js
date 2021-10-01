@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 
-import Navbar from './Navbar'
+import Navbar from './Navbar/Navbar'
 import Loader from '../components/Loader'
 import HomePage from '../pages/HomePage'
 import LoginPage from '../pages/LoginPage'

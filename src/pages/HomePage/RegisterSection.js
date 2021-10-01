@@ -11,7 +11,7 @@ import {
   ErrorMessage,
   SubmitBtn,
   PromptLink
-} from '../utils'
+} from '../../components/form'
 
 const HomeUserFormWrapper = styled(UserFormWrapper)`
   margin: 5rem 0 8rem;

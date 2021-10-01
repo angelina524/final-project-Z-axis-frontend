@@ -11,7 +11,7 @@ import {
   editIcon,
   deleteIcon,
   sendIcon
-} from './../styles/icon'
+} from './icons'
 import flexJustifyAlign from './../styles/flexJustifyAlign'
 import {
   updateReply,
