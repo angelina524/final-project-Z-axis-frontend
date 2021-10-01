@@ -1,12 +1,13 @@
 import styled from '@emotion/styled'
 import { Link } from 'react-router-dom'
-import { Wrapper } from '../utils'
+
+import Wrapper from '../../components/Wrapper'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import Button, { BUTTON_HEIGHT } from '../../components/Button'
 
 // 設置變數方便偽元素定位
-const ACTIVITIES_CONTAINER_PADDING_LEFT = '1.75rem'
-export const PSEUDO_ELEMENT_WIDTH = '12px'
+export const ACTIVITIES_CONTAINER_PADDING_LEFT = '1.75rem'
+const PSEUDO_ELEMENT_WIDTH = '12px'
 // issue title 跟前面圓點的水平差距
 const PSEUDO_ELEMENT_AND_TITLE_GAP = '3px'
 
@@ -90,10 +91,14 @@ export const ActivityInfo = styled.div`
 `
 
 export const ActivityTitle = styled.div`
-  font-size: 0.875rem;
+  font-size: 1rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `
 
 export const ActivityDescription = styled.div`
+  font-size: 0.875rem;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -110,24 +115,3 @@ export const StyledLink = styled(Link)`
   width: 100%;
   color: ${({ theme }) => theme.secondary_900};
 `
-
-export const transformDate = (date) => {
-  const mm = date.getMonth() + 1 // getMonth() is zero-based
-  const dd = date.getDate()
-
-  return [
-    date.getFullYear(),
-    (mm > 9 ? '' : '0') + mm,
-    (dd > 9 ? '' : '0') + dd
-  ].join('/')
-}
-
-export const isIssueFinished = (issue) =>
-  Date.UTC(...new Date().toLocaleDateString().split('/')) >
-  Date.UTC(...issue.finishTime.substring(0, 10).split('-'))
-export const isIssueOncoming = (issue) =>
-  Date.UTC(...new Date().toLocaleDateString().split('/')) <
-  Date.UTC(...issue.beginTime.substring(0, 10).split('-'))
-export const isIssueOngoing = (issue) =>
-  Date.UTC(...new Date().toLocaleDateString().split('/')) >=
-  Date.UTC(...issue.beginTime.substring(0, 10).split('-'))

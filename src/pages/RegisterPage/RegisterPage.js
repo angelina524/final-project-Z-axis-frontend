@@ -10,7 +10,7 @@ import {
   ErrorMessage,
   SubmitBtn,
   PromptLink
-} from '../utils'
+} from '../../components/form'
 
 const RegisterPage = () => {
   const {

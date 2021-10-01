@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { plusIcon } from '../../styles/icon'
+import { plusIcon } from '../../components/icons'
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
 import { DateRange } from 'react-date-range'
-import { BackstageNavbar } from '../../components/BackstageNavbar'
-import { Menu } from '../../components/Menu'
-import BackstageMenuContent from '../../components/BackstageMenuContent'
+import { BackstageNavbar } from '../../components/Navbar/BackstageNavbar'
+import Menu from '../../components/Menu/Menu'
+import BackstageMenuContent from '../../components/Menu/BackstageMenuContent'
 import {
   AddFormWrapper,
   FormTitle,
   InputText,
   ErrorMessage,
   SubmitBtn
-} from '../utils'
+} from '../../components/form'
 
 const FormPage = () => {
   const [title, setTitle] = useState('')

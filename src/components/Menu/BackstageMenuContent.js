@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import PropTypes from 'prop-types'
-import flexJustifyAlign from '../styles/flexJustifyAlign'
 import { useTheme } from '@emotion/react'
-import optionList from '../constants/optionList'
+import PropTypes from 'prop-types'
+import flexJustifyAlign from '../../styles/flexJustifyAlign'
+import optionList from '../../constants/optionList'
 
 const BackStageMenu = styled.div`
   ${flexJustifyAlign()}

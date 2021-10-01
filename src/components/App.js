@@ -3,7 +3,7 @@ import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 
 // import Navbar from './Navbar'
 
-import LoadingPage from '../pages/LoadingPage.js'
+import Loader from '../components/Loader'
 import HomePage from '../pages/HomePage'
 import LoginPage from '../pages/LoginPage'
 import RegisterPage from '../pages/RegisterPage'
@@ -39,7 +39,7 @@ function App () {
           <UpdateMe />
         </Route>
         <Route exact path="/loading">
-          <LoadingPage />
+          <Loader />
         </Route>
         <Route exact path="/test-web-api">
           <WebApiTestPage />

@@ -4,6 +4,7 @@ import styled from '@emotion/styled'
 
 import {
   ActivitiesContainer,
+  ACTIVITIES_CONTAINER_PADDING_LEFT,
   ActivityContent,
   ActivityDescription,
   ActivityHeader,
@@ -11,30 +12,34 @@ import {
   ActivityTitle,
   ActivityType,
   ActivityWrapper,
+  PositionedButton,
+  StyledLink
+} from './components'
+import { BackstageSearchNavbar } from '../../components/Navbar/BackstageNavbar'
+import BackstageMenuContent from '../../components/Menu/BackstageMenuContent'
+import Menu from '../../components/Menu/Menu'
+import { commentIcon, goToTopIcon, issueIcon } from '../../components/icons'
+import { getAllIssues } from '../../webapi/issueApi'
+import flexJustifyAlign from '../../styles/flexJustifyAlign'
+import {
   isIssueFinished,
   isIssueOncoming,
   isIssueOngoing,
-  PositionedButton,
-  PSEUDO_ELEMENT_WIDTH,
-  StyledLink,
   transformDate
-} from './utils'
-import { BackstageSearchNavbar } from '../../components/BackstageNavbar'
-import BackstageMenuContent from '../../components/BackstageMenuContent'
-import { Menu } from '../../components/Menu'
-import { commentIcon, issueIcon } from '../../styles/icon'
-import { getAllIssues } from '../../webapi/issueApi'
-import { BUTTON_HEIGHT } from '../../components/Button'
+} from '../../utils'
 
 const GoToTopButton = styled.button`
-  background: transparent;
+  ${flexJustifyAlign()}
+  flex-direction: column;
+  background: ${({ theme }) => theme.secondary_900};
   border: none;
   font-size: 0.875rem;
+  cursor: pointer;
+  left: -${ACTIVITIES_CONTAINER_PADDING_LEFT};
+  transform: translateX(-50%);
 
   &::before {
-    top: calc(
-      calc(var(${BUTTON_HEIGHT}) - ${PSEUDO_ELEMENT_WIDTH}) / 2
-    ) !important;
+    display: none;
   }
 `
 
@@ -80,6 +85,7 @@ const IssueListPage = () => {
 
   const renderIssues = (issueList, status) => {
     if (!issueList.length) issueList = exampleIssue
+
     return issueList.map(({ issue, url }) => (
       <ActivityContent
         key={issue.id}
@@ -102,6 +108,35 @@ const IssueListPage = () => {
     ))
   }
 
+  const renderOncomingSection = () => (
+    <ActivitiesContainer color={theme.secondary_300}>
+      {renderIssues(oncomingIssues, '即將發布')}
+      <PositionedButton>
+        <StyledLink to="/form">建立</StyledLink>
+      </PositionedButton>
+    </ActivitiesContainer>
+  )
+  const renderOngoingSection = () => (
+    <ActivitiesContainer color={theme.primary}>
+      {renderIssues(ongoingIssues, '進行中')}
+      <GoToTopButton
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      >
+        {goToTopIcon('2x', theme.secondary_200)} 回頂端
+      </GoToTopButton>
+    </ActivitiesContainer>
+  )
+  const renderFinishedSection = () => (
+    <ActivitiesContainer color={theme.secondary_200}>
+      {renderIssues(finishedIssues, '已截止')}
+      <GoToTopButton
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      >
+        {goToTopIcon('2x', theme.secondary_200)} 回頂端
+      </GoToTopButton>
+    </ActivitiesContainer>
+  )
+
   return (
     <>
       <Menu userId={1} nickname="allen" MenuContent={BackstageMenuContent} />
@@ -111,28 +146,9 @@ const IssueListPage = () => {
           {issueIcon('2x', theme.secondary_200)}
           留言箱
         </ActivityType>
-        <ActivitiesContainer color={theme.secondary_300}>
-          {renderIssues(oncomingIssues, '即將發布')}
-          <PositionedButton>
-            <StyledLink to="/form">建立</StyledLink>
-          </PositionedButton>
-        </ActivitiesContainer>
-        <ActivitiesContainer color={theme.primary}>
-          {renderIssues(ongoingIssues, '進行中')}
-          <GoToTopButton
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          >
-            按此回頂端
-          </GoToTopButton>
-        </ActivitiesContainer>
-        <ActivitiesContainer color={theme.secondary_200}>
-          {renderIssues(finishedIssues, '已截止')}
-          <GoToTopButton
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          >
-            按此回頂端
-          </GoToTopButton>
-        </ActivitiesContainer>
+        {renderOncomingSection()}
+        {renderOngoingSection()}
+        {renderFinishedSection()}
       </ActivityWrapper>
     </>
   )

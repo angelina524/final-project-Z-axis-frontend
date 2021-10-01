@@ -1,14 +1,7 @@
 import styled from '@emotion/styled'
 import { Link } from 'react-router-dom'
 
-import flexJustifyAlign from './../styles/flexJustifyAlign'
-
-export const Wrapper = styled.div`
-  width: 100%;
-  padding: 2rem;
-  position: relative;
-  overflow: hidden;
-`
+import flexJustifyAlign from '../styles/flexJustifyAlign'
 
 export const UserFormWrapper = styled.form`
   position: relative;
@@ -65,14 +58,3 @@ export const PromptLink = styled(Link)`
   text-decoration: none;
   color: ${({ theme }) => theme.primary};
 `
-
-export const isEmailFormatValid = (email) => {
-  const regex =
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-  return regex.test(email)
-}
-
-export const isPasswordFormatValid = (email) => {
-  const regex = /^.*(?=.{8,})(?=.*\d)(?=.*[a-z]).*$/
-  return regex.test(email)
-}

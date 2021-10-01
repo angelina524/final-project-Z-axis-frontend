@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { isEmailFormatValid, isPasswordFormatValid } from '../pages/utils'
+import { isEmailFormatValid, isPasswordFormatValid } from '../utils'
 
 const useForm = () => {
   const [nickname, setNickname] = useState('')

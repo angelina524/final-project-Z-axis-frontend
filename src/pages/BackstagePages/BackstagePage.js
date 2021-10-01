@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useTheme } from '@emotion/react'
-import { BackstageSearchNavbar } from '../../components/BackstageNavbar'
-import BackstageMenuContent from '../../components/BackstageMenuContent'
-import { Menu } from '../../components/Menu'
-import { commentIcon, issueIcon, testIcon } from '../../styles/icon'
+
+import { BackstageSearchNavbar } from '../../components/Navbar/BackstageNavbar'
+import BackstageMenuContent from '../../components/Menu/BackstageMenuContent'
+import Menu from '../../components/Menu/Menu'
+import { commentIcon, issueIcon, testIcon } from '../../components/icons'
 import { getAllIssues } from '../../webapi/issueApi'
 import {
   ActivitiesContainer,
@@ -14,13 +15,15 @@ import {
   ActivityTitle,
   ActivityType,
   ActivityWrapper,
+  PositionedButton,
+  StyledLink
+} from './components'
+import {
   isIssueFinished,
   isIssueOncoming,
   isIssueOngoing,
-  PositionedButton,
-  StyledLink,
   transformDate
-} from './utils'
+} from '../../utils'
 
 const getIssueStatus = (issue) => {
   if (isIssueFinished(issue)) return '已截止'
@@ -70,22 +73,26 @@ const BackstagePage = () => {
         )
       })
 
+  const renderIssueSection = () => (
+    <ActivityWrapper>
+      <ActivityType>
+        {issueIcon('2x', theme.secondary_200)}
+        留言箱
+      </ActivityType>
+      <ActivitiesContainer color={theme.secondary_300}>
+        {renderIssues()}
+        <PositionedButton color={theme.secondary_300}>
+          <StyledLink to="/issues">看更多</StyledLink>
+        </PositionedButton>
+      </ActivitiesContainer>
+    </ActivityWrapper>
+  )
+
   return (
     <>
       <Menu userId={1} nickname="allen" MenuContent={BackstageMenuContent} />
       <BackstageSearchNavbar />
-      <ActivityWrapper>
-        <ActivityType>
-          {issueIcon('2x', theme.secondary_200)}
-          留言箱
-        </ActivityType>
-        <ActivitiesContainer color={theme.secondary_300}>
-          {renderIssues()}
-          <PositionedButton color={theme.secondary_300}>
-            <StyledLink to="/issues">看更多</StyledLink>
-          </PositionedButton>
-        </ActivitiesContainer>
-      </ActivityWrapper>
+      {renderIssueSection()}
 
       {/* 以下測驗為假資料先填空，沒有實際功能 */}
       <ActivityWrapper>

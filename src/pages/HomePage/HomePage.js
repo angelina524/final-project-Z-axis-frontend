@@ -1,5 +1,7 @@
 import React from 'react'
-import { Wrapper } from '../utils'
+import styled from '@emotion/styled'
+
+import Wrapper from '../../components/Wrapper'
 import BackgroundCircle from './BackgroundCircle'
 import BackgroundCircleDashed from './BackgroundCircleDashed'
 import BackgroundRectangle from './BackgroundRectangle'
@@ -10,7 +12,6 @@ import IssuePattern from './components/IssuePattern'
 import TestPattern from './components/TestPattern'
 import LotteryPattern from './components/LotteryPattern'
 
-import styled from '@emotion/styled'
 const BiggerPattern = styled.div`
   display: inline-block;
   transform: scale(1.6) translate(100%, -50%);
@@ -41,10 +42,8 @@ const HomePage = () => {
       <LotteryPattern />
       <BiggerPattern>
         <LotteryPattern />
-
       </BiggerPattern>
     </Wrapper>
-
   )
 }
 

@@ -13,7 +13,10 @@ import {
   faCommentDots,
   faBars
 } from '@fortawesome/free-solid-svg-icons'
-import { faCommentAlt } from '@fortawesome/free-regular-svg-icons'
+import {
+  faCommentAlt,
+  faArrowAltCircleUp
+} from '@fortawesome/free-regular-svg-icons'
 import { faBuffer } from '@fortawesome/free-brands-svg-icons'
 
 export const plusIcon = (size, color) => (
@@ -54,4 +57,7 @@ export const hamburgerIcon = (size, color) => (
 )
 export const commentIcon = (size, color) => (
   <FontAwesomeIcon icon={faCommentAlt} size={size} color={color} />
+)
+export const goToTopIcon = (size, color) => (
+  <FontAwesomeIcon icon={faArrowAltCircleUp} size={size} color={color} />
 )

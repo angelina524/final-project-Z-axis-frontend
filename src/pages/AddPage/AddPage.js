@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom'
 import styled from '@emotion/styled'
 import PropTypes from 'prop-types'
 import { useTheme } from '@emotion/react'
-import { plusIcon } from '../../styles/icon'
+
+import { plusIcon } from '../../components/icons'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
-import { BackstageNavbar } from '../../components/BackstageNavbar'
-import { Menu } from '../../components/Menu'
-import BackstageMenuContent from '../../components/BackstageMenuContent'
+import { BackstageNavbar } from '../../components/Navbar/BackstageNavbar'
+import Menu from '../../components/Menu/Menu'
+import BackstageMenuContent from '../../components/Menu/BackstageMenuContent'
 import cardList from '../../constants/cardList'
 
 const Wrapper = styled.div`
