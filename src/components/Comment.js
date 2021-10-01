@@ -288,7 +288,7 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
   )
 
   const renderAddReplyOption = () => (
-    <Option onClick={() => setIsReplyFormOpen(!isReplyFormOpen)}>
+    <Option onClick={() => setIsReplyFormOpen((prev) => !prev)}>
       {replyIcon('1x', theme.secondary_300)}
       <div>回覆</div>
     </Option>
@@ -299,7 +299,7 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
       <Option
         onClick={() => {
           setIsReplyOpen(false)
-          setIsReplyFormOpen(!isReplyFormOpen)
+          setIsReplyFormOpen((prev) => !prev)
           setIsCommentFormOpen(false)
         }}
       >
@@ -317,7 +317,7 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
     <>
       <Option
         onClick={() => {
-          setIsCommentFormOpen(!isCommentFormOpen)
+          setIsCommentFormOpen((prev) => !prev)
           setIsReplyOpen(false)
           setIsReplyFormOpen(false)
         }}
@@ -357,14 +357,14 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
       </CommentContainer>
       <CommentInfo>
         {comment.reply && (
-          <div onClick={() => setIsReplyOpen(!isReplyOpen)}>
+          <div onClick={() => setIsReplyOpen((prev) => !prev)}>
             {replyIcon('1x', theme.secondary_300)}
           </div>
         )}
         <CreatedTime>{moment(comment.createdAt).fromNow()}</CreatedTime>
         <div
           onClick={() => {
-            setIsOptionsOpen(!isOptionsOpen)
+            setIsOptionsOpen((prev) => !prev)
             setIsReplyFormOpen(false)
             setIsCommentFormOpen(false)
           }}
