@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import styled from '@emotion/styled'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import { ForestageIssueNavbar } from '../../components/ForestageNavbar'
@@ -8,8 +8,11 @@ import Comment from '../../components/Comment'
 import AddCommentForm from '../../components/AddCommentForm'
 import { getAllComments } from '../../webapi/commentApi'
 import { getIssue } from '../../webapi/issueApi'
-import { createGuest } from '../../webapi/guestApi'
 import { getMe } from '../../webapi/userApi'
+import {
+  GuestTokenContext,
+  UserTokenContext
+} from '../../contexts/tokenContexts'
 
 const Wrapper = styled.div`
   height: calc(100vh-4rem);
@@ -35,30 +38,17 @@ const CommentsWrapper = styled.div`
 `
 
 const IssuePage = () => {
+  const guestToken = useContext(GuestTokenContext)
+  const userToken = useContext(UserTokenContext)
   const [issue, setIssue] = useState({})
   const [comments, setComments] = useState([])
   const [userId, setUserId] = useState(null)
   const [userNickname, setUserNickname] = useState(null)
-  const [guestToken, setGuestToken] = useState(null)
-  const userToken = window.localStorage.getItem('userToken')
 
   // issueURL 暫時寫死
-  // guestToken 待優化
   // filter 待完成
   // websocket 待完成
   useEffect(() => {
-    const getGuestToken = async () => {
-      if (localStorage.getItem('guestToken')) {
-        setGuestToken(localStorage.getItem('guestToken'))
-      } else {
-        const guest = await createGuest()
-        setGuestToken(guest.guestToken)
-        localStorage.setItem('guestToken', guestToken)
-      }
-    }
-
-    getGuestToken()
-
     const doAsyncEffects = async () => {
       const issueData = await getIssue('0e36ddb504d5ca0cf414fe0fd16fb9bf')
       setIssue(issueData)
@@ -66,17 +56,17 @@ const IssuePage = () => {
       const commentsData = await getAllComments(issueData.id)
       setComments(commentsData)
 
-      if (userToken) {
-        const userData = await getMe(localStorage.getItem('userToken'))
-        setUserId(userData.id)
-        setUserNickname(userData.nickname)
-      }
+      if (!userToken) return
+      const userData = await getMe(userToken)
+      setUserId(userData.id)
+      setUserNickname(userData.nickname)
     }
 
     doAsyncEffects()
   }, [])
 
   const menuContent = () => {
+    // todo:用統一時間 function
     const beginTime = new Date(issue.beginTime).toLocaleDateString()
     const finishTime = new Date(issue.finishTime).toLocaleDateString()
 

@@ -59,8 +59,8 @@ const AddCommentForm = ({ IssueId, guestToken }) => {
 
   const handleCommentFormSubmit = async (e) => {
     e.preventDefault()
-    if (!content) return
-    await createComment(guestToken, IssueId, nickname, content)
+    if (!content.trim()) return
+    await createComment(guestToken, IssueId, nickname.trim(), content.trim())
 
     setNickname('')
     setContent('')

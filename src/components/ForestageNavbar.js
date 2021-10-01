@@ -27,7 +27,8 @@ const FilterOption = styled.div`
   cursor: pointer;
   padding: 0.5rem;
 
-  border-bottom: ${({ active }) => (active ? '1px solid #4167B2' : '')};
+  border-bottom: ${({ active, theme }) =>
+    active ? `1px solid ${theme.primary}` : ''};
 `
 
 const TotalComments = styled.div`

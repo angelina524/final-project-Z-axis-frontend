@@ -190,10 +190,10 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
   // 置頂：等待 API
   const handlePinCommentOnTopClick = () => {}
 
-  const handleReplyClick = async (e) => {
+  const handleReplyFormSubmit = async (e) => {
     e.preventDefault()
-    if (!reply) return
-    await updateReply(userToken, IssueId, id, reply)
+    if (!reply.trim()) return
+    await updateReply(userToken, IssueId, id, reply.trim())
 
     setReply('')
     setIsReplyFormOpen(false)
@@ -206,10 +206,16 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
     setIsOptionsOpen(false)
   }
 
-  const handleUpdateCommentClick = async (e) => {
+  const handleUpdateCommentFormSubmit = async (e) => {
     e.preventDefault()
-    if (content === '') return
-    await updateComment(guestToken, IssueId, id, nickname, content)
+    if (!content.trim()) return
+    await updateComment(
+      guestToken,
+      IssueId,
+      id,
+      nickname.trim(),
+      content.trim()
+    )
 
     setNickname('')
     setContent('')
@@ -223,118 +229,129 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
     setIsOptionsOpen(false)
   }
 
+  const renderCommentContent = () => (
+    <>
+      <Text>{comment.content}</Text>
+      <LikesBtn onClick={() => setLikesNum((prev) => prev + 1)}>
+        {thumbsUpIcon('1x', theme.secondary_300)}
+        {likesNum}
+      </LikesBtn>
+    </>
+  )
+
+  const renderCommentForm = () => (
+    <CommentForm onSubmit={handleUpdateCommentFormSubmit}>
+      <div>
+        <CommentInput
+          rows="1"
+          value={nickname}
+          onChange={(e) => setNickname(e.target.value)}
+          placeholder="輸入暱稱"
+        />
+        <CommentInput
+          rows="3"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          placeholder="輸入留言"
+        />
+      </div>
+      <SubmitCommentBtn>{sendIcon('2x', theme.primary)}</SubmitCommentBtn>
+    </CommentForm>
+  )
+
+  const renderReplyContent = () => (
+    <Reply>
+      {replyIcon('1x', theme.secondary_300)}
+      <span>{comment.reply}</span>
+    </Reply>
+  )
+
+  const renderReplyForm = () => (
+    <Reply>
+      <ReplyForm onSubmit={handleReplyFormSubmit}>
+        <ReplyInput
+          rows="3"
+          value={reply}
+          onChange={(e) => setReply(e.target.value)}
+          placeholder="輸入回覆"
+        />
+        <SubmitReplyBtn>{sendIcon('2x', theme.primary)}</SubmitReplyBtn>
+      </ReplyForm>
+    </Reply>
+  )
+
+  const renderPinCommentOnTopOption = () => (
+    <Option onClick={handlePinCommentOnTopClick}>
+      {pushpinIcon('1x', theme.secondary_300)}
+      <div>置頂</div>
+    </Option>
+  )
+
+  const renderAddReplyOption = () => (
+    <Option onClick={() => setIsReplyFormOpen(!isReplyFormOpen)}>
+      {replyIcon('1x', theme.secondary_300)}
+      <div>回覆</div>
+    </Option>
+  )
+
+  const renderEditAndDeleteReplyOptions = () => (
+    <>
+      <Option
+        onClick={() => {
+          setIsReplyOpen(false)
+          setIsReplyFormOpen(!isReplyFormOpen)
+          setIsCommentFormOpen(false)
+        }}
+      >
+        {editIcon('1x', theme.secondary_300)}
+        <div>編輯回覆</div>
+      </Option>
+      <Option onClick={handleDeleteReplyClick}>
+        {deleteIcon('1x', theme.secondary_300)}
+        <div>刪除回覆</div>
+      </Option>
+    </>
+  )
+
+  const renderEditAndDeleteCommentOptions = () => (
+    <>
+      <Option
+        onClick={() => {
+          setIsCommentFormOpen(!isCommentFormOpen)
+          setIsReplyOpen(false)
+          setIsReplyFormOpen(false)
+        }}
+      >
+        {editIcon('1x', theme.secondary_300)}
+        <div>編輯留言</div>
+      </Option>
+      <Option onClick={handleDeleteCommentClick}>
+        {deleteIcon('1x', theme.secondary_300)}
+        <div>刪除留言</div>
+      </Option>
+    </>
+  )
+
   return (
     <CommentWrapper>
       <Avatar />
       <Nickname>{comment.nickname}</Nickname>
       <CommentContainer>
         <CommentTop>
-          {!isCommentFormOpen && (
-            <>
-              <Text>{comment.content}</Text>
-              <LikesBtn onClick={() => setLikesNum((prev) => prev + 1)}>
-                {thumbsUpIcon('1x', theme.secondary_300)}
-                {likesNum}
-              </LikesBtn>
-            </>
-          )}
-          {isCommentFormOpen && (
-            <CommentForm>
-              <div>
-                <CommentInput
-                  rows="1"
-                  value={nickname}
-                  onChange={(e) => setNickname(e.target.value)}
-                  placeholder="輸入暱稱"
-                />
-                <CommentInput
-                  rows="3"
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  placeholder="輸入留言"
-                />
-              </div>
-              <SubmitCommentBtn onClick={handleUpdateCommentClick}>
-                {sendIcon('2x', theme.primary)}
-              </SubmitCommentBtn>
-            </CommentForm>
-          )}
+          {!isCommentFormOpen && renderCommentContent()}
+          {isCommentFormOpen && renderCommentForm()}
         </CommentTop>
-        {isReplyOpen && comment.reply && (
-          <Reply>
-            {replyIcon('1x', theme.secondary_300)}
-            <span>{comment.reply}</span>
-          </Reply>
-        )}
-        {isReplyFormOpen && (
-          <Reply>
-            <ReplyForm>
-              <ReplyInput
-                rows="3"
-                value={reply}
-                onChange={(e) => setReply(e.target.value)}
-                placeholder="輸入回覆"
-              />
-              <SubmitReplyBtn onClick={handleReplyClick}>
-                {sendIcon('2x', theme.primary)}
-              </SubmitReplyBtn>
-            </ReplyForm>
-          </Reply>
-        )}
+        {isReplyOpen && comment.reply && renderReplyContent()}
+        {isReplyFormOpen && renderReplyForm()}
         {isOptionsOpen && (
           <CommentBottom>
-            {userId === issueUserId && !comment.reply && (
-              <>
-                <Option onClick={handlePinCommentOnTopClick}>
-                  {pushpinIcon('1x', theme.secondary_300)}
-                  <div>置頂</div>
-                </Option>
-                <Option onClick={() => setIsReplyFormOpen(!isReplyFormOpen)}>
-                  {replyIcon('1x', theme.secondary_300)}
-                  <div>回覆</div>
-                </Option>
-              </>
-            )}
-            {userId === issueUserId && comment.reply && (
-              <>
-                <Option onClick={handlePinCommentOnTopClick}>
-                  {pushpinIcon('1x', theme.secondary_300)}
-                  <div>置頂</div>
-                </Option>
-                <Option
-                  onClick={() => {
-                    setIsReplyOpen(false)
-                    setIsReplyFormOpen(!isReplyFormOpen)
-                    setIsCommentFormOpen(false)
-                  }}
-                >
-                  {editIcon('1x', theme.secondary_300)}
-                  <div>編輯回覆</div>
-                </Option>
-                <Option onClick={handleDeleteReplyClick}>
-                  {deleteIcon('1x', theme.secondary_300)}
-                  <div>刪除回覆</div>
-                </Option>
-              </>
-            )}
-            {comment.guestToken === guestToken && (
-              <>
-                <Option
-                  onClick={() => {
-                    setIsCommentFormOpen(!isCommentFormOpen)
-                    setIsReplyOpen(false)
-                    setIsReplyFormOpen(false)
-                  }}
-                >
-                  {editIcon('1x', theme.secondary_300)}
-                  <div>編輯留言</div>
-                </Option>
-                <Option onClick={handleDeleteCommentClick}>
-                  {deleteIcon('1x', theme.secondary_300)}
-                  <div>刪除留言</div>
-                </Option>
-              </>
-            )}
+            {userId === issueUserId && renderPinCommentOnTopOption()}
+            {userId === issueUserId && !comment.reply && renderAddReplyOption()}
+            {userId === issueUserId &&
+              comment.reply &&
+              renderEditAndDeleteReplyOptions()}
+            {comment.guestToken === guestToken &&
+              renderEditAndDeleteCommentOptions()}
           </CommentBottom>
         )}
       </CommentContainer>
@@ -364,7 +381,7 @@ Comment.propTypes = {
   comment: PropTypes.object,
   userId: PropTypes.number,
   issueUserId: PropTypes.number,
-  userToken: PropTypes.string,
+  userToken: PropTypes.object,
   guestToken: PropTypes.string
 }
 
