@@ -4,6 +4,7 @@ import styled from '@emotion/styled'
 import BackgroundCircleDashed from './components/BackgroundCircleDashed'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import Section from './components/Section'
+import WidthWrapper from '../../components/WidthWrapper'
 
 const SecondBackgroundCircleDashed = styled(BackgroundCircleDashed)`
   transform: scale(1.6);
@@ -26,11 +27,13 @@ const TextWrapper = styled.div`
 const TextSection = () => {
   return (
     <Section>
-      <SecondBackgroundCircleDashed />
-      <TextWrapper>
-        <p>提供 3 項即時多人互動功能，</p>
-        <p>打造與觀眾更加自由的線上互動空間。</p>
-      </TextWrapper>
+      <WidthWrapper>
+        <SecondBackgroundCircleDashed />
+        <TextWrapper>
+          <p>提供 3 項即時多人互動功能，</p>
+          <p>打造與觀眾更加自由的線上互動空間。</p>
+        </TextWrapper>
+      </WidthWrapper>
     </Section>
   )
 }

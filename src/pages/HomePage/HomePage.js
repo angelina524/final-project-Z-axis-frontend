@@ -9,6 +9,7 @@ import LotterySection from './LotterySection'
 import SurveySection from './SurveySection'
 import RegisterSection from './RegisterSection'
 import Wrapper from '../../components/Wrapper'
+import cardList from '../../constants/cardList'
 
 const HomePageWrapper = styled(Wrapper)`
   min-height: 300vh;
@@ -19,10 +20,10 @@ const HomePage = () => {
     <HomePageWrapper>
       <MainSection />
       <TextSection />
-      <IssueSection />
-      <TestSection />
-      <LotterySection />
-      <SurveySection />
+      <IssueSection cardItem={cardList[0]} />
+      <TestSection cardItem={cardList[1]} />
+      <LotterySection cardItem={cardList[2]} />
+      <SurveySection cardItem={cardList[3]} />
       <RegisterSection />
     </HomePageWrapper>
   )

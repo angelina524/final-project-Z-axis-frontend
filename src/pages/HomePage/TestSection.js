@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import PropTypes from 'prop-types'
 
 import TestPattern from './components/TestPattern'
 
@@ -8,6 +9,8 @@ import CircleNumber from './components/CircleNumber'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import Section from './components/Section'
 import TitleWrapper from './components/TitleWrapper'
+import WidthWrapper from '../../components/WidthWrapper'
+import PatternWrapper from './components/PatternWrapper'
 
 const AllBackgroundRectangle = styled(BackgroundRectangle)`
   width: 100%;
@@ -35,23 +38,31 @@ const TitleWrapperRight = styled(TitleWrapper)`
   flex-direction: column;
 `
 
-const TestSection = () => {
+const TestSection = ({ cardItem: { cardTitle, cardText } }) => {
   return (
     <Section>
-      <LocateCircleNumber top="-32px" left="10vw">
-        <CircleNumber>.02</CircleNumber>
-      </LocateCircleNumber>
-      <AllBackgroundRectangle />
-      <LocatePatternLeft>
-        <TestPattern />
-      </LocatePatternLeft>
-      <TitleWrapperRight>
-        <h3>即時測驗</h3>
-        <p>您可以創建測驗問答，</p>
-        <p>讓與參問答的觀眾進行限時測驗。</p>
-      </TitleWrapperRight>
+      <WidthWrapper>
+        <LocateCircleNumber top="-32px" left="10vw">
+          <CircleNumber>.02</CircleNumber>
+        </LocateCircleNumber>
+        <AllBackgroundRectangle />
+        <PatternWrapper>
+          <LocatePatternLeft>
+            <TestPattern />
+          </LocatePatternLeft>
+        </PatternWrapper>
+        <TitleWrapperRight>
+          <h3>{cardTitle}</h3>
+          {cardText.match(/.{1,12}/g).map((text) => (
+            <p key={text}>{text}</p>
+          ))}
+        </TitleWrapperRight>
+      </WidthWrapper>
     </Section>
   )
+}
+TestSection.propTypes = {
+  cardItem: PropTypes.object
 }
 
 export default TestSection

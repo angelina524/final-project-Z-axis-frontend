@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from '@emotion/styled'
 
-import { Wrapper } from '../utils'
-import BackstageMenuContent from '../../components/BackstageMenuContent'
-import { BackstageNavbar } from '../../components/BackstageNavbar'
-import { Menu } from '../../components/Menu'
+import Wrapper from '../../components/Wrapper'
+import BackstageMenuContent from '../../components/Menu/BackstageMenuContent'
+import { BackstageNavbar } from '../../components/Navbar/BackstageNavbar'
+import Menu from '../../components/Menu/Menu'
 import cardList from '../../constants/cardList'
 
 import EditSection from './EditSection'
@@ -18,7 +18,7 @@ const PageWrapper = styled(Wrapper)`
 
 const BackstageSinglePage = () => {
   return (
-    <PageWrapper>
+    <PageWrapper padding="0">
       <Menu
         userId={1}
         nickname="benben bunbun"

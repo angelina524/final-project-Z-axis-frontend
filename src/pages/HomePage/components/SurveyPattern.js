@@ -12,6 +12,7 @@ const Wrapper = styled.div`
 const Notepad = styled.div`
   width: 160px;
   height: 166px;
+  background: ${({ theme }) => theme.secondary_900};
   border: 18px solid ${({ theme }) => theme.secondary_300};
   border-radius: 40px;
   position: relative;

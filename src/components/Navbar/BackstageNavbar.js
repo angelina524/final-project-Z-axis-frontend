@@ -4,7 +4,7 @@ import styled from '@emotion/styled'
 import PropTypes from 'prop-types'
 import { useTheme } from '@emotion/react'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
-import ButtonOrigin from './Button'
+import ButtonOrigin from '../../components/Button'
 
 const Navbar = styled.div`
   width: 100%;
@@ -65,7 +65,7 @@ export const BackstageNavbar = ({ iconName, title }) => {
         {iconName('1x', theme.secondary_200)}
         <span>{title}</span>
       </div>
-      {location.pathname === '/backstage' && (
+      {location.pathname.indexOf('/backstage/issues') === 0 && (
         <Button backgroundColor={theme.primary}>進入此前台</Button>
       )}
     </Navbar>

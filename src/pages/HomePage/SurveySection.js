@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import PropTypes from 'prop-types'
 
 import SurveyPattern from './components/SurveyPattern'
 
@@ -8,6 +9,8 @@ import CircleNumber from './components/CircleNumber'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import Section from './components/Section'
 import TitleWrapper from './components/TitleWrapper'
+import WidthWrapper from '../../components/WidthWrapper'
+import PatternWrapper from './components/PatternWrapper'
 
 const AllBackgroundRectangle = styled(BackgroundRectangle)`
   width: 100%;
@@ -35,23 +38,31 @@ const TitleWrapperRight = styled(TitleWrapper)`
   flex-direction: column;
 `
 
-const TestSection = () => {
+const SurveySection = ({ cardItem: { cardTitle, cardText } }) => {
   return (
     <Section>
-      <LocateCircleNumber top="-32px" left="10vw">
-        <CircleNumber>.04</CircleNumber>
-      </LocateCircleNumber>
-      <AllBackgroundRectangle />
-      <LocatePatternLeft>
-        <SurveyPattern />
-      </LocatePatternLeft>
-      <TitleWrapperRight>
-        <h3>問卷調查</h3>
-        <p>按您的喜好設計並創建表單，</p>
-        <p>可快速搜集與整理觀眾的資料。</p>
-      </TitleWrapperRight>
+      <WidthWrapper>
+        <LocateCircleNumber top="-32px" left="10vw">
+          <CircleNumber>.04</CircleNumber>
+        </LocateCircleNumber>
+        <AllBackgroundRectangle />
+        <PatternWrapper>
+          <LocatePatternLeft>
+            <SurveyPattern />
+          </LocatePatternLeft>
+        </PatternWrapper>
+        <TitleWrapperRight>
+          <h3>{cardTitle}</h3>
+          {cardText.match(/.{1,12}/g).map((text) => (
+            <p key={text}>{text}</p>
+          ))}
+        </TitleWrapperRight>
+      </WidthWrapper>
     </Section>
   )
 }
+SurveySection.propTypes = {
+  cardItem: PropTypes.object
+}
 
-export default TestSection
+export default SurveySection

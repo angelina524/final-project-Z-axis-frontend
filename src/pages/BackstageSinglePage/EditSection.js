@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import styled from '@emotion/styled'
 import { useTheme } from '@emotion/react'
 
@@ -13,15 +14,14 @@ const Button = styled(ButtonOrigin)`
 const EditWrapper = styled.form`
   padding: 2rem;
   display: grid;
-  grid-template-rows: auto 2rem auto 3rem;
+  grid-template-rows: 1fr 2rem 3fr 3rem;
   grid-gap: 1rem;
   min-height: 50vh;
 `
 
 const EditTitle = styled.h3`
-  overflow: hidden;
   white-space: pre-line;
-  text-overflow: ellipsis;
+  word-break: break-all;
   color: ${({ theme }) => theme.secondary_100};
 `
 
@@ -33,35 +33,53 @@ const EditDate = styled.p`
 `
 
 const EditContent = styled.p`
-  overflow: hidden;
   white-space: pre-line;
-  text-overflow: ellipsis;
+  word-break: break-all;
 `
 
 const EditSection = () => {
   const { secondary_300: secondary300 } = useTheme()
+  const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
+  const [beginDate, setBeginDate] = useState('')
+  const [finishDate, setFinishDate] = useState('')
+  const [status, setStatus] = useState('')
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-  }
+  // test deploy backend ： OK 爽啦
+  useEffect(() => {
+    ;(async () => {
+      const res = await fetch(
+        'http://api.ben6515.tw/issues/9184bcb396b0de5ca4c86a464d075d19'
+      )
+      const {
+        issue: { title, description, beginTime, finishTime }
+      } = await res.json()
+      setTitle(title)
+      setContent(description)
+      setBeginDate(() => beginTime.slice(0, 10))
+      setFinishDate(() => finishTime.slice(0, 10))
+    })()
+  }, [])
+
+  useEffect(() => {
+    const now = new Date().toISOString().slice(0, 10)
+    const nowStatus =
+      now < beginDate ? '即將發佈' : now < finishDate ? '進行中' : '已截止'
+    setStatus(nowStatus)
+  }, [beginDate, finishDate])
 
   return (
     <SectionWrapper isGreyBackground={true}>
-      <EditWrapper onSubmit={(e) => handleSubmit(e)}>
-        <EditTitle>
-          你所不知道的 hooks s s s ss s s s s s
-          ssssssssssssssssssssssssssssssssssssssssss s s s s ss s s sss
-        </EditTitle>
+      <EditWrapper>
+        <EditTitle>{title}</EditTitle>
         <EditDate>
-          <span>進行中</span>2021/01/01 - 2021/01/05
+          <span>{status}</span>
+          {beginDate} - {finishDate}
         </EditDate>
-        <EditContent>
-          helle world hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh hello
-          hello hello hello hello hello hello hello hello hello hello hello
-          hello hello hello hello hello hello hello hello hello hello hello
-          hello hello hello hello hello hello hello hello hello hello hello
-        </EditContent>
-        <Button backgroundColor={secondary300}>編輯</Button>
+        <EditContent>{content}</EditContent>
+        <Button backgroundColor={secondary300} as={Link} to="/form">
+          編輯
+        </Button>
       </EditWrapper>
     </SectionWrapper>
   )
