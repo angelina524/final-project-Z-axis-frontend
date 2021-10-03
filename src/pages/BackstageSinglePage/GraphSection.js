@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import PropType from 'prop-types'
+import SectionWrapper from './components/SectionWrapper'
+import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import {
   LineChart,
   Line,
@@ -10,15 +12,13 @@ import {
   Tooltip,
   Legend
 } from 'recharts'
-import SectionWrapper from './components/SectionWrapper'
 
 const Buttons = styled.div`
   width: 100%;
   min-width: 400px;
   padding: 1rem 2rem;
-  display: flex;
+  ${flexJustifyAlign('space-between')}
   flex-flow: row wrap;
-  justify-content: space-between;
 `
 
 const Button = styled.div`
@@ -43,8 +43,7 @@ const Button = styled.div`
 `
 
 const GraphWrapper = styled.div`
-  display: flex;
-  justify-content: center;
+  ${flexJustifyAlign('center')}
 `
 
 const ButtonContainer = ({ filter, setFilter, data, setData }) => {

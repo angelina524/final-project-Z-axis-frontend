@@ -11,7 +11,7 @@ const Button = styled(ButtonOrigin)`
   justify-self: center;
 `
 
-const EditWrapper = styled.form`
+const EditWrapper = styled.div`
   padding: 2rem;
   display: grid;
   grid-template-rows: 1fr 2rem 3fr 3rem;
@@ -56,16 +56,18 @@ const EditSection = () => {
       } = await res.json()
       setTitle(title)
       setContent(description)
-      setBeginDate(() => beginTime.slice(0, 10))
-      setFinishDate(() => finishTime.slice(0, 10))
+      setBeginDate(beginTime.slice(0, 10))
+      setFinishDate(finishTime.slice(0, 10))
     })()
   }, [])
 
   useEffect(() => {
     const now = new Date().toISOString().slice(0, 10)
-    const nowStatus =
-      now < beginDate ? '即將發佈' : now < finishDate ? '進行中' : '已截止'
-    setStatus(nowStatus)
+    const nowStatus = () => {
+      if (now < beginDate) return '即將發佈'
+      return now < finishDate ? '進行中' : '已截止'
+    }
+    setStatus(nowStatus())
   }, [beginDate, finishDate])
 
   return (
