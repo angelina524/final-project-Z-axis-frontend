@@ -14,6 +14,7 @@ import AddPage from '../pages/AddPage'
 import FormPage from '../pages/FormPage'
 import IssuePage from '../pages/IssuePage'
 import { GuestTokenContext, UserTokenContext } from '../contexts/tokenContexts'
+import EditIssueContext from '../contexts/editIssueContext'
 import { createGuest } from '../webapi/guestApi'
 import { BackstagePage, IssueListPage } from '../pages/BackstagePages'
 import BackstageSinglePage from '../pages/BackstageSinglePage'
@@ -25,6 +26,16 @@ function App () {
   const [userToken, setUserToken] = useState(
     localStorage.getItem('userToken') || ''
   )
+  const [editIssue, setEditIssue] = useState({
+    isEdit: false,
+    title: '',
+    description: '',
+    date: {
+      startDate: new Date().getDate,
+      endDate: new Date().getDate,
+      key: 'selection'
+    }
+  })
 
   useEffect(() => {
     const doAsyncEffects = async () => {
@@ -40,63 +51,65 @@ function App () {
   return (
     <GuestTokenContext.Provider value={guestToken}>
       <UserTokenContext.Provider value={{ userToken, setUserToken }}>
-        <Router>
-          <Switch>
-            <Route exact path="/">
-              <Navbar />
-              <HomePage />
-            </Route>
-            {/* todo:useContext優化 */}
-            <Route exact path="/login">
-              <Navbar />
-              <LoginPage />
-            </Route>
-            {/* todo:useContext優化 */}
-            <Route exact path="/register">
-              <Navbar />
-              <RegisterPage />
-            </Route>
-            <Route exact path="/user">
-              <Navbar />
-              <UserPage />
-            </Route>
-            <Route exact path="/user/me/update-password">
-              <Navbar />
-              <UpdatePassword />
-            </Route>
-            <Route exact path="/user/me">
-              <Navbar />
-              <UpdateMe />
-            </Route>
-            <Route exact path="/add">
-              <AddPage />
-            </Route>
-            <Route exact path="/form">
-              <FormPage />
-            </Route>
-            <Route exact path="/issue">
-              <IssuePage />
-            </Route>
-            <Route exact path="/backstage">
-              <BackstagePage />
-            </Route>
-            <Route exact path="/backstage/issues/:url">
-              <BackstageSinglePage />
-            </Route>
-            <Route exact path="/issues">
-              <IssueListPage />
-            </Route>
-            {/* loading page */}
-            <Route exact path="/loading">
-              <Loader />
-            </Route>
-            {/* dev test */}
-            <Route exact path="/test-web-api">
-              <Navbar />
-              <WebApiTestPage />
-            </Route>
-          </Switch>
-        </Router>
+        <EditIssueContext.Provider value={{ editIssue, setEditIssue }}>
+          <Router>
+            <Switch>
+              <Route exact path="/">
+                <Navbar />
+                <HomePage />
+              </Route>
+              {/* todo:useContext優化 */}
+              <Route exact path="/login">
+                <Navbar />
+                <LoginPage />
+              </Route>
+              {/* todo:useContext優化 */}
+              <Route exact path="/register">
+                <Navbar />
+                <RegisterPage />
+              </Route>
+              <Route exact path="/user">
+                <Navbar />
+                <UserPage />
+              </Route>
+              <Route exact path="/user/me/update-password">
+                <Navbar />
+                <UpdatePassword />
+              </Route>
+              <Route exact path="/user/me">
+                <Navbar />
+                <UpdateMe />
+              </Route>
+              <Route exact path="/add">
+                <AddPage />
+              </Route>
+              <Route exact path="/form">
+                <FormPage />
+              </Route>
+              <Route exact path="/issue">
+                <IssuePage />
+              </Route>
+              <Route exact path="/backstage">
+                <BackstagePage />
+              </Route>
+              <Route exact path="/backstage/issues/:url">
+                <BackstageSinglePage />
+              </Route>
+              <Route exact path="/issues">
+                <IssueListPage />
+              </Route>
+              {/* loading page */}
+              <Route exact path="/loading">
+                <Loader />
+              </Route>
+              {/* dev test */}
+              <Route exact path="/test-web-api">
+                <Navbar />
+                <WebApiTestPage />
+              </Route>
+            </Switch>
+          </Router>
+        </EditIssueContext.Provider>
       </UserTokenContext.Provider>
     </GuestTokenContext.Provider>
   )

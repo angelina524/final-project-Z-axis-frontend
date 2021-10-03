@@ -1,4 +1,6 @@
 import React from 'react'
+import { useParams } from 'react-router-dom'
+import QRcode from 'qrcode.react'
 import styled from '@emotion/styled'
 
 import SectionWrapper from './components/SectionWrapper'
@@ -9,6 +11,10 @@ const QRcodeWrapper = styled.div`
   align-items: center;
   gap: 1.5rem;
   padding: 2rem;
+  canvas {
+    width: 100%;
+    height: 100%;
+  }
 `
 
 const Title = styled.h2`
@@ -47,31 +53,22 @@ const CopyWrapper = styled.div`
 `
 
 const QRcodeSection = () => {
-  const QRcodeImage =
-    'https://truth.bahamut.com.tw/s01/202007/46fee139876b39a8d0bef29d8853860c.JPG'
-  const URL =
-    'https://google.com.https://google.com/.https://google.com/.https://google.com/'
+  const { url: issueUrl } = useParams()
+  const QRcodeImage = `http://localhost:3000/#/backstage/issues/${issueUrl}`
+  const URL = `http://localhost:3000/#/backstage/issues/${issueUrl}`
 
-  const handleCopyQRcode = () => {
-    navigator.clipboard.writeText(QRcodeImage).then(
-      () => {
-        alert('複製成功！')
-      },
-      () => {
-        alert('複製失敗 QQ')
-      }
+  const copyToBoard = (massage) => {
+    navigator.clipboard.writeText(massage).then(
+      () => alert('複製成功！'),
+      () => alert('複製失敗 QQ')
     )
+  }
+  const handleCopyQRcode = () => {
+    copyToBoard(QRcodeImage)
   }
 
   const handleCopyURL = () => {
-    navigator.clipboard.writeText(URL).then(
-      () => {
-        alert('複製成功！')
-      },
-      () => {
-        alert('複製失敗 QQ')
-      }
-    )
+    copyToBoard(URL)
   }
 
   return (
@@ -79,7 +76,7 @@ const QRcodeSection = () => {
       <QRcodeWrapper>
         <Title>前台連結</Title>
         <QRcodeImageWrapper>
-          <img src={QRcodeImage} />
+          <QRcode value={URL} size="150" />
         </QRcodeImageWrapper>
         <CopyWrapper onClick={handleCopyQRcode}>按此複製 QR code</CopyWrapper>
         <URLWrapper>{URL}</URLWrapper>

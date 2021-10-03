@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
+import { useHistory } from 'react-router-dom'
+import EditIssueContext from '../../contexts/editIssueContext'
 import { plusIcon } from '../../components/icons'
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
@@ -15,6 +17,9 @@ import {
 } from '../../components/form'
 
 const FormPage = () => {
+  const { editIssue, setEditIssue } = useContext(EditIssueContext)
+  const { isEdit } = editIssue
+  const history = useHistory()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [date, setDate] = useState([
@@ -26,18 +31,33 @@ const FormPage = () => {
   ])
   const [errorMessage, setErrorMessage] = useState('')
 
+  if (isEdit) {
+    useEffect(() => {
+      const {
+        title,
+        description,
+        date: { startDate, endDate }
+      } = editIssue
+      setTitle(title)
+      setDescription(description)
+      setDate([
+        {
+          startDate: new Date(startDate),
+          endDate: new Date(endDate),
+          key: 'selection'
+        }
+      ])
+    }, [editIssue, isEdit])
+  }
+
   useEffect(() => {
     setErrorMessage('')
   }, [title, description, date])
 
   const handleFormSubmit = (e) => {
     e.preventDefault()
-    const startDate = new Date(date[0].startDate)
-      .toLocaleDateString()
-      .replaceAll('/', '-')
-    const endDate = new Date(date[0].endDate)
-      .toLocaleDateString()
-      .replaceAll('/', '-')
+    const startDate = new Date(date[0].startDate).toISOString().slice(0, 10)
+    const endDate = new Date(date[0].endDate).toISOString().slice(0, 10)
 
     if (title === '' || startDate === '' || endDate === '') {
       return setErrorMessage('必填欄位：標題、起始日期、結束日期')
@@ -53,6 +73,23 @@ const FormPage = () => {
       }
     ])
 
+    // todo: 串編輯 API
+    if (isEdit) {
+      // ... post edited issue
+      setEditIssue({
+        isEdit: false,
+        title,
+        description,
+        date: {
+          startDate: new Date(date[0].startDate).toISOString().slice(0, 10),
+          endDate: new Date(date[0].endDate).toISOString().slice(0, 10),
+          key: 'selection'
+        }
+      })
+      history.push('/backstage/issues/' + editIssue.url)
+      return console.log(title, description, startDate, endDate)
+    }
+
     // todo: 串 API
     return console.log(title, description, startDate, endDate)
   }
@@ -66,7 +103,7 @@ const FormPage = () => {
       />
       <BackstageNavbar iconName={plusIcon} title="建立" />
       <AddFormWrapper onSubmit={handleFormSubmit}>
-        <FormTitle>新增留言箱</FormTitle>
+        <FormTitle>{isEdit ? '編輯' : '新增'}留言箱</FormTitle>
         <InputText
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -87,7 +124,7 @@ const FormPage = () => {
           minDate={new Date()}
         />
         {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-        <SubmitBtn type="submit">送出</SubmitBtn>
+        <SubmitBtn type="submit">{isEdit ? '更新' : '送出'}</SubmitBtn>
       </AddFormWrapper>
     </>
   )
