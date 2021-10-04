@@ -4,7 +4,7 @@ import flexJustifyAlign from '../styles/flexJustifyAlign'
 
 export const UserFormWrapper = styled.form`
   position: relative;
-  margin: 11.5rem 0 2rem;
+  margin: ${({ isNow }) => (isNow ? '5rem 0 8rem' : '11.5rem 0 2rem')};
   ${flexJustifyAlign()}
   flex-direction: column;
   gap: 1.5rem;

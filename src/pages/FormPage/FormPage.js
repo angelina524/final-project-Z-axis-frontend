@@ -31,8 +31,8 @@ const FormPage = () => {
   ])
   const [errorMessage, setErrorMessage] = useState('')
 
-  if (isEdit) {
-    useEffect(() => {
+  useEffect(() => {
+    if (isEdit) {
       const {
         title,
         description,
@@ -47,8 +47,8 @@ const FormPage = () => {
           key: 'selection'
         }
       ])
-    }, [editIssue, isEdit])
-  }
+    }
+  }, [editIssue, isEdit])
 
   useEffect(() => {
     setErrorMessage('')

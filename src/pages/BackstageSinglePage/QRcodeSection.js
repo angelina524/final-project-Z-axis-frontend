@@ -43,32 +43,32 @@ const URLWrapper = styled.div`
   padding: 0.3rem 1rem;
 `
 
-const CopyWrapper = styled.div`
+const CopyWrapper = styled.a`
   cursor: pointer;
   padding: 0.2rem 0.8rem;
   border-radius: 0.6rem;
   box-shadow: -1px -1px 5px rgba(255, 255, 255, 0.2),
     1px 1px 5px rgba(0, 0, 0, 0.1), inset 1px 1px 1px rgba(0, 0, 0, 0.1),
     inset -1px -1px 1px rgba(0, 0, 0, 0.2);
+  color: ${({ theme }) => theme.secondary_100};
 `
 
 const QRcodeSection = () => {
   const { url: issueUrl } = useParams()
-  const QRcodeImage = `http://localhost:3000/#/backstage/issues/${issueUrl}`
   const URL = `http://localhost:3000/#/backstage/issues/${issueUrl}`
 
-  const copyToBoard = (massage) => {
-    navigator.clipboard.writeText(massage).then(
+  const copyURLtoBoard = (URL) => {
+    navigator.clipboard.writeText(URL).then(
       () => alert('複製成功！'),
       () => alert('複製失敗 QQ')
     )
   }
-  const handleCopyQRcode = () => {
-    copyToBoard(QRcodeImage)
-  }
-
-  const handleCopyURL = () => {
-    copyToBoard(URL)
+  const downloadQRcode = ({ target }) => {
+    const canvasImg = document.getElementById('qrId')
+    const img = new Image()
+    img.src = canvasImg.toDataURL('image/png')
+    target.href = img.src
+    target.download = 'QRcode'
   }
 
   return (
@@ -76,11 +76,13 @@ const QRcodeSection = () => {
       <QRcodeWrapper>
         <Title>前台連結</Title>
         <QRcodeImageWrapper>
-          <QRcode value={URL} size="150" />
+          <QRcode id="qrId" value={URL} size={200} />
         </QRcodeImageWrapper>
-        <CopyWrapper onClick={handleCopyQRcode}>按此複製 QR code</CopyWrapper>
+        <CopyWrapper id="down_link" onClick={downloadQRcode}>
+          下載複製 QR code
+        </CopyWrapper>
         <URLWrapper>{URL}</URLWrapper>
-        <CopyWrapper onClick={handleCopyURL}>按此複製網址</CopyWrapper>
+        <CopyWrapper onClick={copyURLtoBoard}>按此複製網址</CopyWrapper>
       </QRcodeWrapper>
     </SectionWrapper>
   )

@@ -67,8 +67,8 @@ const EditSection = () => {
         title,
         description,
         date: {
-          startDate: beginTime.slice(0, 10),
-          endDate: finishTime.slice(0, 10),
+          startDate: beginTime.slice(0, 10).replace(/-/g, '/'),
+          endDate: finishTime.slice(0, 10).replace(/-/g, '/'),
           key: 'selection'
         }
       })
