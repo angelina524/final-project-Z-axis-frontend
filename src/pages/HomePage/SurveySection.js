@@ -2,26 +2,28 @@ import React from 'react'
 import styled from '@emotion/styled'
 import PropTypes from 'prop-types'
 
-import IssuePattern from './components/IssuePattern'
+import SurveyPattern from './components/SurveyPattern'
 
 import BackgroundRectangle from './components/BackgroundRectangle'
 import CircleNumber from './components/CircleNumber'
+import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import Section from './components/Section'
 import TitleWrapper from './components/TitleWrapper'
 import WidthWrapper from '../../components/WidthWrapper'
 import PatternWrapper from './components/PatternWrapper'
 
-const LeftBackgroundRectangle = styled(BackgroundRectangle)`
+const AllBackgroundRectangle = styled(BackgroundRectangle)`
+  width: 100%;
   position: absolute;
   top: 0px;
   left: 0;
   z-index: -1;
 `
 
-const LocatePatternRight = styled.div`
+const LocatePatternLeft = styled.div`
   position: absolute;
-  top: ${(props) => props.top};
-  right: 60px;
+  top: 210px;
+  left: 40px;
   transform: scale(1.2);
 `
 
@@ -31,31 +33,36 @@ const LocateCircleNumber = styled.div`
   left: ${(props) => props.left};
 `
 
-const IssueSection = ({ cardItem: { cardTitle, cardText } }) => {
+const TitleWrapperRight = styled(TitleWrapper)`
+  ${flexJustifyAlign('center', 'flex-end')}
+  flex-direction: column;
+`
+
+const SurveySection = ({ cardItem: { cardTitle, cardText } }) => {
   return (
     <Section>
       <WidthWrapper>
-        <LocateCircleNumber top="-32px" left="74vw">
-          <CircleNumber>.01</CircleNumber>
+        <LocateCircleNumber top="-32px" left="10vw">
+          <CircleNumber>.04</CircleNumber>
         </LocateCircleNumber>
-        <LeftBackgroundRectangle />
+        <AllBackgroundRectangle />
         <PatternWrapper>
-          <LocatePatternRight top="200px">
-            <IssuePattern />
-          </LocatePatternRight>
+          <LocatePatternLeft>
+            <SurveyPattern />
+          </LocatePatternLeft>
         </PatternWrapper>
-        <TitleWrapper>
+        <TitleWrapperRight>
           <h3>{cardTitle}</h3>
           {cardText.match(/.{1,12}/g).map((text) => (
             <p key={text}>{text}</p>
           ))}
-        </TitleWrapper>
+        </TitleWrapperRight>
       </WidthWrapper>
     </Section>
   )
 }
-IssueSection.propTypes = {
+SurveySection.propTypes = {
   cardItem: PropTypes.object
 }
 
-export default IssueSection
+export default SurveySection

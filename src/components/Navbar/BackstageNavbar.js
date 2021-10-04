@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import styled from '@emotion/styled'
 import PropTypes from 'prop-types'
 import { useTheme } from '@emotion/react'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
+import ButtonOrigin from '../../components/Button'
 
 const Navbar = styled.div`
   width: 100%;
@@ -13,7 +15,7 @@ const Navbar = styled.div`
   right: 0;
   z-index: 5;
   background: ${({ theme }) => theme.secondary_900};
-  ${flexJustifyAlign('flex-start')}
+  ${flexJustifyAlign('space-between')}
   padding-left: 4rem;
 
   svg {
@@ -50,12 +52,22 @@ const SearchBtn = styled.button`
   cursor: pointer;
 `
 
+const Button = styled(ButtonOrigin)`
+  margin-right: 1rem;
+`
+
 export const BackstageNavbar = ({ iconName, title }) => {
   const theme = useTheme()
+  const location = useLocation()
   return (
     <Navbar>
-      {iconName('1x', theme.secondary_200)}
-      <span>{title}</span>
+      <div>
+        {iconName('1x', theme.secondary_200)}
+        <span>{title}</span>
+      </div>
+      {location.pathname.indexOf('/backstage/issues') === 0 && (
+        <Button backgroundColor={theme.primary}>進入此前台</Button>
+      )}
     </Navbar>
   )
 }
