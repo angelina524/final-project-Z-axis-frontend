@@ -81,8 +81,8 @@ const FormPage = () => {
         title,
         description,
         date: {
-          startDate: new Date(date[0].startDate).toISOString().slice(0, 10),
-          endDate: new Date(date[0].endDate).toISOString().slice(0, 10),
+          startDate: startDate.replace(/-/g, '/'),
+          endDate: endDate.replace(/-/g, '/'),
           key: 'selection'
         }
       })
