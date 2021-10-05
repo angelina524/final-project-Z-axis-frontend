@@ -44,7 +44,6 @@ const IssuePage = () => {
   const [issue, setIssue] = useState({})
   const [comments, setComments] = useState([])
   const [userId, setUserId] = useState(null)
-  const [userNickname, setUserNickname] = useState(null)
 
   // issueURL 暫時寫死
   // filter 待完成
@@ -60,7 +59,6 @@ const IssuePage = () => {
       if (!userToken) return
       const userData = await getMe(userToken)
       setUserId(userData.id)
-      setUserNickname(userData.nickname)
     }
 
     doAsyncEffects()
@@ -85,7 +83,7 @@ const IssuePage = () => {
 
   return (
     <Wrapper>
-      <Menu userId={userId} nickname={userNickname} MenuContent={menuContent} />
+      <Menu MenuContent={menuContent} />
       <ForestageIssueNavbar totalComments={comments.length} />
       <CommentsWrapper>
         {comments.map((comment) => (

@@ -47,13 +47,18 @@ const RegisterNow = styled.div`
 `
 
 const Navbar = () => {
-  const { userToken } = useContext(UserTokenContext)
+  const { userToken, setUserToken } = useContext(UserTokenContext)
   const location = useLocation()
   const goToBottom = () => {
     window.scrollTo({
       top: document.body.scrollHeight,
       behavior: 'smooth'
     })
+  }
+
+  const handleLogout = () => {
+    setUserToken('')
+    storage.clearUserToken()
   }
 
   return (
@@ -74,9 +79,9 @@ const Navbar = () => {
           {userToken && (
             <>
               <Link to="/backstage">後台</Link>
-              <a onClick={() => storage.clearUserToken()} href="/">
+              <Link to="/" onClick={handleLogout}>
                 登出
-              </a>
+              </Link>
             </>
           )}
 

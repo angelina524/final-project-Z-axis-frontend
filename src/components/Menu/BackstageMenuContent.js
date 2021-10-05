@@ -56,18 +56,17 @@ const Option = ({ iconName, optionName, path }) => {
   return (
     <>
       <OptionBtn to={path}>
-        {location.pathname === path && (
-          <>
-            {iconName('2x', theme.primary)}
-            <Text color={theme.primary}>{optionName}</Text>
-          </>
+        {iconName(
+          '2x',
+          location.pathname === path ? theme.primary : theme.secondary_300
         )}
-        {location.pathname !== path && (
-          <>
-            {iconName('2x', theme.secondary_300)}
-            <Text color={theme.secondary_000}>{optionName}</Text>
-          </>
-        )}
+        <Text
+          color={
+            location.pathname === path ? theme.primary : theme.secondary_000
+          }
+        >
+          {optionName}
+        </Text>
       </OptionBtn>
     </>
   )

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import { login } from '../../webapi/userApi'
@@ -12,8 +12,10 @@ import {
   ErrorMessage,
   SubmitBtn
 } from '../../components/form'
+import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const LoginPage = () => {
+  const { setUserToken } = useContext(UserTokenContext)
   const {
     email,
     setEmail,
@@ -38,7 +40,7 @@ const LoginPage = () => {
       setErrorMessage('信箱或密碼錯誤')
       return
     }
-
+    setUserToken(userToken)
     storage.setUserToken(userToken)
     history.push('/')
   }

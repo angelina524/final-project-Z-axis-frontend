@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import { register } from '../../webapi/userApi'
@@ -12,8 +12,10 @@ import {
   SubmitBtn,
   PromptLink
 } from '../../components/form'
+import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const RegisterPage = () => {
+  const { setUserToken } = useContext(UserTokenContext)
   const {
     nickname,
     setNickname,
@@ -40,7 +42,7 @@ const RegisterPage = () => {
       setErrorMessage('註冊失敗，請再試一次')
       return
     }
-
+    setUserToken(userToken)
     storage.setUserToken(userToken)
     history.push('/')
   }

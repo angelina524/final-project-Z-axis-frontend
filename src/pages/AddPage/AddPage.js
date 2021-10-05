@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from '@emotion/styled'
 import PropTypes from 'prop-types'
@@ -10,8 +10,6 @@ import { BackstageNavbar } from '../../components/Navbar/BackstageNavbar'
 import Menu from '../../components/Menu/Menu'
 import BackstageMenuContent from '../../components/Menu/BackstageMenuContent'
 import cardList from '../../constants/cardList'
-import { getMe } from '../../webapi/userApi'
-import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const Wrapper = styled.div`
   top: 4rem;
@@ -82,28 +80,9 @@ CardContainer.propTypes = {
 }
 
 const AddPage = () => {
-  const { userToken } = useContext(UserTokenContext)
-  const [userId, setUserId] = useState(null)
-  const [userNickname, setUserNickname] = useState(null)
-
-  useEffect(() => {
-    const doAsyncEffects = async () => {
-      if (!userToken) return
-      const userData = await getMe(userToken)
-      setUserId(userData.id)
-      setUserNickname(userData.nickname)
-    }
-
-    doAsyncEffects()
-  }, [])
-
   return (
     <Wrapper>
-      <Menu
-        userId={userId}
-        nickname={userNickname}
-        MenuContent={BackstageMenuContent}
-      />
+      <Menu MenuContent={BackstageMenuContent} />
       <BackstageNavbar iconName={plusIcon} title="建立" />
       <CardsWrapper>
         {cardList.map((card) => (

@@ -15,7 +15,6 @@ import {
   SubmitBtn
 } from '../../components/form'
 import { createIssue } from '../../webapi/issueApi'
-import { getMe } from '../../webapi/userApi'
 import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const FormPage = () => {
@@ -30,19 +29,6 @@ const FormPage = () => {
     }
   ])
   const [errorMessage, setErrorMessage] = useState('')
-  const [userId, setUserId] = useState(null)
-  const [userNickname, setUserNickname] = useState(null)
-
-  useEffect(() => {
-    const doAsyncEffects = async () => {
-      if (!userToken) return
-      const userData = await getMe(userToken)
-      setUserId(userData.id)
-      setUserNickname(userData.nickname)
-    }
-
-    doAsyncEffects()
-  }, [])
 
   useEffect(() => {
     setErrorMessage('')
@@ -74,6 +60,7 @@ const FormPage = () => {
         .replaceAll('/', '-')
     }
 
+    // todo: 錯誤處理
     await createIssue(userToken, title, description, startDate, endDate)
 
     setTitle('')
@@ -89,11 +76,7 @@ const FormPage = () => {
 
   return (
     <>
-      <Menu
-        userId={userId}
-        nickname={userNickname}
-        MenuContent={BackstageMenuContent}
-      />
+      <Menu MenuContent={BackstageMenuContent} />
       <BackstageNavbar iconName={plusIcon} title="建立" />
       <AddFormWrapper onSubmit={handleFormSubmit}>
         <FormTitle>新增留言箱</FormTitle>
