@@ -34,7 +34,8 @@ const Button = styled.div`
     active ? theme.secondary_900 : theme.secondary_850};
   span:nth-of-type(1) {
     font-size: 1.2rem;
-    color: ${({ theme }) => theme.secondary_000};
+    color: ${({ active, color, theme }) =>
+      active ? color : theme.secondary_000};
   }
   span:nth-of-type(2) {
     color: ${({ active, theme }) =>
@@ -46,7 +47,7 @@ const GraphWrapper = styled.div`
   ${flexJustifyAlign('center')}
 `
 
-const ButtonContainer = ({ filter, setFilter, data, setData }) => {
+const ButtonContainer = ({ filter, setFilter, data, setData, lineColor }) => {
   useEffect(() => {
     // TODO: get real data
 
@@ -79,9 +80,24 @@ const ButtonContainer = ({ filter, setFilter, data, setData }) => {
   }
   const ButtonArray = [
     { name: '所有資料', filterName: 'all', dataNumber: 'all data' },
-    { name: '總瀏覽數', filterName: 'views', dataNumber: allViewsNumber },
-    { name: '總留言數', filterName: 'comments', dataNumber: allCommentsNumber },
-    { name: '總回覆數', filterName: 'replies', dataNumber: allRepliesNumber }
+    {
+      name: '總瀏覽數',
+      filterName: 'views',
+      dataNumber: allViewsNumber,
+      color: lineColor.views
+    },
+    {
+      name: '總留言數',
+      filterName: 'comments',
+      dataNumber: allCommentsNumber,
+      color: lineColor.comments
+    },
+    {
+      name: '總回覆數',
+      filterName: 'replies',
+      dataNumber: allRepliesNumber,
+      color: lineColor.replies
+    }
   ]
 
   return (
@@ -92,6 +108,7 @@ const ButtonContainer = ({ filter, setFilter, data, setData }) => {
             key={e.name}
             onClick={() => handleSetFilter(e.filterName)}
             active={filter === e.filterName}
+            color={e.color}
           >
             <span>{e.dataNumber}</span>
             <span>{e.name}</span>
@@ -105,7 +122,8 @@ ButtonContainer.propTypes = {
   data: PropType.array,
   setData: PropType.func,
   filter: PropType.string,
-  setFilter: PropType.func
+  setFilter: PropType.func,
+  lineColor: PropType.object
 }
 
 // main component ------------------------
@@ -114,6 +132,11 @@ const GraphSection = () => {
   const [data, setData] = useState([])
 
   const LINE_TYPE = 'monotone'
+  const LINE_COLOR = {
+    views: '#f99',
+    comments: '#3d6',
+    replies: '#eb3'
+  }
   const deviceWidth = document.getElementById('root').clientWidth
   const graphWidth = deviceWidth > 600 ? 600 : deviceWidth
   const graphMargin = { top: 10, right: 30, left: 0, bottom: 30 }
@@ -126,6 +149,7 @@ const GraphSection = () => {
         setFilter={setFilter}
         data={data}
         setData={setData}
+        lineColor={LINE_COLOR}
       />
       <GraphWrapper>
         <LineChart
@@ -143,15 +167,23 @@ const GraphSection = () => {
             <Line
               type={LINE_TYPE}
               dataKey="views"
-              stroke="#8884d8"
+              stroke={LINE_COLOR.views}
               activeDot={{ r: 6 }}
             />
           )}
           {isLineShow('comments') && (
-            <Line type={LINE_TYPE} dataKey="comments" stroke="#82ca9d" />
+            <Line
+              type={LINE_TYPE}
+              dataKey="comments"
+              stroke={LINE_COLOR.comments}
+            />
           )}
           {isLineShow('replies') && (
-            <Line type={LINE_TYPE} dataKey="replies" stroke="#faa" />
+            <Line
+              type={LINE_TYPE}
+              dataKey="replies"
+              stroke={LINE_COLOR.replies}
+            />
           )}
         </LineChart>
       </GraphWrapper>

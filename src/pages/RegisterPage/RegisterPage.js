@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 import { register } from '../../webapi/userApi'
 import useForm from '../../hooks/useForm'
@@ -13,7 +14,7 @@ import {
   PromptLink
 } from '../../components/form'
 
-const RegisterPage = () => {
+const RegisterPage = ({ isNow }) => {
   const {
     nickname,
     setNickname,
@@ -50,8 +51,8 @@ const RegisterPage = () => {
   }, [nickname, email, password])
 
   return (
-    <UserFormWrapper onSubmit={handleSubmit}>
-      <FormTitle>註冊</FormTitle>
+    <UserFormWrapper isNow={isNow} onSubmit={handleSubmit}>
+      <FormTitle>{isNow && '立即'}註冊</FormTitle>
       <InputText
         value={nickname}
         onChange={(e) => setNickname(e.target.value)}
@@ -75,6 +76,9 @@ const RegisterPage = () => {
       <PromptLink to="/login">已經有帳號？ 按此登入</PromptLink>
     </UserFormWrapper>
   )
+}
+RegisterPage.propTypes = {
+  isNow: PropTypes.bool
 }
 
 export default RegisterPage

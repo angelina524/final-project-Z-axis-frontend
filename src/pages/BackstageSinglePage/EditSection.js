@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect, useContext } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import styled from '@emotion/styled'
 import { useTheme } from '@emotion/react'
 
 import SectionWrapper from './components/SectionWrapper'
 import ButtonOrigin from '../../components/Button'
+import editIssueContext from '../../contexts/editIssueContext'
 
 const Button = styled(ButtonOrigin)`
   align-self: flex-end;
@@ -39,36 +40,49 @@ const EditContent = styled.p`
 
 const EditSection = () => {
   const { secondary_300: secondary300 } = useTheme()
-  const [title, setTitle] = useState('')
-  const [content, setContent] = useState('')
-  const [beginDate, setBeginDate] = useState('')
-  const [finishDate, setFinishDate] = useState('')
+  const { url } = useParams()
+  const { editIssue, setEditIssue } = useContext(editIssueContext)
+  const {
+    title,
+    description,
+    date: { startDate, endDate }
+  } = editIssue
   const [status, setStatus] = useState('')
 
   // test deploy backend ： OK 爽啦
   useEffect(() => {
     ;(async () => {
       const res = await fetch(
-        'http://api.ben6515.tw/issues/9184bcb396b0de5ca4c86a464d075d19'
+        // BE: 'http://api.ben6515.tw/issues/9184bcb396b0de5ca4c86a464d075d19'
+        // FE: 'http://localhost:3000/#/backstage/issues/9184bcb396b0de5ca4c86a464d075d19'
+        `http://api.ben6515.tw/issues/${url}`
       )
+      if (!res.ok) return
       const {
         issue: { title, description, beginTime, finishTime }
       } = await res.json()
-      setTitle(title)
-      setContent(description)
-      setBeginDate(beginTime.slice(0, 10))
-      setFinishDate(finishTime.slice(0, 10))
+      setEditIssue({
+        isEdit: true,
+        url,
+        title,
+        description,
+        date: {
+          startDate: beginTime.slice(0, 10).replace(/-/g, '/'),
+          endDate: finishTime.slice(0, 10).replace(/-/g, '/'),
+          key: 'selection'
+        }
+      })
     })()
   }, [])
 
   useEffect(() => {
     const now = new Date().toISOString().slice(0, 10)
     const nowStatus = () => {
-      if (now < beginDate) return '即將發佈'
-      return now < finishDate ? '進行中' : '已截止'
+      if (now < startDate) return '即將發佈'
+      return now < endDate ? '進行中' : '已截止'
     }
     setStatus(nowStatus())
-  }, [beginDate, finishDate])
+  }, [startDate, endDate])
 
   return (
     <SectionWrapper isGreyBackground={true}>
@@ -76,9 +90,9 @@ const EditSection = () => {
         <EditTitle>{title}</EditTitle>
         <EditDate>
           <span>{status}</span>
-          {beginDate} - {finishDate}
+          {startDate} - {endDate}
         </EditDate>
-        <EditContent>{content}</EditContent>
+        <EditContent>{description}</EditContent>
         <Button backgroundColor={secondary300} as={Link} to="/form">
           編輯
         </Button>

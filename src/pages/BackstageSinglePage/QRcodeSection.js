@@ -1,4 +1,6 @@
 import React from 'react'
+import { useParams } from 'react-router-dom'
+import QRcode from 'qrcode.react'
 import styled from '@emotion/styled'
 
 import SectionWrapper from './components/SectionWrapper'
@@ -9,6 +11,10 @@ const QRcodeWrapper = styled.div`
   align-items: center;
   gap: 1.5rem;
   padding: 2rem;
+  canvas {
+    width: 100%;
+    height: 100%;
+  }
 `
 
 const Title = styled.h2`
@@ -37,41 +43,32 @@ const URLWrapper = styled.div`
   padding: 0.3rem 1rem;
 `
 
-const CopyWrapper = styled.div`
+const CopyWrapper = styled.a`
   cursor: pointer;
   padding: 0.2rem 0.8rem;
   border-radius: 0.6rem;
   box-shadow: -1px -1px 5px rgba(255, 255, 255, 0.2),
     1px 1px 5px rgba(0, 0, 0, 0.1), inset 1px 1px 1px rgba(0, 0, 0, 0.1),
     inset -1px -1px 1px rgba(0, 0, 0, 0.2);
+  color: ${({ theme }) => theme.secondary_100};
 `
 
 const QRcodeSection = () => {
-  const QRcodeImage =
-    'https://truth.bahamut.com.tw/s01/202007/46fee139876b39a8d0bef29d8853860c.JPG'
-  const URL =
-    'https://google.com.https://google.com/.https://google.com/.https://google.com/'
+  const { url: issueUrl } = useParams()
+  const URL = `http://localhost:3000/#/backstage/issues/${issueUrl}`
 
-  const handleCopyQRcode = () => {
-    navigator.clipboard.writeText(QRcodeImage).then(
-      () => {
-        alert('複製成功！')
-      },
-      () => {
-        alert('複製失敗 QQ')
-      }
+  const copyURLtoBoard = (URL) => {
+    navigator.clipboard.writeText(URL).then(
+      () => alert('複製成功！'),
+      () => alert('複製失敗 QQ')
     )
   }
-
-  const handleCopyURL = () => {
-    navigator.clipboard.writeText(URL).then(
-      () => {
-        alert('複製成功！')
-      },
-      () => {
-        alert('複製失敗 QQ')
-      }
-    )
+  const downloadQRcode = ({ target }) => {
+    const canvasImg = document.getElementById('qrId')
+    const img = new Image()
+    img.src = canvasImg.toDataURL('image/png')
+    target.href = img.src
+    target.download = 'QRcode'
   }
 
   return (
@@ -79,11 +76,13 @@ const QRcodeSection = () => {
       <QRcodeWrapper>
         <Title>前台連結</Title>
         <QRcodeImageWrapper>
-          <img src={QRcodeImage} />
+          <QRcode id="qrId" value={URL} size={200} />
         </QRcodeImageWrapper>
-        <CopyWrapper onClick={handleCopyQRcode}>按此複製 QR code</CopyWrapper>
+        <CopyWrapper id="down_link" onClick={downloadQRcode}>
+          下載複製 QR code
+        </CopyWrapper>
         <URLWrapper>{URL}</URLWrapper>
-        <CopyWrapper onClick={handleCopyURL}>按此複製網址</CopyWrapper>
+        <CopyWrapper onClick={copyURLtoBoard}>按此複製網址</CopyWrapper>
       </QRcodeWrapper>
     </SectionWrapper>
   )
