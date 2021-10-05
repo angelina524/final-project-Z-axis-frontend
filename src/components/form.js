@@ -53,6 +53,7 @@ export const SubmitBtn = styled.button`
   border-radius: 3px;
   background: ${({ theme }) => theme.primary};
   color: ${({ theme }) => theme.secondary_900};
+  cursor: pointer;
 `
 
 export const PromptLink = styled(Link)`
