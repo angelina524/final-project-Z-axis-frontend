@@ -1,9 +1,11 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import { Link, useLocation } from 'react-router-dom'
 import { useTheme } from '@emotion/react'
 import PropTypes from 'prop-types'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import optionList from '../../constants/optionList'
+import Avatar from '../../components/Avatar'
 
 const BackStageMenu = styled.div`
   ${flexJustifyAlign()}
@@ -15,15 +17,11 @@ const Profile = styled.div`
   flex-direction: column;
 `
 
-const Avatar = styled.div`
-  width: 5.5rem;
-  height: 5.5rem;
+const MenuAvatarWrapper = styled.div`
   margin: 1rem 0;
-  border-radius: 50%;
-  border: ${({ theme }) => theme.border};
 `
 
-const EditBtn = styled.div`
+const EditBtn = styled(Link)`
   font-size: 0.9rem;
   padding: 0.3rem 1rem;
   border-radius: 2.5rem;
@@ -38,9 +36,10 @@ const OptionWrapper = styled.div`
   gap: 1.5em;
 `
 
-const OptionBtn = styled.div`
+const OptionBtn = styled(Link)`
   width: 7rem;
   height: 6rem;
+  color: ${({ theme }) => theme.secondary_000};
   border: ${({ theme }) => theme.border};
   border-radius: 1rem;
   ${flexJustifyAlign()}
@@ -48,27 +47,46 @@ const OptionBtn = styled.div`
   gap: 0.5rem;
 `
 
-const Option = ({ iconName, optionName }) => {
+const Text = styled.div`
+  color: ${({ color }) => color};
+`
+const Option = ({ iconName, optionName, path }) => {
+  const location = useLocation()
   const theme = useTheme()
   return (
-    <OptionBtn>
-      {iconName('2x', theme.secondary_300)}
-      <div>{optionName}</div>
-    </OptionBtn>
+    <>
+      <OptionBtn to={path}>
+        {location.pathname === path && (
+          <>
+            {iconName('2x', theme.primary)}
+            <Text color={theme.primary}>{optionName}</Text>
+          </>
+        )}
+        {location.pathname !== path && (
+          <>
+            {iconName('2x', theme.secondary_300)}
+            <Text color={theme.secondary_000}>{optionName}</Text>
+          </>
+        )}
+      </OptionBtn>
+    </>
   )
 }
 
 Option.propTypes = {
   iconName: PropTypes.func,
-  optionName: PropTypes.string
+  optionName: PropTypes.string,
+  path: PropTypes.string
 }
 
 const BackstageMenuContent = () => {
   return (
     <BackStageMenu>
       <Profile>
-        <Avatar />
-        <EditBtn>修改個人資料</EditBtn>
+        <MenuAvatarWrapper>
+          <Avatar size={'70px'} />
+        </MenuAvatarWrapper>
+        <EditBtn to="/user/me">修改個人資料</EditBtn>
       </Profile>
       <OptionWrapper>
         {optionList.map((option) => (
@@ -76,6 +94,7 @@ const BackstageMenuContent = () => {
             key={option.optionName}
             iconName={option.iconName}
             optionName={option.optionName}
+            path={option.path}
           />
         ))}
       </OptionWrapper>

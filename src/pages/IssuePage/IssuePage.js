@@ -40,7 +40,7 @@ const CommentsWrapper = styled.div`
 
 const IssuePage = () => {
   const guestToken = useContext(GuestTokenContext)
-  const userToken = useContext(UserTokenContext)
+  const { userToken } = useContext(UserTokenContext)
   const [issue, setIssue] = useState({})
   const [comments, setComments] = useState([])
   const [userId, setUserId] = useState(null)

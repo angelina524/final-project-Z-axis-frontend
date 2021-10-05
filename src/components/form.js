@@ -34,6 +34,11 @@ export const InputText = styled.input`
   border-radius: 3px;
 `
 
+export const RemindText = styled.div`
+  color: ${({ theme }) => theme.secondary_300};
+  max-width: 300px;
+`
+
 export const ErrorMessage = styled.div`
   position: absolute;
   bottom: 50px;

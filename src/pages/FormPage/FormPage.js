@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { plusIcon } from '../../components/icons'
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
@@ -10,11 +10,16 @@ import {
   AddFormWrapper,
   FormTitle,
   InputText,
+  RemindText,
   ErrorMessage,
   SubmitBtn
 } from '../../components/form'
+import { createIssue } from '../../webapi/issueApi'
+import { getMe } from '../../webapi/userApi'
+import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const FormPage = () => {
+  const { userToken } = useContext(UserTokenContext)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [date, setDate] = useState([
@@ -25,23 +30,51 @@ const FormPage = () => {
     }
   ])
   const [errorMessage, setErrorMessage] = useState('')
+  const [userId, setUserId] = useState(null)
+  const [userNickname, setUserNickname] = useState(null)
+
+  useEffect(() => {
+    const doAsyncEffects = async () => {
+      if (!userToken) return
+      const userData = await getMe(userToken)
+      setUserId(userData.id)
+      setUserNickname(userData.nickname)
+    }
+
+    doAsyncEffects()
+  }, [])
 
   useEffect(() => {
     setErrorMessage('')
   }, [title, description, date])
 
-  const handleFormSubmit = (e) => {
+  const addDays = (date, days) => {
+    const result = new Date(date)
+    result.setDate(result.getDate() + days)
+    return result
+  }
+
+  const handleFormSubmit = async (e) => {
     e.preventDefault()
+    if (title === '') {
+      return setErrorMessage('必填欄位：標題')
+    }
     const startDate = new Date(date[0].startDate)
       .toLocaleDateString()
       .replaceAll('/', '-')
-    const endDate = new Date(date[0].endDate)
-      .toLocaleDateString()
-      .replaceAll('/', '-')
 
-    if (title === '' || startDate === '' || endDate === '') {
-      return setErrorMessage('必填欄位：標題、起始日期、結束日期')
+    let endDate = null
+    if (!date[0].endDate || date[0].endDate > addDays(startDate, 4)) {
+      endDate = new Date(addDays(startDate, 4))
+        .toLocaleDateString()
+        .replaceAll('/', '-')
+    } else {
+      endDate = new Date(date[0].endDate)
+        .toLocaleDateString()
+        .replaceAll('/', '-')
     }
+
+    await createIssue(userToken, title, description, startDate, endDate)
 
     setTitle('')
     setDescription('')
@@ -52,16 +85,13 @@ const FormPage = () => {
         key: 'selection'
       }
     ])
-
-    // todo: 串 API
-    return console.log(title, description, startDate, endDate)
   }
 
   return (
     <>
       <Menu
-        userId={1}
-        nickname="嘎嘎嗚拉拉"
+        userId={userId}
+        nickname={userNickname}
         MenuContent={BackstageMenuContent}
       />
       <BackstageNavbar iconName={plusIcon} title="建立" />
@@ -79,12 +109,14 @@ const FormPage = () => {
           name="description"
           placeholder="描述"
         />
+        <RemindText>超過 5 天或未設置則以 5 天計算</RemindText>
         <DateRange
           editableDateInputs={true}
           onChange={(e) => setDate([e.selection])}
           moveRangeOnFirstSelection={false}
           ranges={date}
           minDate={new Date()}
+          showDateDisplay={false}
         />
         {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
         <SubmitBtn type="submit">送出</SubmitBtn>

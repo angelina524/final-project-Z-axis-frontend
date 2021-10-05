@@ -3,9 +3,9 @@ import styled from '@emotion/styled'
 import { useTheme } from '@emotion/react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import { hamburgerIcon } from '../icons'
+import storage from '../../localStorageApi'
 
 const MenuWrapper = styled.aside`
   z-index: 10;
@@ -84,7 +84,11 @@ const Menu = ({ userId, nickname, MenuContent }) => {
             <Link to="/login">登入</Link>
           </>
         )}
-        {userId && <Link to="/">登出</Link>}
+        {userId && (
+          <a onClick={() => storage.clearUserToken()} href="/">
+            登出
+          </a>
+        )}
         <Link to="/">首頁</Link>
         <p>© Z-axis 2021</p>
       </Footer>

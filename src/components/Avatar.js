@@ -1,19 +1,13 @@
 import React, { memo } from 'react'
-import styled from '@emotion/styled'
 import Animal from 'react-animals'
+import PropTypes from 'prop-types'
 
-const AvatarWrapper = styled.div`
-  position: absolute;
-  left: 0;
-  top: -20px;
-`
+const Avatar = ({ size }) => {
+  return <Animal size={size} />
+}
 
-const Avatar = () => {
-  return (
-    <AvatarWrapper>
-      <Animal size="35px" />
-    </AvatarWrapper>
-  )
+Avatar.propTypes = {
+  size: PropTypes.string
 }
 
 export default memo(Avatar)

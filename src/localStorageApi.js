@@ -11,6 +11,10 @@ const setUserToken = (userToken) => {
   localStorage.setItem(USER_TOKEN_KEY, userToken)
 }
 
+const clearUserToken = () => {
+  localStorage.setItem(USER_TOKEN_KEY, '')
+}
+
 // guest token apis
 const getGuestToken = () => {
   return localStorage.getItem(GUEST_TOKEN_KEY) || ''
@@ -23,6 +27,7 @@ const setGuestToken = (guestToken) => {
 const storage = {
   getUserToken,
   setUserToken,
+  clearUserToken,
   getGuestToken,
   setGuestToken
 }
