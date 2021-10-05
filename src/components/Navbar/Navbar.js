@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import styled from '@emotion/styled'
 import { Link, useLocation } from 'react-router-dom'
-import Logo from '../Logo'
+import logo from '../../logo.svg'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import { UserTokenContext } from '../../contexts/tokenContexts'
 import storage from '../../localStorageApi'
@@ -66,7 +66,7 @@ const Navbar = () => {
   return (
     <Wrapper>
       <NavbarWrapper>
-        <Logo />
+        <img src={logo} />
         <NavbarLinks>
           <Link to="/">首頁</Link>
           {!userToken && (

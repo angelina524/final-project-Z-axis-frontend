@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { useTheme } from '@emotion/react'
 import { sendIcon } from './icons'
 import flexJustifyAlign from './../styles/flexJustifyAlign'
-import { createComment } from './../webapi/commentApi'
+// import { createComment } from './../webapi/commentApi'
 
 const AddCommentFormWrapper = styled.form`
   position: fixed;
@@ -52,7 +52,7 @@ const CommentSubmitBtn = styled.button`
   cursor: pointer;
 `
 
-const AddCommentForm = ({ IssueId, guestToken }) => {
+const AddCommentForm = ({ IssueId, guestToken, socket, setComments }) => {
   const theme = useTheme()
   const [nickname, setNickname] = useState('')
   const [content, setContent] = useState('')
@@ -60,8 +60,21 @@ const AddCommentForm = ({ IssueId, guestToken }) => {
   const handleCommentFormSubmit = async (e) => {
     e.preventDefault()
     if (!content.trim()) return
-    await createComment(guestToken, IssueId, nickname.trim(), content.trim())
+    // const comment = await createComment(
+    //   guestToken,
+    //   IssueId,
+    //   nickname.trim(),
+    //   content.trim()
+    // )
+    const comment = {
+      guestToken,
+      IssueId,
+      nickname: nickname.trim(),
+      content: content.trim()
+    }
+    await socket.emit('addComment', comment)
 
+    setComments((prev) => [...prev, comment])
     setNickname('')
     setContent('')
     return console.log(nickname, content)
@@ -86,7 +99,9 @@ const AddCommentForm = ({ IssueId, guestToken }) => {
 
 AddCommentForm.propTypes = {
   IssueId: PropTypes.number,
-  guestToken: PropTypes.string
+  guestToken: PropTypes.string,
+  socket: PropTypes.object,
+  setComments: PropTypes.func
 }
 
 export default AddCommentForm

@@ -92,16 +92,32 @@ function App () {
               <Route exact path="/backstage">
                 <BackstagePage />
               </Route>
-              <Route exact path="/backstage/issues/:url">
-                <BackstageSinglePage />
+              {/* dev data  in BE seeder */}
+              {/* http://localhost:3000/#/issue/0e36ddb504d5ca0cf414fe0fd16fb9bf */}
+              <Route exact path="/issue/:url">
+                <IssuePage />
               </Route>
               <Route exact path="/issues">
                 <IssueListPage />
               </Route>
-              {/* loading page */}
-              <Route exact path="/loading">
-                <Loader />
+              <Route exact path="/backstage">
+                <BackstagePage />
               </Route>
+<<<<<<< HEAD
+=======
+              <Route exact path="/backstage/issue/:url">
+                <BackstageSinglePage />
+                {/* loading page */}
+                <Route exact path="/loading">
+                  <Loader />
+                </Route>
+                {/* dev test */}
+                <Route exact path="/test-web-api">
+                  <Navbar />
+                  <WebApiTestPage />
+                </Route>
+              </Route>
+>>>>>>> 8bb0d68 (add socket.io-client)
             </Switch>
           </Router>
         </EditIssueContext.Provider>
