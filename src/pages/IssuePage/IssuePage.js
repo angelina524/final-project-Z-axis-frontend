@@ -51,9 +51,21 @@ const IssuePage = () => {
   const [userId, setUserId] = useState(null)
 
   // filter 待完成
+
+  // socket listening events
   useEffect(() => {
     socket.on('addComment', (comment) => {
       setComments((prev) => [...prev, comment])
+    })
+    socket.on('updateComment', (updateComment) => {
+      setComments(
+        comments.map((comment) =>
+          comment.id === updateComment.id ? updateComment : comment
+        )
+      )
+    })
+    socket.on('deleteComment', (id) => {
+      setComments((prev) => prev.filter((comment) => comment.id !== id))
     })
     window.scrollTo(0, document.body.scrollHeight)
   }, [socket])
@@ -131,12 +143,15 @@ const IssuePage = () => {
       <CommentsWrapper>
         {comments.map((comment) => (
           <Comment
-            key={comment.id}
+            key={Math.random().toString(36).slice(2)}
+            id={comment.id}
             comment={comment}
             userId={userId}
             issueUserId={issue.UserId}
             userToken={userToken}
             guestToken={guestToken}
+            socket={socket}
+            setComments={setComments}
           />
         ))}
       </CommentsWrapper>

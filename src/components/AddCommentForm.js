@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { useTheme } from '@emotion/react'
 import { sendIcon } from './icons'
 import flexJustifyAlign from './../styles/flexJustifyAlign'
-// import { createComment } from './../webapi/commentApi'
+import { createComment } from './../webapi/commentApi'
 
 const AddCommentFormWrapper = styled.form`
   position: fixed;
@@ -60,18 +60,12 @@ const AddCommentForm = ({ IssueId, guestToken, socket, setComments }) => {
   const handleCommentFormSubmit = async (e) => {
     e.preventDefault()
     if (!content.trim()) return
-    // const comment = await createComment(
-    //   guestToken,
-    //   IssueId,
-    //   nickname.trim(),
-    //   content.trim()
-    // )
-    const comment = {
+    const comment = await createComment(
       guestToken,
       IssueId,
-      nickname: nickname.trim(),
-      content: content.trim()
-    }
+      nickname.trim(),
+      content.trim()
+    )
     await socket.emit('addComment', comment)
 
     setComments((prev) => [...prev, comment])

@@ -178,7 +178,15 @@ const CommentInput = styled(ReplyInput)``
 
 const SubmitCommentBtn = styled(SubmitReplyBtn)``
 
-const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
+const Comment = ({
+  comment,
+  userId,
+  issueUserId,
+  userToken,
+  guestToken,
+  socket,
+  setComments
+}) => {
   const theme = useTheme()
   const [nickname, setNickname] = useState(comment.nickname || '')
   const [content, setContent] = useState(comment.content || '')
@@ -237,6 +245,7 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
         nickname.trim(),
         content.trim()
       )
+      await socket.emit('updateComment', comment)
       const { data } = response
       if (!data.ok) throw new Error(data.message)
     } catch (error) {
@@ -244,6 +253,11 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
       return
     }
 
+    setComments((prev) =>
+      prev.map((prevComment) =>
+        prevComment.id === comment.id ? comment : prevComment
+      )
+    )
     setNickname('')
     setContent('')
     setIsCommentFormOpen(false)
@@ -255,10 +269,13 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
       const response = await deleteComment(guestToken, userToken, IssueId, id)
       const { data } = response
       if (!data.ok) throw new Error(data.message)
+      await deleteComment(guestToken, userToken, IssueId, id)
     } catch (error) {
       console.log(error.message)
       return
     }
+    await socket.emit('deleteComment', { IssueId, id })
+    setComments((prev) => prev.filter((comment) => comment.id !== id))
 
     setIsOptionsOpen(false)
   }
@@ -418,7 +435,9 @@ Comment.propTypes = {
   userId: PropTypes.number,
   issueUserId: PropTypes.number,
   userToken: PropTypes.object,
-  guestToken: PropTypes.string
+  guestToken: PropTypes.string,
+  socket: PropTypes.object,
+  setComments: PropTypes.func
 }
 
 export default Comment
