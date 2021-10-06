@@ -29,7 +29,7 @@ export const getAllIssues = async (limit = 999) =>
   await instance.get(`/issues?limit=${limit}`)
 
 export const getIssue = async (issueURL) =>
-  await instance.get(`/issues/${issueURL}`)
+  await instance.get(`/issue/${issueURL}`)
 
 export const pinCommentOnTop = async (issueId, commentId) =>
   await instance.patch(`/issues/${issueId}/pinCommentOnTop`, { commentId })

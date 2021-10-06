@@ -103,21 +103,13 @@ function App () {
               <Route exact path="/backstage">
                 <BackstagePage />
               </Route>
-<<<<<<< HEAD
-=======
               <Route exact path="/backstage/issue/:url">
                 <BackstageSinglePage />
                 {/* loading page */}
                 <Route exact path="/loading">
                   <Loader />
                 </Route>
-                {/* dev test */}
-                <Route exact path="/test-web-api">
-                  <Navbar />
-                  <WebApiTestPage />
-                </Route>
               </Route>
->>>>>>> 8bb0d68 (add socket.io-client)
             </Switch>
           </Router>
         </EditIssueContext.Provider>

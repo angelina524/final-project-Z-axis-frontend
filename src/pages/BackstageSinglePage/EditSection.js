@@ -55,7 +55,7 @@ const EditSection = () => {
       const res = await fetch(
         // BE: 'http://api.ben6515.tw/issues/9184bcb396b0de5ca4c86a464d075d19'
         // FE: 'http://localhost:3000/#/backstage/issues/9184bcb396b0de5ca4c86a464d075d19'
-        // `http://api.ben6515.tw/issues/${url}`
+        // `http://api.ben6515.tw/issue/${url}`
         `http://localhost:3000/issue/${url}`
       )
       if (!res.ok) return
