@@ -92,7 +92,7 @@ const QRcodeSection = () => {
           />
         </QRcodeImageWrapper>
         <CopyWrapper id="down_link" onClick={downloadQRcode}>
-          下載複製 QR code
+          下載 QR code
         </CopyWrapper>
         <URLWrapper>{URL}</URLWrapper>
         <CopyWrapper onClick={copyURLtoBoard}>按此複製網址</CopyWrapper>
