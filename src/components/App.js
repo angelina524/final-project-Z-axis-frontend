@@ -6,7 +6,6 @@ import Loader from '../components/Loader'
 import HomePage from '../pages/HomePage'
 import LoginPage from '../pages/LoginPage'
 import RegisterPage from '../pages/RegisterPage'
-import UserPage from '../pages/UserPage/UserPage'
 import UpdatePassword from '../pages/UpdatePassword'
 import UpdateMe from '../pages/UpdateMe'
 import AddPage from '../pages/AddPage'
@@ -72,10 +71,6 @@ function App () {
               <Route exact path="/register">
                 <Navbar />
                 <RegisterPage />
-              </Route>
-              <Route exact path="/user">
-                <Navbar />
-                <UserPage />
               </Route>
               <Route exact path="/user/me/update-password">
                 <Navbar />

@@ -134,7 +134,7 @@ const IssueListPage = () => {
   )
   const renderFinishedSection = () => (
     <ActivitiesContainer color={theme.secondary_200}>
-      {renderIssues(finishedIssues, '已截止')}
+      {renderIssues(finishedIssues, '已結束')}
       <GoToTopButton
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       >

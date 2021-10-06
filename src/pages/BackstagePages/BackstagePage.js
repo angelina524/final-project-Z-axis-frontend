@@ -22,7 +22,7 @@ import {
 import { isIssueFinished, isIssueOncoming, isIssueOngoing } from '../../utils'
 
 const getIssueStatus = (issue) => {
-  if (isIssueFinished(issue)) return '已截止'
+  if (isIssueFinished(issue)) return '已結束'
   if (isIssueOncoming(issue)) return '即將發布'
   if (isIssueOngoing(issue)) return '進行中'
 }
