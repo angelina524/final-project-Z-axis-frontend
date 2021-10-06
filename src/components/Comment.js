@@ -223,7 +223,7 @@ const Comment = ({
 
   const handleDeleteReplyClick = async () => {
     try {
-      const response = await updateReply(userToken, IssueId, id, '')
+      const response = await updateReply(IssueId, id, '')
       const { data } = response
       if (!data.ok) throw new Error(data.message)
     } catch (error) {
@@ -239,25 +239,26 @@ const Comment = ({
     if (!content.trim()) return
     try {
       const response = await updateComment(
-        guestToken,
         IssueId,
         id,
         nickname.trim(),
         content.trim()
       )
-      await socket.emit('updateComment', comment)
       const { data } = response
       if (!data.ok) throw new Error(data.message)
+
+      const { comment } = data
+      await socket.emit('updateComment', comment)
+      setComments((prev) =>
+        prev.map((prevComment) =>
+          prevComment.id === comment.id ? comment : prevComment
+        )
+      )
     } catch (error) {
       console.log(error.message)
       return
     }
 
-    setComments((prev) =>
-      prev.map((prevComment) =>
-        prevComment.id === comment.id ? comment : prevComment
-      )
-    )
     setNickname('')
     setContent('')
     setIsCommentFormOpen(false)
@@ -266,16 +267,17 @@ const Comment = ({
 
   const handleDeleteCommentClick = async () => {
     try {
-      const response = await deleteComment(guestToken, userToken, IssueId, id)
+      const response = await deleteComment(IssueId, id)
       const { data } = response
       if (!data.ok) throw new Error(data.message)
-      await deleteComment(guestToken, userToken, IssueId, id)
+      await deleteComment(IssueId, id)
+
+      await socket.emit('deleteComment', { IssueId, id })
+      setComments((prev) => prev.filter((comment) => comment.id !== id))
     } catch (error) {
       console.log(error.message)
       return
     }
-    await socket.emit('deleteComment', { IssueId, id })
-    setComments((prev) => prev.filter((comment) => comment.id !== id))
 
     setIsOptionsOpen(false)
   }

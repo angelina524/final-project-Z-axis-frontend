@@ -60,12 +60,13 @@ const AddCommentForm = ({ IssueId, guestToken, socket, setComments }) => {
   const handleCommentFormSubmit = async (e) => {
     e.preventDefault()
     if (!content.trim()) return
-    const comment = await createComment(
-      guestToken,
+    const { data } = await createComment(
       IssueId,
       nickname.trim(),
       content.trim()
     )
+    if (!data.ok) return console.log(data)
+    const { comment } = data
     await socket.emit('addComment', comment)
 
     setComments((prev) => [...prev, comment])

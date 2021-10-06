@@ -58,8 +58,9 @@ const IssuePage = () => {
       setComments((prev) => [...prev, comment])
     })
     socket.on('updateComment', (updateComment) => {
-      setComments(
-        comments.map((comment) =>
+      console.log(updateComment)
+      setComments((prev) =>
+        prev.map((comment) =>
           comment.id === updateComment.id ? updateComment : comment
         )
       )

@@ -93,8 +93,8 @@ function App () {
                 <BackstagePage />
               </Route>
               {/* dev data  in BE seeder */}
-              {/* http://localhost:3000/#/issue/0e36ddb504d5ca0cf414fe0fd16fb9bf */}
-              <Route exact path="/issue/:url">
+              {/* http://localhost:3000/#/issues/0e36ddb504d5ca0cf414fe0fd16fb9bf */}
+              <Route exact path="/issues/:url">
                 <IssuePage />
               </Route>
               <Route exact path="/issues">
@@ -103,7 +103,7 @@ function App () {
               <Route exact path="/backstage">
                 <BackstagePage />
               </Route>
-              <Route exact path="/backstage/issue/:url">
+              <Route exact path="/backstage/issues/:url">
                 <BackstageSinglePage />
                 {/* loading page */}
                 <Route exact path="/loading">

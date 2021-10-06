@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
+import moment from 'moment'
 import EditIssueContext from '../../contexts/editIssueContext'
 import { plusIcon } from '../../components/icons'
 import 'react-date-range/dist/styles.css'
@@ -67,23 +68,22 @@ const FormPage = () => {
     if (title === '') {
       return setErrorMessage('必填欄位：標題')
     }
-    const startDate = new Date(date[0].startDate)
-      .toLocaleDateString()
-      .replaceAll('/', '-')
+    const startDate = moment(new Date(date[0].startDate)).format('YYYY-MM-DD')
 
     let endDate = null
     if (!date[0].endDate || date[0].endDate > addDays(startDate, 4)) {
-      endDate = new Date(addDays(startDate, 4))
-        .toLocaleDateString()
-        .replaceAll('/', '-')
+      endDate = moment(addDays(startDate, 4)).format('YYYY-MM-DD')
     } else {
-      endDate = new Date(date[0].endDate)
-        .toLocaleDateString()
-        .replaceAll('/', '-')
+      endDate = moment(date[0].endDate).format('YYYY-MM-DD')
     }
 
     // todo: 錯誤處理
-    await createIssue(title, description, startDate, endDate)
+    await createIssue(
+      title,
+      description,
+      moment(startDate).format('YYYY-MM-DD'),
+      moment(endDate).format('YYYY-MM-DD')
+    )
 
     setTitle('')
     setDescription('')
