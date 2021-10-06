@@ -50,14 +50,41 @@ const IssuePage = () => {
   // websocket 待完成
   useEffect(() => {
     const doAsyncEffects = async () => {
-      const issueData = await getIssue('0e36ddb504d5ca0cf414fe0fd16fb9bf')
+      let issueData = {}
+      try {
+        const response = await getIssue('0e36ddb504d5ca0cf414fe0fd16fb9bf')
+        const { data } = response
+        if (!data.ok) throw new Error(data.message)
+        issueData = data.issue
+      } catch (error) {
+        console.log(error.message)
+        return
+      }
       setIssue(issueData)
 
-      const commentsData = await getAllComments(issueData.id)
+      let commentsData = []
+      try {
+        const response = await getAllComments(issueData.id)
+        const { data } = response
+        if (!data.ok) throw new Error(data.message)
+        commentsData = data.comments
+      } catch (error) {
+        console.log(error.message)
+        return
+      }
       setComments(commentsData)
 
       if (!userToken) return
-      const userData = await getMe(userToken)
+      let userData = {}
+      try {
+        const response = await getMe()
+        const { data } = response
+        if (!data.ok) throw new Error(data.message)
+        userData = data.user
+      } catch (error) {
+        console.log(error.message)
+        return
+      }
       setUserId(userData.id)
     }
 

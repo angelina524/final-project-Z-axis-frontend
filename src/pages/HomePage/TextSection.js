@@ -4,6 +4,7 @@ import styled from '@emotion/styled'
 import BackgroundCircleDashed from './components/BackgroundCircleDashed'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import Section from './components/Section'
+import WidthWrapper from '../../components/WidthWrapper'
 
 const SecondBackgroundCircleDashed = styled(BackgroundCircleDashed)`
   transform: scale(1.6);

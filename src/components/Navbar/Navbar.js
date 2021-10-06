@@ -16,6 +16,8 @@ const Wrapper = styled.div`
 
 const NavbarWrapper = styled.div`
   width: 85%;
+  min-width: 300px;
+  max-width: 800px;
   height: 5rem;
   box-shadow: ${({ theme }) => theme.boxShadow};
   border: ${({ theme }) => theme.border};

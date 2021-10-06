@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 import { register } from '../../webapi/userApi'
 import useForm from '../../hooks/useForm'
@@ -14,7 +15,7 @@ import {
 } from '../../components/form'
 import { UserTokenContext } from '../../contexts/tokenContexts'
 
-const RegisterPage = () => {
+const RegisterPage = ({ isNow }) => {
   const { setUserToken } = useContext(UserTokenContext)
   const {
     nickname,
@@ -28,6 +29,7 @@ const RegisterPage = () => {
     validateRegister
   } = useForm()
   const history = useHistory()
+  const { setUserToken } = useContext(UserTokenContext)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -37,14 +39,17 @@ const RegisterPage = () => {
 
     let userToken = ''
     try {
-      userToken = await register(nickname, email, password)
+      const response = await register(nickname, email, password)
+      const { data } = response
+      if (!data.ok) throw new Error(data.message)
+      userToken = data.token
     } catch (error) {
-      setErrorMessage('註冊失敗，請再試一次')
+      setErrorMessage(error.message)
       return
     }
     setUserToken(userToken)
     storage.setUserToken(userToken)
-    history.push('/')
+    history.push('/backstage')
   }
 
   useEffect(() => {
@@ -52,8 +57,8 @@ const RegisterPage = () => {
   }, [nickname, email, password])
 
   return (
-    <UserFormWrapper onSubmit={handleSubmit}>
-      <FormTitle>註冊</FormTitle>
+    <UserFormWrapper isNow={isNow} onSubmit={handleSubmit}>
+      <FormTitle>{isNow && '立即'}註冊</FormTitle>
       <InputText
         value={nickname}
         onChange={(e) => setNickname(e.target.value)}
@@ -77,6 +82,9 @@ const RegisterPage = () => {
       <PromptLink to="/login">已經有帳號？ 按此登入</PromptLink>
     </UserFormWrapper>
   )
+}
+RegisterPage.propTypes = {
+  isNow: PropTypes.bool
 }
 
 export default RegisterPage

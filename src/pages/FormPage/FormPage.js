@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
+import { useHistory } from 'react-router-dom'
+import EditIssueContext from '../../contexts/editIssueContext'
 import { plusIcon } from '../../components/icons'
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
@@ -19,6 +21,9 @@ import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const FormPage = () => {
   const { userToken } = useContext(UserTokenContext)
+  const { editIssue, setEditIssue } = useContext(EditIssueContext)
+  const { isEdit } = editIssue
+  const history = useHistory()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [date, setDate] = useState([
@@ -29,6 +34,25 @@ const FormPage = () => {
     }
   ])
   const [errorMessage, setErrorMessage] = useState('')
+
+  useEffect(() => {
+    if (isEdit) {
+      const {
+        title,
+        description,
+        date: { startDate, endDate }
+      } = editIssue
+      setTitle(title)
+      setDescription(description)
+      setDate([
+        {
+          startDate: new Date(startDate),
+          endDate: new Date(endDate),
+          key: 'selection'
+        }
+      ])
+    }
+  }, [editIssue, isEdit])
 
   useEffect(() => {
     setErrorMessage('')
@@ -72,6 +96,26 @@ const FormPage = () => {
         key: 'selection'
       }
     ])
+
+    // todo: 串編輯 API
+    if (isEdit) {
+      // ... post edited issue
+      setEditIssue({
+        isEdit: false,
+        title,
+        description,
+        date: {
+          startDate: startDate.replace(/-/g, '/'),
+          endDate: endDate.replace(/-/g, '/'),
+          key: 'selection'
+        }
+      })
+      history.push('/backstage/issues/' + editIssue.url)
+      return console.log(title, description, startDate, endDate)
+    }
+
+    // todo: 串 API
+    return console.log(title, description, startDate, endDate)
   }
 
   return (
@@ -79,7 +123,7 @@ const FormPage = () => {
       <Menu MenuContent={BackstageMenuContent} />
       <BackstageNavbar iconName={plusIcon} title="建立" />
       <AddFormWrapper onSubmit={handleFormSubmit}>
-        <FormTitle>新增留言箱</FormTitle>
+        <FormTitle>{isEdit ? '編輯' : '新增'}留言箱</FormTitle>
         <InputText
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -102,7 +146,7 @@ const FormPage = () => {
           showDateDisplay={false}
         />
         {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-        <SubmitBtn type="submit">送出</SubmitBtn>
+        <SubmitBtn type="submit">{isEdit ? '更新' : '送出'}</SubmitBtn>
       </AddFormWrapper>
     </>
   )

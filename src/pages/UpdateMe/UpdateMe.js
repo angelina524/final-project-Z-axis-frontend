@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import { getMe, updateMe } from '../../webapi/userApi'
@@ -12,6 +12,7 @@ import {
   SubmitBtn,
   PromptLink
 } from '../../components/form'
+import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const UpdateMe = () => {
   const {
@@ -24,9 +25,7 @@ const UpdateMe = () => {
     validateUpdateMe
   } = useForm('')
   const history = useHistory()
-
-  // 暫時在這裡拿 userToken
-  const userToken = storage.getUserToken()
+  const { setUserToken } = useContext(UserTokenContext)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -36,23 +35,30 @@ const UpdateMe = () => {
 
     let newUserToken = ''
     try {
-      newUserToken = await updateMe(userToken, nickname, email)
+      const response = await updateMe(nickname, email)
+      const { data } = response
+      if (!data.ok) throw new Error(data.message)
+      newUserToken = data.token
     } catch (error) {
-      setErrorMessage('修改個人資料失敗，請再試一次')
+      setErrorMessage(error.message)
       return
     }
 
+    setUserToken(newUserToken)
     storage.setUserToken(newUserToken)
     history.push('/user')
   }
 
   useEffect(() => {
     const getUserInformation = async () => {
-      let user = null
+      let user = {}
       try {
-        user = await getMe(userToken)
+        const response = await getMe()
+        const { data } = response
+        if (!data.ok) throw new Error(data.message)
+        user = data.user
       } catch (error) {
-        setErrorMessage('取得個人資訊失敗')
+        setErrorMessage(error.message)
         return
       }
       setNickname(user.nickname)
