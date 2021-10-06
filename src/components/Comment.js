@@ -27,6 +27,12 @@ const CommentWrapper = styled.div`
   flex-direction: column;
 `
 
+const CommentAvatarWrapper = styled.div`
+  position: absolute;
+  left: 0;
+  top: -20px;
+`
+
 const Nickname = styled.div`
   position: absolute;
   width: 75%;
@@ -362,7 +368,9 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
 
   return (
     <CommentWrapper>
-      <Avatar />
+      <CommentAvatarWrapper>
+        <Avatar size={'35px'} />
+      </CommentAvatarWrapper>
       <Nickname>{comment.nickname}</Nickname>
       <CommentContainer>
         <CommentTop>

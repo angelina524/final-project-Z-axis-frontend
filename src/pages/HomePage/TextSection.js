@@ -27,13 +27,11 @@ const TextWrapper = styled.div`
 const TextSection = () => {
   return (
     <Section>
-      <WidthWrapper>
-        <SecondBackgroundCircleDashed />
-        <TextWrapper>
-          <p>提供 3 項即時多人互動功能，</p>
-          <p>打造與觀眾更加自由的線上互動空間。</p>
-        </TextWrapper>
-      </WidthWrapper>
+      <SecondBackgroundCircleDashed />
+      <TextWrapper>
+        <p>提供 4 項即時多人互動功能，</p>
+        <p>打造與觀眾更加自由的線上互動空間。</p>
+      </TextWrapper>
     </Section>
   )
 }

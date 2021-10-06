@@ -12,11 +12,15 @@ import {
   AddFormWrapper,
   FormTitle,
   InputText,
+  RemindText,
   ErrorMessage,
   SubmitBtn
 } from '../../components/form'
+import { createIssue } from '../../webapi/issueApi'
+import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const FormPage = () => {
+  const { userToken } = useContext(UserTokenContext)
   const { editIssue, setEditIssue } = useContext(EditIssueContext)
   const { isEdit } = editIssue
   const history = useHistory()
@@ -54,14 +58,34 @@ const FormPage = () => {
     setErrorMessage('')
   }, [title, description, date])
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault()
-    const startDate = new Date(date[0].startDate).toISOString().slice(0, 10)
-    const endDate = new Date(date[0].endDate).toISOString().slice(0, 10)
+  const addDays = (date, days) => {
+    const result = new Date(date)
+    result.setDate(result.getDate() + days)
+    return result
+  }
 
-    if (title === '' || startDate === '' || endDate === '') {
-      return setErrorMessage('必填欄位：標題、起始日期、結束日期')
+  const handleFormSubmit = async (e) => {
+    e.preventDefault()
+    if (title === '') {
+      return setErrorMessage('必填欄位：標題')
     }
+    const startDate = new Date(date[0].startDate)
+      .toLocaleDateString()
+      .replaceAll('/', '-')
+
+    let endDate = null
+    if (!date[0].endDate || date[0].endDate > addDays(startDate, 4)) {
+      endDate = new Date(addDays(startDate, 4))
+        .toLocaleDateString()
+        .replaceAll('/', '-')
+    } else {
+      endDate = new Date(date[0].endDate)
+        .toLocaleDateString()
+        .replaceAll('/', '-')
+    }
+
+    // todo: 錯誤處理
+    await createIssue(userToken, title, description, startDate, endDate)
 
     setTitle('')
     setDescription('')
@@ -96,11 +120,7 @@ const FormPage = () => {
 
   return (
     <>
-      <Menu
-        userId={1}
-        nickname="嘎嘎嗚拉拉"
-        MenuContent={BackstageMenuContent}
-      />
+      <Menu MenuContent={BackstageMenuContent} />
       <BackstageNavbar iconName={plusIcon} title="建立" />
       <AddFormWrapper onSubmit={handleFormSubmit}>
         <FormTitle>{isEdit ? '編輯' : '新增'}留言箱</FormTitle>
@@ -116,12 +136,14 @@ const FormPage = () => {
           name="description"
           placeholder="描述"
         />
+        <RemindText>超過 5 天或未設置則以 5 天計算</RemindText>
         <DateRange
           editableDateInputs={true}
           onChange={(e) => setDate([e.selection])}
           moveRangeOnFirstSelection={false}
           ranges={date}
           minDate={new Date()}
+          showDateDisplay={false}
         />
         {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
         <SubmitBtn type="submit">{isEdit ? '更新' : '送出'}</SubmitBtn>

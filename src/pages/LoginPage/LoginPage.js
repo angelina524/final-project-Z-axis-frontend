@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import { login } from '../../webapi/userApi'
@@ -15,6 +15,7 @@ import {
 import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const LoginPage = () => {
+  const { setUserToken } = useContext(UserTokenContext)
   const {
     email,
     setEmail,
@@ -43,7 +44,6 @@ const LoginPage = () => {
       setErrorMessage(error.message)
       return
     }
-
     setUserToken(userToken)
     storage.setUserToken(userToken)
     history.push('/backstage')

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
@@ -16,6 +16,7 @@ import {
 import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const RegisterPage = ({ isNow }) => {
+  const { setUserToken } = useContext(UserTokenContext)
   const {
     nickname,
     setNickname,
@@ -46,7 +47,6 @@ const RegisterPage = ({ isNow }) => {
       setErrorMessage(error.message)
       return
     }
-
     setUserToken(userToken)
     storage.setUserToken(userToken)
     history.push('/backstage')

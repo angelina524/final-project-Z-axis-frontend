@@ -82,11 +82,7 @@ CardContainer.propTypes = {
 const AddPage = () => {
   return (
     <Wrapper>
-      <Menu
-        userId={1}
-        nickname="嘎嘎嗚拉拉"
-        MenuContent={BackstageMenuContent}
-      />
+      <Menu MenuContent={BackstageMenuContent} />
       <BackstageNavbar iconName={plusIcon} title="建立" />
       <CardsWrapper>
         {cardList.map((card) => (

@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import styled from '@emotion/styled'
 import { useTheme } from '@emotion/react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import { hamburgerIcon } from '../icons'
+import storage from '../../localStorageApi'
+import { UserTokenContext } from '../../contexts/tokenContexts'
+import { getMe } from '../../webapi/userApi'
 
 const MenuWrapper = styled.aside`
   z-index: 10;
@@ -67,8 +69,26 @@ const StyledHamburger = styled(Hamburger)`
   cursor: pointer;
 `
 
-const Menu = ({ userId, nickname, MenuContent }) => {
+const Menu = ({ MenuContent }) => {
+  const { userToken, setUserToken } = useContext(UserTokenContext)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [nickname, setNickname] = useState(null)
+
+  useEffect(() => {
+    const doAsyncEffects = async () => {
+      if (!userToken) return
+      const userData = await getMe(userToken)
+      setNickname(userData.nickname)
+    }
+
+    doAsyncEffects()
+  }, [])
+
+  const handleLogout = () => {
+    setUserToken('')
+    storage.clearUserToken()
+  }
+
   return (
     <MenuWrapper isMenuOpen={isMenuOpen}>
       <StyledHamburger
@@ -78,13 +98,17 @@ const Menu = ({ userId, nickname, MenuContent }) => {
       <Nickname>{nickname || 'Anonymous'}</Nickname>
       <MenuContent />
       <Footer>
-        {!userId && (
+        {!userToken && (
           <>
             <Link to="/register">註冊</Link>
             <Link to="/login">登入</Link>
           </>
         )}
-        {userId && <Link to="/">登出</Link>}
+        {userToken && (
+          <Link to="/" onClick={handleLogout}>
+            登出
+          </Link>
+        )}
         <Link to="/">首頁</Link>
         <p>© Z-axis 2021</p>
       </Footer>

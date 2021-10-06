@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from '@emotion/styled'
 import { Link, useLocation } from 'react-router-dom'
 import Logo from '../Logo'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
+import { UserTokenContext } from '../../contexts/tokenContexts'
+import storage from '../../localStorageApi'
 
 const Wrapper = styled.div`
   ${flexJustifyAlign()}
@@ -47,6 +49,7 @@ const RegisterNow = styled.div`
 `
 
 const Navbar = () => {
+  const { userToken, setUserToken } = useContext(UserTokenContext)
   const location = useLocation()
   const goToBottom = () => {
     window.scrollTo({
@@ -55,20 +58,34 @@ const Navbar = () => {
     })
   }
 
+  const handleLogout = () => {
+    setUserToken('')
+    storage.clearUserToken()
+  }
+
   return (
     <Wrapper>
       <NavbarWrapper>
         <Logo />
         <NavbarLinks>
           <Link to="/">首頁</Link>
-          <Link to="/login">登入</Link>
-          {location.pathname === '/' && (
-            <RegisterNow onClick={goToBottom}>立即註冊</RegisterNow>
+          {!userToken && (
+            <>
+              <Link to="/login">登入</Link>
+              {location.pathname === '/' && (
+                <RegisterNow onClick={goToBottom}>立即註冊</RegisterNow>
+              )}
+              {location.pathname !== '/' && <Link to="/register">註冊</Link>}
+            </>
           )}
-          {location.pathname !== '/' && <Link to="/register">註冊</Link>}
-
-          {/* <Link to='/user'>後台</Link> */}
-          {/* <Link to='/logout'>登出</Link> */}
+          {userToken && (
+            <>
+              <Link to="/backstage">後台</Link>
+              <Link to="/" onClick={handleLogout}>
+                登出
+              </Link>
+            </>
+          )}
 
           {/* <Link to="/test-web-api">測試 web api</Link> */}
         </NavbarLinks>
