@@ -2,7 +2,9 @@ import React, { useState, useEffect, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from '@emotion/styled'
 import io from 'socket.io-client'
+import moment from 'moment'
 
+import BACKEND_BASE_URL from '../../constants/baseURL'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import { ForestageIssueNavbar } from '../../components/Navbar/ForestageNavbar'
 import Menu from '../../components/Menu/Menu'
@@ -40,7 +42,7 @@ const CommentsWrapper = styled.div`
   }
 `
 // dev server port
-const socket = io.connect('http://localhost:5001')
+const socket = io.connect(BACKEND_BASE_URL)
 
 const IssuePage = () => {
   const guestToken = useContext(GuestTokenContext)
@@ -121,9 +123,8 @@ const IssuePage = () => {
   }, [])
 
   const menuContent = () => {
-    // todo:用統一時間 function
-    const beginTime = new Date(issue.beginTime).toLocaleDateString()
-    const finishTime = new Date(issue.finishTime).toLocaleDateString()
+    const beginTime = moment(issue.beginTime).format('YYYY-MM-DD')
+    const finishTime = moment(issue.finishTime).format('YYYY-MM-DD')
 
     return (
       <ForestageMenuContent
@@ -144,7 +145,7 @@ const IssuePage = () => {
       <CommentsWrapper>
         {comments.map((comment) => (
           <Comment
-            key={Math.random().toString(36).slice(2)}
+            key={comment.id}
             id={comment.id}
             comment={comment}
             userId={userId}

@@ -23,10 +23,11 @@ function App () {
   const [userToken, setUserToken] = useState(storage.getUserToken() || '')
   const [editIssue, setEditIssue] = useState({
     isEdit: false,
+    issueId: 0,
     title: '',
     description: '',
     date: {
-      startDate: new Date(),
+      startDate: new Date().getDate,
       endDate: null,
       key: 'selection'
     }

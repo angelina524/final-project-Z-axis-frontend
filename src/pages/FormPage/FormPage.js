@@ -17,7 +17,7 @@ import {
   ErrorMessage,
   SubmitBtn
 } from '../../components/form'
-import { createIssue } from '../../webapi/issueApi'
+import { createIssue, updateIssue } from '../../webapi/issueApi'
 
 const FormPage = () => {
   const { editIssue, setEditIssue } = useContext(EditIssueContext)
@@ -95,7 +95,6 @@ const FormPage = () => {
       }
     ])
 
-    // todo: 串編輯 API
     if (isEdit) {
       // ... post edited issue
       setEditIssue({
@@ -103,11 +102,18 @@ const FormPage = () => {
         title,
         description,
         date: {
-          startDate: startDate.replace(/-/g, '/'),
-          endDate: endDate.replace(/-/g, '/'),
+          startDate: moment(startDate).format('YYYY-MM-DD'),
+          endDate: moment(endDate).format('YYYY-MM-DD'),
           key: 'selection'
         }
       })
+      await updateIssue(
+        editIssue.issueId,
+        title,
+        description,
+        moment(startDate).format('YYYY-MM-DD'),
+        moment(endDate).format('YYYY-MM-DD')
+      )
       history.push('/backstage/issues/' + editIssue.url)
       return console.log(title, description, startDate, endDate)
     }
