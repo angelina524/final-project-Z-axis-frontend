@@ -17,10 +17,8 @@ import {
   SubmitBtn
 } from '../../components/form'
 import { createIssue } from '../../webapi/issueApi'
-import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const FormPage = () => {
-  const { userToken } = useContext(UserTokenContext)
   const { editIssue, setEditIssue } = useContext(EditIssueContext)
   const { isEdit } = editIssue
   const history = useHistory()
@@ -85,7 +83,7 @@ const FormPage = () => {
     }
 
     // todo: 錯誤處理
-    await createIssue(userToken, title, description, startDate, endDate)
+    await createIssue(title, description, startDate, endDate)
 
     setTitle('')
     setDescription('')

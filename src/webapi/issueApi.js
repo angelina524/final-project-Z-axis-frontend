@@ -1,11 +1,11 @@
 import instance from './instance'
 
-export const createIssue = async (title, description, beginTime, finishTime) =>
+export const createIssue = async (title, description, beginDate, finishDate) =>
   await instance.post('/issues', {
     title,
     description,
-    beginTime,
-    finishTime
+    beginDate,
+    finishDate
   })
 
 export const deleteIssue = async (issueId) =>
@@ -15,14 +15,14 @@ export const updateIssue = async (
   issueId,
   title,
   description,
-  beginTime,
-  finishTime
+  beginDate,
+  finishDate
 ) =>
   await instance.patch(`/issues/${issueId}`, {
     title,
     description,
-    beginTime,
-    finishTime
+    beginDate,
+    finishDate
   })
 
 export const getAllIssues = async (limit = 999) =>
