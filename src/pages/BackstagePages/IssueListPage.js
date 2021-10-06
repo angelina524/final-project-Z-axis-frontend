@@ -145,7 +145,7 @@ const IssueListPage = () => {
 
   return (
     <>
-      <Menu userId={1} nickname="allen" MenuContent={BackstageMenuContent} />
+      <Menu MenuContent={BackstageMenuContent} />
       <BackstageSearchNavbar />
       <ActivityWrapper>
         <ActivityType>

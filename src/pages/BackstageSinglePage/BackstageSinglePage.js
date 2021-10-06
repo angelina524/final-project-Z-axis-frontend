@@ -19,11 +19,7 @@ const PageWrapper = styled(Wrapper)`
 const BackstageSinglePage = () => {
   return (
     <PageWrapper padding="0">
-      <Menu
-        userId={1}
-        nickname="benben bunbun"
-        MenuContent={BackstageMenuContent}
-      />
+      <Menu MenuContent={BackstageMenuContent} />
       <BackstageNavbar
         iconName={cardList[0].iconName}
         title={cardList[0].cardTitle}

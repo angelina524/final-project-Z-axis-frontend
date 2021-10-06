@@ -77,7 +77,15 @@ const Menu = ({ MenuContent }) => {
   useEffect(() => {
     const doAsyncEffects = async () => {
       if (!userToken) return
-      const userData = await getMe(userToken)
+      let userData = {}
+      try {
+        const response = await getMe()
+        const { data } = response
+        if (!data.ok) throw new Error(data.message)
+        userData = data.user
+      } catch (error) {
+        console.log(error.message)
+      }
       setNickname(userData.nickname)
     }
 
