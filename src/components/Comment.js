@@ -193,7 +193,14 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
   const handleReplyFormSubmit = async (e) => {
     e.preventDefault()
     if (!reply.trim()) return
-    await updateReply(userToken, IssueId, id, reply.trim())
+    try {
+      const response = await updateReply(userToken, IssueId, id, reply.trim())
+      const { data } = response
+      if (!data.ok) throw new Error(data.message)
+    } catch (error) {
+      console.log(error.message)
+      return
+    }
 
     setReply('')
     setIsReplyFormOpen(false)
@@ -201,7 +208,14 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
   }
 
   const handleDeleteReplyClick = async () => {
-    await updateReply(userToken, IssueId, id, '')
+    try {
+      const response = await updateReply(userToken, IssueId, id, '')
+      const { data } = response
+      if (!data.ok) throw new Error(data.message)
+    } catch (error) {
+      console.log(error.message)
+      return
+    }
 
     setIsOptionsOpen(false)
   }
@@ -209,13 +223,20 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
   const handleUpdateCommentFormSubmit = async (e) => {
     e.preventDefault()
     if (!content.trim()) return
-    await updateComment(
-      guestToken,
-      IssueId,
-      id,
-      nickname.trim(),
-      content.trim()
-    )
+    try {
+      const response = await updateComment(
+        guestToken,
+        IssueId,
+        id,
+        nickname.trim(),
+        content.trim()
+      )
+      const { data } = response
+      if (!data.ok) throw new Error(data.message)
+    } catch (error) {
+      console.log(error.message)
+      return
+    }
 
     setNickname('')
     setContent('')
@@ -224,7 +245,14 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
   }
 
   const handleDeleteCommentClick = async () => {
-    await deleteComment(guestToken, userToken, IssueId, id)
+    try {
+      const response = await deleteComment(guestToken, userToken, IssueId, id)
+      const { data } = response
+      if (!data.ok) throw new Error(data.message)
+    } catch (error) {
+      console.log(error.message)
+      return
+    }
 
     setIsOptionsOpen(false)
   }

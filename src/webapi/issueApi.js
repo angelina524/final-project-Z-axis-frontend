@@ -1,94 +1,38 @@
 import instance from './instance'
 
-export const createIssue = async (
-  userToken,
-  title,
-  description,
-  beginTime,
-  finishTime
-) => {
-  const response = await instance.post(
-    '/issues',
-    {
-      title,
-      description,
-      beginTime,
-      finishTime
-    },
-    {
-      headers: {
-        Authorization: userToken
-      }
-    }
-  )
-  const { data } = response
-  const { ok, issue, message } = data
-  if (!ok) throw Error(message)
-  return issue
-}
-
-export const deleteIssue = async (userToken, issueId) => {
-  const response = await instance.delete(`/issues/${issueId}`, {
-    headers: {
-      Authorization: userToken
-    }
+export const createIssue = async (title, description, beginTime, finishTime) =>
+  await instance.post('/issues', {
+    title,
+    description,
+    beginTime,
+    finishTime
   })
-  const { data } = response
-  const { ok, message } = data
-  if (!ok) throw Error(message)
-}
+
+export const deleteIssue = async (issueId) =>
+  await instance.delete(`/issues/${issueId}`)
 
 export const updateIssue = async (
-  userToken,
   issueId,
   title,
   description,
   beginTime,
   finishTime
-) => {
-  const response = await instance.patch(
-    `/issues/${issueId}`,
-    {
-      title,
-      description,
-      beginTime,
-      finishTime
-    },
-    {
-      headers: {
-        Authorization: userToken
-      }
-    }
-  )
-  const { data } = response
-  const { ok, message } = data
-  if (!ok) throw Error(message)
-}
-
-export const getAllIssues = async (userToken) => {
-  const response = await instance.get('/issues', {
-    headers: {
-      Authorization: userToken
-    }
+) =>
+  await instance.patch(`/issues/${issueId}`, {
+    title,
+    description,
+    beginTime,
+    finishTime
   })
-  const { data } = response
-  const { ok, issuesWithURL, message } = data
-  if (!ok) throw Error(message)
-  return issuesWithURL
-}
 
-export const getIssue = async (issueURL) => {
-  let response = null
-  try {
-    response = await instance.get(`/issues/${issueURL}`)
-  } catch (err) {
-    console.log(err)
-    return err
-  }
-  const { data } = response
-  const { ok, issue, message } = data
-  if (!ok) {
-    console.log(message)
-  }
-  return issue
-}
+export const getAllIssues = async (limit = 999) =>
+  await instance.get(`/issues?limit=${limit}`)
+
+export const getIssue = async (issueURL) =>
+  await instance.get(`/issues/${issueURL}`)
+
+export const pinCommentOnTop = async (issueId, commentId) =>
+  await instance.patch(`/issues/${issueId}/pinCommentOnTop`, { commentId })
+
+export const unpinCommentOnTop = async (issueId, commentId) =>
+  await instance.patch(`/issues/${issueId}/unpinCommentOnTop`, { commentId })

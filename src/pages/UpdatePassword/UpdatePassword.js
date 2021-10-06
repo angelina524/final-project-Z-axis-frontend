@@ -26,9 +26,6 @@ const UpdatePassword = () => {
   } = useForm()
   const history = useHistory()
 
-  // 暫時在這裡拿 userToken
-  const userToken = window.localStorage.getItem('userToken')
-
   const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -36,9 +33,15 @@ const UpdatePassword = () => {
     if (!isFormValid) return
 
     try {
-      await updatePassword(userToken, oldPassword, newPassword, againPassword)
+      const response = await updatePassword(
+        oldPassword,
+        newPassword,
+        againPassword
+      )
+      const { data } = response
+      if (!data.ok) throw new Error(data.message)
     } catch (error) {
-      setErrorMessage('密碼錯誤，請再試一次')
+      setErrorMessage(error.message)
       return
     }
 
