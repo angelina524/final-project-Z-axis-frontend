@@ -29,7 +29,6 @@ const RegisterPage = ({ isNow }) => {
     validateRegister
   } = useForm()
   const history = useHistory()
-  const { setUserToken } = useContext(UserTokenContext)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
