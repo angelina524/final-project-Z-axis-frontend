@@ -6,6 +6,7 @@ import { useTheme } from '@emotion/react'
 import SectionWrapper from './components/SectionWrapper'
 import ButtonOrigin from '../../components/Button'
 import editIssueContext from '../../contexts/editIssueContext'
+import BACKEND_BASE_URL from '../../constants/baseURL'
 
 const Button = styled(ButtonOrigin)`
   align-self: flex-end;
@@ -53,22 +54,23 @@ const EditSection = () => {
   useEffect(() => {
     ;(async () => {
       const res = await fetch(
-        // BE: 'http://api.ben6515.tw/issues/9184bcb396b0de5ca4c86a464d075d19'
         // FE: 'http://localhost:3000/#/backstage/issues/9184bcb396b0de5ca4c86a464d075d19'
-        `http://api.ben6515.tw/issues/${url}`
+        // if error happened, try put this url in browser
+        `${BACKEND_BASE_URL}/issues/${url}`
       )
       if (!res.ok) return
       const {
-        issue: { title, description, beginTime, finishTime }
+        issue: { title, description, beginDate, finishDate, id }
       } = await res.json()
       setEditIssue({
         isEdit: true,
         url,
+        issueId: id,
         title,
         description,
         date: {
-          startDate: beginTime.slice(0, 10).replace(/-/g, '/'),
-          endDate: finishTime.slice(0, 10).replace(/-/g, '/'),
+          startDate: beginDate.slice(0, 10).replace(/-/g, '/'),
+          endDate: finishDate.slice(0, 10).replace(/-/g, '/'),
           key: 'selection'
         }
       })

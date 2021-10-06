@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react'
+import { useParams } from 'react-router-dom'
 import styled from '@emotion/styled'
+import io from 'socket.io-client'
+import moment from 'moment'
 
+import BACKEND_BASE_URL from '../../constants/baseURL'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import { ForestageIssueNavbar } from '../../components/Navbar/ForestageNavbar'
 import Menu from '../../components/Menu/Menu'
@@ -37,22 +41,48 @@ const CommentsWrapper = styled.div`
     margin: 0 0.5rem;
   }
 `
+// dev server port
+const socket = io.connect(BACKEND_BASE_URL)
 
 const IssuePage = () => {
   const guestToken = useContext(GuestTokenContext)
   const { userToken } = useContext(UserTokenContext)
+  const { url } = useParams()
   const [issue, setIssue] = useState({})
   const [comments, setComments] = useState([])
   const [userId, setUserId] = useState(null)
 
-  // issueURL 暫時寫死
   // filter 待完成
-  // websocket 待完成
+
+  // socket listening events
+  useEffect(() => {
+    socket.on('addComment', (comment) => {
+      setComments((prev) => [...prev, comment])
+    })
+    socket.on('updateComment', (updateComment) => {
+      console.log(updateComment)
+      setComments((prev) =>
+        prev.map((comment) =>
+          comment.id === updateComment.id ? updateComment : comment
+        )
+      )
+    })
+    socket.on('deleteComment', (id) => {
+      setComments((prev) => prev.filter((comment) => comment.id !== id))
+    })
+    window.scrollTo(0, document.body.scrollHeight)
+  }, [socket])
+
+  useEffect(() => {
+    window.scrollTo(0, document.body.scrollHeight)
+  }, [comments])
+
   useEffect(() => {
     const doAsyncEffects = async () => {
       let issueData = {}
       try {
-        const response = await getIssue('0e36ddb504d5ca0cf414fe0fd16fb9bf')
+        // http://localhost:3000/#/issue/0e36ddb504d5ca0cf414fe0fd16fb9bf
+        const response = await getIssue(url)
         const { data } = response
         if (!data.ok) throw new Error(data.message)
         issueData = data.issue
@@ -61,6 +91,7 @@ const IssuePage = () => {
         return
       }
       setIssue(issueData)
+      socket.emit('joinIssue', issueData.id)
 
       let commentsData = []
       try {
@@ -92,9 +123,8 @@ const IssuePage = () => {
   }, [])
 
   const menuContent = () => {
-    // todo:用統一時間 function
-    const beginTime = new Date(issue.beginTime).toLocaleDateString()
-    const finishTime = new Date(issue.finishTime).toLocaleDateString()
+    const beginTime = moment(issue.beginTime).format('YYYY-MM-DD')
+    const finishTime = moment(issue.finishTime).format('YYYY-MM-DD')
 
     return (
       <ForestageMenuContent
@@ -116,15 +146,23 @@ const IssuePage = () => {
         {comments.map((comment) => (
           <Comment
             key={comment.id}
+            id={comment.id}
             comment={comment}
             userId={userId}
             issueUserId={issue.UserId}
             userToken={userToken}
             guestToken={guestToken}
+            socket={socket}
+            setComments={setComments}
           />
         ))}
       </CommentsWrapper>
-      <AddCommentForm IssueId={issue.id} guestToken={guestToken} />
+      <AddCommentForm
+        IssueId={issue.id}
+        guestToken={guestToken}
+        socket={socket}
+        setComments={setComments}
+      />
     </Wrapper>
   )
 }

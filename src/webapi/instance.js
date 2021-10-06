@@ -1,8 +1,9 @@
 import axios from 'axios'
 import storage from '../localStorageApi'
+import BACKEND_BASE_URL from '../constants/baseURL'
 
 const instance = axios.create({
-  baseURL: 'http://localhost:5001'
+  baseURL: BACKEND_BASE_URL
 })
 
 instance.interceptors.request.use((config) => {

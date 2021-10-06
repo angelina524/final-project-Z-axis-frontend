@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import QRcode from 'qrcode.react'
 import styled from '@emotion/styled'
 
+import logo from '../../logo.svg'
 import SectionWrapper from './components/SectionWrapper'
 
 const QRcodeWrapper = styled.div`
@@ -76,10 +77,22 @@ const QRcodeSection = () => {
       <QRcodeWrapper>
         <Title>前台連結</Title>
         <QRcodeImageWrapper>
-          <QRcode id="qrId" value={URL} size={200} />
+          <QRcode
+            id="qrId"
+            value={URL}
+            size={200}
+            imageSettings={{
+              src: logo,
+              x: null,
+              y: null,
+              height: 36,
+              width: 36,
+              excavate: true
+            }}
+          />
         </QRcodeImageWrapper>
         <CopyWrapper id="down_link" onClick={downloadQRcode}>
-          下載複製 QR code
+          下載 QR code
         </CopyWrapper>
         <URLWrapper>{URL}</URLWrapper>
         <CopyWrapper onClick={copyURLtoBoard}>按此複製網址</CopyWrapper>

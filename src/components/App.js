@@ -23,10 +23,11 @@ function App () {
   const [userToken, setUserToken] = useState(storage.getUserToken() || '')
   const [editIssue, setEditIssue] = useState({
     isEdit: false,
+    issueId: 0,
     title: '',
     description: '',
     date: {
-      startDate: new Date(),
+      startDate: new Date().getDate,
       endDate: null,
       key: 'selection'
     }
@@ -92,15 +93,23 @@ function App () {
               <Route exact path="/backstage">
                 <BackstagePage />
               </Route>
-              <Route exact path="/backstage/issues/:url">
-                <BackstageSinglePage />
+              {/* dev data  in BE seeder */}
+              {/* http://localhost:3000/#/issues/0e36ddb504d5ca0cf414fe0fd16fb9bf */}
+              <Route exact path="/issues/:url">
+                <IssuePage />
               </Route>
               <Route exact path="/issues">
                 <IssueListPage />
               </Route>
-              {/* loading page */}
-              <Route exact path="/loading">
-                <Loader />
+              <Route exact path="/backstage">
+                <BackstagePage />
+              </Route>
+              <Route exact path="/backstage/issues/:url">
+                <BackstageSinglePage />
+                {/* loading page */}
+                <Route exact path="/loading">
+                  <Loader />
+                </Route>
               </Route>
             </Switch>
           </Router>

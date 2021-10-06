@@ -178,7 +178,15 @@ const CommentInput = styled(ReplyInput)``
 
 const SubmitCommentBtn = styled(SubmitReplyBtn)``
 
-const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
+const Comment = ({
+  comment,
+  userId,
+  issueUserId,
+  userToken,
+  guestToken,
+  socket,
+  setComments
+}) => {
   const theme = useTheme()
   const [nickname, setNickname] = useState(comment.nickname || '')
   const [content, setContent] = useState(comment.content || '')
@@ -215,7 +223,7 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
 
   const handleDeleteReplyClick = async () => {
     try {
-      const response = await updateReply(userToken, IssueId, id, '')
+      const response = await updateReply(IssueId, id, '')
       const { data } = response
       if (!data.ok) throw new Error(data.message)
     } catch (error) {
@@ -231,7 +239,6 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
     if (!content.trim()) return
     try {
       const response = await updateComment(
-        guestToken,
         IssueId,
         id,
         nickname.trim(),
@@ -239,6 +246,14 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
       )
       const { data } = response
       if (!data.ok) throw new Error(data.message)
+
+      const { comment } = data
+      await socket.emit('updateComment', comment)
+      setComments((prev) =>
+        prev.map((prevComment) =>
+          prevComment.id === comment.id ? comment : prevComment
+        )
+      )
     } catch (error) {
       console.log(error.message)
       return
@@ -252,9 +267,13 @@ const Comment = ({ comment, userId, issueUserId, userToken, guestToken }) => {
 
   const handleDeleteCommentClick = async () => {
     try {
-      const response = await deleteComment(guestToken, userToken, IssueId, id)
+      const response = await deleteComment(IssueId, id)
       const { data } = response
       if (!data.ok) throw new Error(data.message)
+      await deleteComment(IssueId, id)
+
+      await socket.emit('deleteComment', { IssueId, id })
+      setComments((prev) => prev.filter((comment) => comment.id !== id))
     } catch (error) {
       console.log(error.message)
       return
@@ -418,7 +437,9 @@ Comment.propTypes = {
   userId: PropTypes.number,
   issueUserId: PropTypes.number,
   userToken: PropTypes.object,
-  guestToken: PropTypes.string
+  guestToken: PropTypes.string,
+  socket: PropTypes.object,
+  setComments: PropTypes.func
 }
 
 export default Comment
