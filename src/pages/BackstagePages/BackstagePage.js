@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useTheme } from '@emotion/react'
+import moment from 'moment'
 
 import { BackstageSearchNavbar } from '../../components/Navbar/BackstageNavbar'
 import BackstageMenuContent from '../../components/Menu/BackstageMenuContent'
@@ -18,12 +19,7 @@ import {
   PositionedButton,
   StyledLink
 } from './components'
-import {
-  isIssueFinished,
-  isIssueOncoming,
-  isIssueOngoing,
-  transformDate
-} from '../../utils'
+import { isIssueFinished, isIssueOncoming, isIssueOngoing } from '../../utils'
 
 const getIssueStatus = (issue) => {
   if (isIssueFinished(issue)) return '已截止'
@@ -34,44 +30,45 @@ const getIssueStatus = (issue) => {
 const BackstagePage = () => {
   const [issues, setIssues] = useState([])
   const theme = useTheme()
-  const userToken = window.localStorage.getItem('userToken')
 
   useEffect(() => {
     const doAsyncEffects = async () => {
-      const issuesData = await getAllIssues(userToken)
+      let issuesData = []
+      try {
+        const response = await getAllIssues(3)
+        const { data } = response
+        if (!data.ok) throw new Error(data.message)
+        issuesData = data.issuesWithURL
+      } catch (error) {
+        console.log(error.message)
+        return
+      }
       setIssues(issuesData)
     }
     doAsyncEffects()
   }, [])
 
   const renderIssues = () =>
-    // todo: 可以改成後端能接受 query 決定回傳的 issue 數
     issues
-      .sort(
-        (a, b) =>
-          Date.UTC(...b.issue.beginTime.substring(0, 10).split('-')) -
-          Date.UTC(...a.issue.beginTime.substring(0, 10).split('-'))
-      )
-      .slice(0, 3)
-      .map(({ issue, url }) => {
-        return (
-          <ActivityContent key={issue.id} to={`/issues/${url}`}>
-            <ActivityHeader color={theme.secondary_300}>
-              <ActivityInfo>
-                <div>{getIssueStatus(issue)}</div>
-                <div>
-                  {transformDate(new Date(issue.beginTime))} -{' '}
-                  {transformDate(new Date(issue.finishTime))}
-                </div>
-              </ActivityInfo>
-              {/* todo: comments 數量要用 issues 去關聯，或是直接在後端算好回傳給前端 */}
-              <div>{commentIcon('sm', theme.secondary_300)} 20</div>
-            </ActivityHeader>
-            <ActivityTitle>{issue.title}</ActivityTitle>
-            <ActivityDescription>{issue.description}</ActivityDescription>
-          </ActivityContent>
-        )
-      })
+      .sort((a, b) => new Date(b.issue.beginDate) - new Date(a.issue.beginDate))
+      .map(({ issue, url, commentCount }) => (
+        <ActivityContent key={issue.id} to={`/issues/${url}`}>
+          <ActivityHeader color={theme.secondary_300}>
+            <ActivityInfo>
+              <div>{getIssueStatus(issue)}</div>
+              <div>
+                {moment(issue.beginDate).format('YYYY/MM/DD')} -{' '}
+                {moment(issue.finishDate).format('YYYY/MM/DD')}
+              </div>
+            </ActivityInfo>
+            <div>
+              {commentIcon('sm', theme.secondary_300)} {commentCount}
+            </div>
+          </ActivityHeader>
+          <ActivityTitle>{issue.title}</ActivityTitle>
+          <ActivityDescription>{issue.description}</ActivityDescription>
+        </ActivityContent>
+      ))
 
   const renderIssueSection = () => (
     <ActivityWrapper>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
+import moment from 'moment'
 
 import {
   ActivitiesContainer,
@@ -21,12 +22,7 @@ import Menu from '../../components/Menu/Menu'
 import { commentIcon, goToTopIcon, issueIcon } from '../../components/icons'
 import { getAllIssues } from '../../webapi/issueApi'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
-import {
-  isIssueFinished,
-  isIssueOncoming,
-  isIssueOngoing,
-  transformDate
-} from '../../utils'
+import { isIssueFinished, isIssueOncoming, isIssueOngoing } from '../../utils'
 
 const GoToTopButton = styled.button`
   ${flexJustifyAlign()}
@@ -48,11 +44,19 @@ const IssueListPage = () => {
   const [ongoingIssues, setOngoingIssues] = useState([])
   const [finishedIssues, setFinishedIssues] = useState([])
   const theme = useTheme()
-  const userToken = window.localStorage.getItem('userToken')
 
   useEffect(() => {
     const doAsyncEffects = async () => {
-      const issuesData = await getAllIssues(userToken)
+      let issuesData = []
+      try {
+        const response = await getAllIssues()
+        const { data } = response
+        if (!data.ok) throw new Error(data.message)
+        issuesData = data.issuesWithURL
+      } catch (error) {
+        console.log(error.message)
+        return
+      }
       for (const issueData of issuesData) {
         if (isIssueFinished(issueData.issue)) {
           setFinishedIssues((prev) => [...prev, issueData])
@@ -76,17 +80,18 @@ const IssueListPage = () => {
         id: 0,
         title: '趕快建立新的 issue！',
         description: '快建立，懂？',
-        beginTime: new Date(),
-        finishTime: new Date()
+        beginDate: new Date(),
+        finishDate: new Date()
       },
-      url: 'example'
+      url: 'example',
+      commentCount: 0
     }
   ]
 
   const renderIssues = (issueList, status) => {
     if (!issueList.length) issueList = exampleIssue
 
-    return issueList.map(({ issue, url }) => (
+    return issueList.map(({ issue, url, commentCount }) => (
       <ActivityContent
         key={issue.id}
         to={url === 'example' ? '/form' : `/issues/${url}`}
@@ -95,12 +100,13 @@ const IssueListPage = () => {
           <ActivityInfo>
             <div>{status}</div>
             <div>
-              {transformDate(new Date(issue.beginTime))} -{' '}
-              {transformDate(new Date(issue.finishTime))}
+              {moment(issue.beginDate).format('YYYY/MM/DD')} -{' '}
+              {moment(issue.finishDate).format('YYYY/MM/DD')}
             </div>
           </ActivityInfo>
-          {/* todo: comments 數量要用 issues 去關聯，或是直接在後端算好回傳給前端 */}
-          <div>{commentIcon('sm', theme.secondary_300)} 20</div>
+          <div>
+            {commentIcon('sm', theme.secondary_300)} {commentCount}
+          </div>
         </ActivityHeader>
         <ActivityTitle>{issue.title}</ActivityTitle>
         <ActivityDescription>{issue.description}</ActivityDescription>

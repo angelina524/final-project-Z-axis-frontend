@@ -9,7 +9,6 @@ import RegisterPage from '../pages/RegisterPage'
 import UserPage from '../pages/UserPage/UserPage'
 import UpdatePassword from '../pages/UpdatePassword'
 import UpdateMe from '../pages/UpdateMe'
-import WebApiTestPage from '../pages/WebApiTestPage/WebApiTestPage'
 import AddPage from '../pages/AddPage'
 import FormPage from '../pages/FormPage'
 import IssuePage from '../pages/IssuePage'
@@ -18,21 +17,18 @@ import EditIssueContext from '../contexts/editIssueContext'
 import { createGuest } from '../webapi/guestApi'
 import { BackstagePage, IssueListPage } from '../pages/BackstagePages'
 import BackstageSinglePage from '../pages/BackstageSinglePage'
+import storage from '../localStorageApi'
 
 function App () {
-  const [guestToken, setGuestToken] = useState(
-    localStorage.getItem('guestToken') || ''
-  )
-  const [userToken, setUserToken] = useState(
-    localStorage.getItem('userToken') || ''
-  )
+  const [guestToken, setGuestToken] = useState(storage.getGuestToken() || '')
+  const [userToken, setUserToken] = useState(storage.getUserToken() || '')
   const [editIssue, setEditIssue] = useState({
     isEdit: false,
     title: '',
     description: '',
     date: {
-      startDate: new Date().getDate,
-      endDate: new Date().getDate,
+      startDate: new Date(),
+      endDate: null,
       key: 'selection'
     }
   })
@@ -40,9 +36,18 @@ function App () {
   useEffect(() => {
     const doAsyncEffects = async () => {
       if (!guestToken) {
-        const guest = await createGuest()
+        let guest = {}
+        try {
+          const response = await createGuest()
+          const { data } = response
+          if (!data.ok) throw new Error(data.message)
+          guest = data.guest
+        } catch (error) {
+          console.log(error.message)
+          return
+        }
         setGuestToken(guest.guestToken)
-        localStorage.setItem('guestToken', guest.guestToken)
+        storage.setGuestToken(guest.guestToken)
       }
     }
     doAsyncEffects()
@@ -101,11 +106,6 @@ function App () {
               {/* loading page */}
               <Route exact path="/loading">
                 <Loader />
-              </Route>
-              {/* dev test */}
-              <Route exact path="/test-web-api">
-                <Navbar />
-                <WebApiTestPage />
               </Route>
             </Switch>
           </Router>

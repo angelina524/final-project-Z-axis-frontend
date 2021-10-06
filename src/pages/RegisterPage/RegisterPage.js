@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
@@ -13,6 +13,7 @@ import {
   SubmitBtn,
   PromptLink
 } from '../../components/form'
+import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const RegisterPage = ({ isNow }) => {
   const {
@@ -27,6 +28,7 @@ const RegisterPage = ({ isNow }) => {
     validateRegister
   } = useForm()
   const history = useHistory()
+  const { setUserToken } = useContext(UserTokenContext)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -36,14 +38,18 @@ const RegisterPage = ({ isNow }) => {
 
     let userToken = ''
     try {
-      userToken = await register(nickname, email, password)
+      const response = await register(nickname, email, password)
+      const { data } = response
+      if (!data.ok) throw new Error(data.message)
+      userToken = data.token
     } catch (error) {
-      setErrorMessage('註冊失敗，請再試一次')
+      setErrorMessage(error.message)
       return
     }
 
+    setUserToken(userToken)
     storage.setUserToken(userToken)
-    history.push('/')
+    history.push('/backstage')
   }
 
   useEffect(() => {

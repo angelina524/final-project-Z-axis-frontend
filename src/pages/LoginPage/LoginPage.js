@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import { login } from '../../webapi/userApi'
@@ -12,6 +12,7 @@ import {
   ErrorMessage,
   SubmitBtn
 } from '../../components/form'
+import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const LoginPage = () => {
   const {
@@ -24,6 +25,7 @@ const LoginPage = () => {
     validateLogin
   } = useForm()
   const history = useHistory()
+  const { setUserToken } = useContext(UserTokenContext)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -33,14 +35,18 @@ const LoginPage = () => {
 
     let userToken = ''
     try {
-      userToken = await login(email, password)
+      const response = await login(email, password)
+      const { data } = response
+      if (!data.ok) throw new Error(data.message)
+      userToken = data.token
     } catch (error) {
-      setErrorMessage('信箱或密碼錯誤')
+      setErrorMessage(error.message)
       return
     }
 
+    setUserToken(userToken)
     storage.setUserToken(userToken)
-    history.push('/')
+    history.push('/backstage')
   }
 
   useEffect(() => {
