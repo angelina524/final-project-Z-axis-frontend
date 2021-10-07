@@ -50,14 +50,9 @@ const EditSection = () => {
   } = editIssue
   const [status, setStatus] = useState('')
 
-  // test deploy backend ： OK 爽啦
   useEffect(() => {
     ;(async () => {
-      const res = await fetch(
-        // FE: 'http://localhost:3000/#/backstage/issues/9184bcb396b0de5ca4c86a464d075d19'
-        // if error happened, try put this url in browser
-        `${BACKEND_BASE_URL}/issues/${url}`
-      )
+      const res = await fetch(`${BACKEND_BASE_URL}/issues/${url}`)
       if (!res.ok) return
       const {
         issue: { title, description, beginDate, finishDate, id }

@@ -77,26 +77,7 @@ const FormPage = () => {
       endDate = moment(date[0].endDate).format('YYYY-MM-DD')
     }
 
-    // todo: 錯誤處理
-    await createIssue(
-      title,
-      description,
-      moment(startDate).format('YYYY-MM-DD'),
-      moment(endDate).format('YYYY-MM-DD')
-    )
-
-    setTitle('')
-    setDescription('')
-    setDate([
-      {
-        startDate: new Date(),
-        endDate: null,
-        key: 'selection'
-      }
-    ])
-
     if (isEdit) {
-      // ... post edited issue
       setEditIssue({
         isEdit: false,
         title,
@@ -107,19 +88,42 @@ const FormPage = () => {
           key: 'selection'
         }
       })
-      await updateIssue(
-        editIssue.issueId,
-        title,
-        description,
-        moment(startDate).format('YYYY-MM-DD'),
-        moment(endDate).format('YYYY-MM-DD')
-      )
-      history.push('/backstage/issues/' + editIssue.url)
-      return console.log(title, description, startDate, endDate)
+      try {
+        await updateIssue(
+          editIssue.issueId,
+          title,
+          description,
+          moment(startDate).format('YYYY-MM-DD'),
+          moment(endDate).format('YYYY-MM-DD')
+        )
+      } catch (err) {
+        console.log(err)
+      }
+    } else {
+      try {
+        await createIssue(
+          title,
+          description,
+          moment(startDate).format('YYYY-MM-DD'),
+          moment(endDate).format('YYYY-MM-DD')
+        )
+      } catch (err) {
+        console.log(err)
+      }
     }
-
-    // todo: 串 API
-    return console.log(title, description, startDate, endDate)
+    setTitle('')
+    setDescription('')
+    setDate([
+      {
+        startDate: new Date(),
+        endDate: null,
+        key: 'selection'
+      }
+    ])
+    if (isEdit) {
+      setEditIssue((prev) => ({ ...prev, isEdit: false }))
+      history.push('/backstage/issues/' + editIssue.url)
+    }
   }
 
   return (
