@@ -2,6 +2,8 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { useTheme } from '@emotion/react'
 import PropTypes from 'prop-types'
+import { Link, useParams } from 'react-router-dom'
+
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import { issueIcon } from '../icons'
 
@@ -27,16 +29,18 @@ const ActivityDescription = styled.p`
   line-height: 2rem;
 `
 
-const Button = styled.button`
+const Button = styled(Link)`
   background-color: ${({ theme }) => theme.primary};
   color: ${({ theme }) => theme.secondary_900};
+  ${flexJustifyAlign()}
+  text-align: center;
   font-size: 1rem;
+  width: 55%;
   height: 2.5rem;
   padding: 0 1.5rem;
   border-radius: 1.125rem;
   border: none;
   margin: 0 auto;
-  display: block;
   margin-top: 1.5rem;
 `
 
@@ -48,6 +52,7 @@ const ForestageMenuContent = ({
   beginDate,
   finishDate
 }) => {
+  const { url } = useParams()
   const theme = useTheme()
   return (
     <>
@@ -62,7 +67,9 @@ const ForestageMenuContent = ({
         </ActivityDuration>
         <ActivityDescription>{description}</ActivityDescription>
       </ActivityWrapper>
-      {userId === issueUserId && <Button>進入此後台</Button>}
+      {userId === issueUserId && (
+        <Button to={`../backstage/issues/${url}`}>進入此後台</Button>
+      )}
     </>
   )
 }
