@@ -196,7 +196,8 @@ const Comment = ({
   socket,
   setComments,
   topCommentId,
-  setTopCommentId
+  setTopCommentId,
+  setTrigger
 }) => {
   const theme = useTheme()
   const [nickname, setNickname] = useState(comment.nickname || '')
@@ -318,18 +319,29 @@ const Comment = ({
       const response = await likesComment(IssueId, commentId)
       const { data } = response
       if (!data.ok) throw new Error(data.message)
-      // 先湊合著用，之後要改成 socket.io
+      // 先湊合著用，之後要改成 socket.io？
       setLikesNum((prev) => {
         if (data.message === '按讚成功') return prev + 1
         if (data.message === '收回按讚') return prev - 1
         return prev
       })
-      // todo: 按讚後若需更改順序畫面要立即反應
+      setComments((prev) =>
+        prev.map((comment) => {
+          if (comment.id !== commentId) return comment
+          return {
+            ...comment,
+            likensNum:
+              data.message === '按讚成功'
+                ? comment.likesNum + 1
+                : comment.likesNum - 1
+          }
+        })
+      )
       setIsLiked((prev) => !prev)
+      setTrigger((prev) => !prev)
     } catch (error) {
       console.log(error.message)
     }
-    // todo: socket.io
   }
 
   const renderCommentContent = () => (
@@ -493,7 +505,8 @@ Comment.propTypes = {
   socket: PropTypes.object,
   setComments: PropTypes.func,
   topCommentId: PropTypes.number,
-  setTopCommentId: PropTypes.func
+  setTopCommentId: PropTypes.func,
+  setTrigger: PropTypes.func
 }
 
 export default Comment

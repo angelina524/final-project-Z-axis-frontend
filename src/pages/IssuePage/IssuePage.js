@@ -53,6 +53,21 @@ const IssuePage = () => {
   const [userId, setUserId] = useState(null)
   const [topCommentId, setTopCommentId] = useState(0)
   const [filter, setFilter] = useState(false)
+  const [trigger, setTrigger] = useState(false)
+
+  useEffect(() => {
+    const doAsyncEffects = async () => {
+      try {
+        const response = await getAllComments(issue.id)
+        const { data } = response
+        if (!data.ok) throw new Error(data.message)
+        setComments(data.comments)
+      } catch (error) {
+        console.log(error.message)
+      }
+    }
+    doAsyncEffects()
+  }, [trigger])
 
   // socket listening events
   useEffect(() => {
@@ -146,6 +161,7 @@ const IssuePage = () => {
         totalComments={comments.length}
         filter={filter}
         setFilter={setFilter}
+        setTrigger={setTrigger}
       />
       <CommentsWrapper>
         {/* 優化 */}
@@ -162,6 +178,7 @@ const IssuePage = () => {
               setComments={setComments}
               topCommentId={topCommentId}
               setTopCommentId={setTopCommentId}
+              setTrigger={setTrigger}
             />
           ))}
         {comments
@@ -178,6 +195,7 @@ const IssuePage = () => {
               setComments={setComments}
               topCommentId={topCommentId}
               setTopCommentId={setTopCommentId}
+              setTrigger={setTrigger}
             />
           ))}
       </CommentsWrapper>
