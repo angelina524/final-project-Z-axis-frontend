@@ -45,10 +45,14 @@ const Button = styled(Link)`
   margin-top: 1.5rem;
 `
 
-
-const ForestageMenuContent = ({ issue }) => {
-  const { title, description, userId, issueUserId, beginDate, finishDate } =
-    issue
+const ForestageMenuContent = ({ userId, issue }) => {
+  const {
+    title,
+    description,
+    UserId: issueUserId,
+    beginDate,
+    finishDate
+  } = issue
   const { url } = useParams()
 
   const theme = useTheme()
@@ -74,6 +78,7 @@ const ForestageMenuContent = ({ issue }) => {
 }
 
 ForestageMenuContent.propTypes = {
+  userId: PropTypes.number,
   issue: PropTypes.object
 }
 

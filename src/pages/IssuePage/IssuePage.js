@@ -137,7 +137,7 @@ const IssuePage = () => {
   }, [])
 
   const menuContent = () => {
-    return <ForestageMenuContent issue={issue} />
+    return <ForestageMenuContent userId={userId} issue={issue} />
   }
 
   return (
