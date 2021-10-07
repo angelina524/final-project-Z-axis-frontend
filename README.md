@@ -16,6 +16,7 @@
 Z-axis 提供即時匿名留言、按讚投票、測驗互動、抽獎活動、問卷調查…等多項豐富演說的功能，透過即時數據，分析所有活動參與者的想法，以利整場演說延伸出更多互動地可能。
 
 前端主要專案採用 React、Socket.IO 開發，並部署在 Netlify。
+
 後端採用 Express、Sequelize、Socket.IO 開發，部署在 AWS EC2 平台，並使用 AWS RDS - MySQL 資料庫。
 
 ### 🏠 Homepage
