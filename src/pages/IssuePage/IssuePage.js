@@ -50,8 +50,23 @@ const IssuePage = () => {
   const [issue, setIssue] = useState({})
   const [comments, setComments] = useState([])
   const [userId, setUserId] = useState(null)
+  const [topCommentId, setTopCommentId] = useState(0)
+  const [filter, setFilter] = useState(false)
+  const [trigger, setTrigger] = useState(false)
 
-  // filter 待完成
+  useEffect(() => {
+    const doAsyncEffects = async () => {
+      try {
+        const response = await getAllComments(issue.id)
+        const { data } = response
+        if (!data.ok) throw new Error(data.message)
+        setComments(data.comments)
+      } catch (error) {
+        console.log(error.message)
+      }
+    }
+    doAsyncEffects()
+  }, [trigger, filter])
 
   // socket listening events
   useEffect(() => {
@@ -89,6 +104,7 @@ const IssuePage = () => {
         return
       }
       setIssue(issueData)
+      setTopCommentId(issueData.topCommentId)
       socket.emit('joinIssue', issueData.id)
 
       let commentsData = []
@@ -121,27 +137,53 @@ const IssuePage = () => {
   }, [])
 
   const menuContent = () => {
-    return <ForestageMenuContent issue={issue} />
+    return <ForestageMenuContent userId={userId} issue={issue} />
   }
 
   return (
     <Wrapper>
       <Menu MenuContent={menuContent} />
-      <ForestageIssueNavbar totalComments={comments.length} />
+      <ForestageIssueNavbar
+        totalComments={comments.length}
+        filter={filter}
+        setFilter={setFilter}
+        setTrigger={setTrigger}
+      />
       <CommentsWrapper>
-        {comments.map((comment) => (
-          <Comment
-            key={comment.id}
-            id={comment.id}
-            comment={comment}
-            userId={userId}
-            issueUserId={issue.UserId}
-            userToken={userToken}
-            guestToken={guestToken}
-            socket={socket}
-            setComments={setComments}
-          />
-        ))}
+        {/* 優化 */}
+        {comments
+          .filter((comment) => comment.id === topCommentId)
+          .map((comment) => (
+            <Comment
+              key={comment.id}
+              comment={comment}
+              userId={userId}
+              issueUserId={issue.UserId}
+              guestToken={guestToken}
+              socket={socket}
+              setComments={setComments}
+              topCommentId={topCommentId}
+              setTopCommentId={setTopCommentId}
+              setTrigger={setTrigger}
+            />
+          ))}
+        {comments
+          .filter((comment) => comment.id !== topCommentId)
+          .sort((a, b) => (filter ? b.likesNum - a.likesNum : 0))
+          .map((comment) => (
+            <Comment
+              key={comment.id}
+              comment={comment}
+              userId={userId}
+              issueUserId={issue.UserId}
+              guestToken={guestToken}
+              socket={socket}
+              setComments={setComments}
+              topCommentId={topCommentId}
+              setTopCommentId={setTopCommentId}
+              setTrigger={setTrigger}
+            />
+          ))}
       </CommentsWrapper>
       <AddCommentForm
         IssueId={issue.id}

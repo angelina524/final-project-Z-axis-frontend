@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import moment from 'moment'
 import styled from '@emotion/styled'
 import { useTheme } from '@emotion/react'
@@ -16,9 +16,12 @@ import flexJustifyAlign from './../styles/flexJustifyAlign'
 import {
   updateReply,
   updateComment,
-  deleteComment
+  deleteComment,
+  likesComment
 } from './../webapi/commentApi'
 import Avatar from './../components/Avatar'
+import { getRelation } from '../webapi/relationApi'
+import { pinCommentOnTop, unpinCommentOnTop } from '../webapi/issueApi'
 
 const CommentWrapper = styled.div`
   width: 100%;
@@ -178,14 +181,23 @@ const CommentInput = styled(ReplyInput)``
 
 const SubmitCommentBtn = styled(SubmitReplyBtn)``
 
+const Pin = styled.div`
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: translate(25%, -50%);
+`
+
 const Comment = ({
   comment,
   userId,
   issueUserId,
-  userToken,
   guestToken,
   socket,
-  setComments
+  setComments,
+  topCommentId,
+  setTopCommentId,
+  setTrigger
 }) => {
   const theme = useTheme()
   const [nickname, setNickname] = useState(comment.nickname || '')
@@ -195,20 +207,40 @@ const Comment = ({
   const [isReplyFormOpen, setIsReplyFormOpen] = useState(false)
   const [isOptionsOpen, setIsOptionsOpen] = useState(false)
   const [isCommentFormOpen, setIsCommentFormOpen] = useState(false)
+  const [likesNum, setLikesNum] = useState(comment.likesNum || 0)
+  const [isLiked, setIsLiked] = useState(false)
 
-  const { IssueId, id } = comment
+  const { IssueId, id: commentId } = comment
 
-  // 按讚：等待 API
-  const [likesNum, setLikesNum] = useState(0)
+  useEffect(() => {
+    const doAsyncEffects = async () => {
+      const response = await getRelation(commentId)
+      const { data } = response
+      setIsLiked(!!data.ok)
+    }
+    doAsyncEffects()
+  }, [])
 
-  // 置頂：等待 API
-  const handlePinCommentOnTopClick = () => {}
+  const handlePinCommentOnTopClick = async () => {
+    try {
+      const response =
+        commentId === topCommentId
+          ? await unpinCommentOnTop(IssueId, commentId)
+          : await pinCommentOnTop(IssueId, commentId)
+      const { data } = response
+      if (!data.ok) throw new Error(data.message)
+      setTopCommentId(commentId === topCommentId ? 0 : commentId)
+    } catch (error) {
+      console.log(error.message)
+    }
+    // todo: socket.io
+  }
 
   const handleReplyFormSubmit = async (e) => {
     e.preventDefault()
     if (!reply.trim()) return
     try {
-      const response = await updateReply(userToken, IssueId, id, reply.trim())
+      const response = await updateReply(IssueId, commentId, reply.trim())
       const { data } = response
       if (!data.ok) throw new Error(data.message)
     } catch (error) {
@@ -223,7 +255,7 @@ const Comment = ({
 
   const handleDeleteReplyClick = async () => {
     try {
-      const response = await updateReply(IssueId, id, '')
+      const response = await updateReply(IssueId, commentId, '')
       const { data } = response
       if (!data.ok) throw new Error(data.message)
     } catch (error) {
@@ -240,7 +272,7 @@ const Comment = ({
     try {
       const response = await updateComment(
         IssueId,
-        id,
+        commentId,
         nickname.trim(),
         content.trim()
       )
@@ -267,12 +299,12 @@ const Comment = ({
 
   const handleDeleteCommentClick = async () => {
     try {
-      const response = await deleteComment(IssueId, id)
+      const response = await deleteComment(IssueId, commentId)
       const { data } = response
       if (!data.ok) throw new Error(data.message)
 
-      await socket.emit('deleteComment', { IssueId, id })
-      setComments((prev) => prev.filter((comment) => comment.id !== id))
+      await socket.emit('deleteComment', { IssueId, commentId })
+      setComments((prev) => prev.filter((comment) => comment.id !== commentId))
     } catch (error) {
       console.log(error.message)
       return
@@ -281,11 +313,41 @@ const Comment = ({
     setIsOptionsOpen(false)
   }
 
+  const handleLikesComment = async () => {
+    try {
+      const response = await likesComment(IssueId, commentId)
+      const { data } = response
+      if (!data.ok) throw new Error(data.message)
+      // 先湊合著用，之後要改成 socket.io？
+      setLikesNum((prev) => {
+        if (data.message === '按讚成功') return prev + 1
+        if (data.message === '收回按讚') return prev - 1
+        return prev
+      })
+      setComments((prev) =>
+        prev.map((comment) => {
+          if (comment.id !== commentId) return comment
+          return {
+            ...comment,
+            likensNum:
+              data.message === '按讚成功'
+                ? comment.likesNum + 1
+                : comment.likesNum - 1
+          }
+        })
+      )
+      setIsLiked((prev) => !prev)
+      setTrigger((prev) => !prev)
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
   const renderCommentContent = () => (
     <>
       <Text>{comment.content}</Text>
-      <LikesBtn onClick={() => setLikesNum((prev) => prev + 1)}>
-        {thumbsUpIcon('1x', theme.secondary_300)}
+      <LikesBtn onClick={handleLikesComment}>
+        {thumbsUpIcon('1x', isLiked ? theme.primary : theme.secondary_300)}
         {likesNum}
       </LikesBtn>
     </>
@@ -335,7 +397,7 @@ const Comment = ({
   const renderPinCommentOnTopOption = () => (
     <Option onClick={handlePinCommentOnTopClick}>
       {pushpinIcon('1x', theme.secondary_300)}
-      <div>置頂</div>
+      <div>{topCommentId === commentId ? '取消置頂' : '置頂'}</div>
     </Option>
   )
 
@@ -391,6 +453,9 @@ const Comment = ({
       </CommentAvatarWrapper>
       <Nickname>{comment.nickname}</Nickname>
       <CommentContainer>
+        {commentId === topCommentId && (
+          <Pin>{pushpinIcon('lg', theme.secondary_300)}</Pin>
+        )}
         <CommentTop>
           {!isCommentFormOpen && renderCommentContent()}
           {isCommentFormOpen && renderCommentForm()}
@@ -435,10 +500,12 @@ Comment.propTypes = {
   comment: PropTypes.object,
   userId: PropTypes.number,
   issueUserId: PropTypes.number,
-  userToken: PropTypes.object,
   guestToken: PropTypes.string,
   socket: PropTypes.object,
-  setComments: PropTypes.func
+  setComments: PropTypes.func,
+  topCommentId: PropTypes.number,
+  setTopCommentId: PropTypes.func,
+  setTrigger: PropTypes.func
 }
 
 export default Comment
