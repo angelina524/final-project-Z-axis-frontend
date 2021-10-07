@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { useTheme } from '@emotion/react'
+import moment from 'moment'
 import PropTypes from 'prop-types'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import { issueIcon } from '../icons'
@@ -40,14 +41,9 @@ const Button = styled.button`
   margin-top: 1.5rem;
 `
 
-const ForestageMenuContent = ({
-  userId,
-  issueUserId,
-  title,
-  description,
-  beginDate,
-  finishDate
-}) => {
+const ForestageMenuContent = ({ issue }) => {
+  const { title, description, userId, issueUserId, beginDate, finishDate } =
+    issue
   const theme = useTheme()
   return (
     <>
@@ -58,7 +54,8 @@ const ForestageMenuContent = ({
         </ActivityType>
         <p>{title}</p>
         <ActivityDuration>
-          {beginDate} - {finishDate}
+          {moment(beginDate).format('YYYY/MM/DD')} -{' '}
+          {moment(finishDate).format('YYYY/MM/DD')}
         </ActivityDuration>
         <ActivityDescription>{description}</ActivityDescription>
       </ActivityWrapper>
@@ -68,12 +65,7 @@ const ForestageMenuContent = ({
 }
 
 ForestageMenuContent.propTypes = {
-  userId: PropTypes.number,
-  issueUserId: PropTypes.number,
-  title: PropTypes.string,
-  description: PropTypes.string,
-  beginDate: PropTypes.string,
-  finishDate: PropTypes.string
+  issue: PropTypes.object
 }
 
 export default ForestageMenuContent
