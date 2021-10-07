@@ -12,6 +12,7 @@ import {
   SubmitBtn,
   PromptLink
 } from '../../components/form'
+import BackToUserPageBtn from '../../components/BackToUserPageBtn'
 import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const UpdateMe = () => {
@@ -89,6 +90,7 @@ const UpdateMe = () => {
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       <SubmitBtn type="submit">送出</SubmitBtn>
       <PromptLink to="/user/me/update-password">修改密碼？ 按此修改</PromptLink>
+      <BackToUserPageBtn />
     </UserFormWrapper>
   )
 }
