@@ -1,9 +1,15 @@
-<h1 align="center">Welcome to Z-axis 👋</h1>
+<h1 align="center">Welcome to Z-axis Frontend👋👋</h1>
 
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-0.1.0-blue.svg?cacheSeconds=2592000" />
   <a href="https://www.notion.so/didijhong/Z-axis-User-Story-3f51e7514f114ac984b34b95aaeeb8fd" target="_blank">
-    <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
+    <img alt="User Story" src="https://img.shields.io/badge/User Story-yes-brightgreen.svg" />
+  </a>
+  <a href="https://hackmd.io/LBJwuLekR_mO9pIdLfhSZQ?view" target="_blank">
+    <img alt="API Documentation" src="https://img.shields.io/badge/API Documentation-yes-brightgreen.svg" />
+  </a>
+  <a href="https://drawsql.app/z-axis/diagrams/z-axis-sql#" target="_blank">
+    <img alt="Database structure" src="https://img.shields.io/badge/Database structure-yes-brightgreen.svg" />
   </a>
 </p>
 
@@ -23,6 +29,8 @@ Z-axis 提供即時匿名留言、按讚投票、測驗互動、抽獎活動、�
 - [Front-End repository](https://github.com/angelina524/final-project-Z-axis-frontend/tree/dev)
 - [Back-End repository](https://github.com/angelina524/final-project-Z-axis-backend/tree/dev)
 - [UserStory | notion](https://www.notion.so/didijhong/Z-axis-User-Story-3f51e7514f114ac984b34b95aaeeb8fd)
+- [API Documentation | HackMD](https://hackmd.io/LBJwuLekR_mO9pIdLfhSZQ)
+- [Database structure | drawSQL](https://drawsql.app/z-axis/diagrams/z-axis-sql#)
   
 
 ### ✨ [Demo](https://zaxis.netlify.app/#/)
