@@ -85,7 +85,7 @@ const BackstageMenuContent = () => {
         <MenuAvatarWrapper>
           <Avatar size={'70px'} />
         </MenuAvatarWrapper>
-        <EditBtn to="/user/me">修改個人資料</EditBtn>
+        <EditBtn to="/user/me">個人資料</EditBtn>
       </Profile>
       <OptionWrapper>
         {optionList.map((option) => (
