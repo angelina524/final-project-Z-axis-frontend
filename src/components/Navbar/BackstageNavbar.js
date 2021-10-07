@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, Link, useParams } from 'react-router-dom'
 import styled from '@emotion/styled'
 import PropTypes from 'prop-types'
 import { useTheme } from '@emotion/react'
@@ -58,6 +58,7 @@ const Button = styled(ButtonOrigin)`
 
 export const BackstageNavbar = ({ iconName, title }) => {
   const theme = useTheme()
+  const { url } = useParams()
   const location = useLocation()
   return (
     <Navbar>
@@ -66,7 +67,9 @@ export const BackstageNavbar = ({ iconName, title }) => {
         <span>{title}</span>
       </div>
       {location.pathname.indexOf('/backstage/issues') === 0 && (
-        <Button backgroundColor={theme.primary}>進入此前台</Button>
+        <Button backgroundColor={theme.primary} as={Link} to={`/issues/${url}`}>
+          進入此前台
+        </Button>
       )}
     </Navbar>
   )
