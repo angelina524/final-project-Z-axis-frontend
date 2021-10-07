@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from '@emotion/styled'
 import PropTypes from 'prop-types'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
@@ -37,19 +37,14 @@ const TotalComments = styled.div`
 `
 
 // todo: 篩選功能
-export const ForestageIssueNavbar = ({ totalComments }) => {
-  const [isActiveAll, setIsActiveAll] = useState(true)
-
+export const ForestageIssueNavbar = ({ totalComments, filter, setFilter }) => {
   return (
     <Navbar>
       <FilterWrapper>
-        <FilterOption active={isActiveAll} onClick={() => setIsActiveAll(true)}>
+        <FilterOption active={!filter} onClick={() => setFilter(false)}>
           所有
         </FilterOption>
-        <FilterOption
-          active={!isActiveAll}
-          onClick={() => setIsActiveAll(false)}
-        >
+        <FilterOption active={filter} onClick={() => setFilter(true)}>
           熱門
         </FilterOption>
       </FilterWrapper>
@@ -59,5 +54,7 @@ export const ForestageIssueNavbar = ({ totalComments }) => {
 }
 
 ForestageIssueNavbar.propTypes = {
+  filter: PropTypes.bool,
+  setFilter: PropTypes.func,
   totalComments: PropTypes.number
 }
