@@ -5,6 +5,7 @@ import styled from '@emotion/styled'
 
 import logo from '../../logo.svg'
 import SectionWrapper from './components/SectionWrapper'
+import { FRONTEND_BASE_URL } from '../../constants/baseURL.js'
 
 const QRcodeWrapper = styled.div`
   display: flex;
@@ -37,11 +38,24 @@ const QRcodeImageWrapper = styled.div`
 
 const URLWrapper = styled.div`
   overflow-x: scroll;
+  overflow-y: hidden;
   width: clamp(25ch, 80%, 60ch);
   height: 2.6rem;
   border-radius: 1.3rem;
   border: 1px solid ${({ theme }) => theme.secondary_300};
   padding: 0.3rem 1rem;
+  ::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+  }
+  ::-webkit-scrollbar-track {
+    background: ${({ theme }) => theme.secondary_850};
+    border-radius: 0.5rem;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: ${({ theme }) => theme.secondary_300};
+    border-radius: 0.5rem;
+  }
 `
 
 const CopyWrapper = styled.a`
@@ -56,9 +70,9 @@ const CopyWrapper = styled.a`
 
 const QRcodeSection = () => {
   const { url: issueUrl } = useParams()
-  const URL = `http://localhost:3000/#/backstage/issues/${issueUrl}`
+  const URL = `${FRONTEND_BASE_URL}/issues/${issueUrl}`
 
-  const copyURLtoBoard = (URL) => {
+  const copyURLtoBoard = () => {
     navigator.clipboard.writeText(URL).then(
       () => alert('複製成功！'),
       () => alert('複製失敗 QQ')

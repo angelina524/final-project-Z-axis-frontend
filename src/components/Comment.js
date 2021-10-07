@@ -302,7 +302,6 @@ const Comment = ({
       const response = await deleteComment(IssueId, commentId)
       const { data } = response
       if (!data.ok) throw new Error(data.message)
-      await deleteComment(IssueId, commentId)
 
       await socket.emit('deleteComment', { IssueId, commentId })
       setComments((prev) => prev.filter((comment) => comment.id !== commentId))

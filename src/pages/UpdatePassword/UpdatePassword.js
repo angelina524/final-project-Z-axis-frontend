@@ -11,6 +11,7 @@ import {
   SubmitBtn,
   PromptLink
 } from '../../components/form'
+import BackToUserPageBtn from '../../components/BackToUserPageBtn'
 
 const UpdatePassword = () => {
   const {
@@ -76,6 +77,7 @@ const UpdatePassword = () => {
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       <SubmitBtn type="submit">送出</SubmitBtn>
       <PromptLink to="/user/me">修改個人資料？ 按此修改</PromptLink>
+      <BackToUserPageBtn />
     </UserFormWrapper>
   )
 }
