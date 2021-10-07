@@ -36,23 +36,14 @@ const TotalComments = styled.div`
   font-size: 0.9rem;
 `
 
-export const ForestageIssueNavbar = ({
-  totalComments,
-  filter,
-  setFilter,
-  setTrigger
-}) => {
-  const handleFilterClick = (filter) => {
-    setFilter(filter)
-    setTrigger((prev) => !prev)
-  }
+export const ForestageIssueNavbar = ({ totalComments, filter, setFilter }) => {
   return (
     <Navbar>
       <FilterWrapper>
-        <FilterOption active={!filter} onClick={() => handleFilterClick(false)}>
+        <FilterOption active={!filter} onClick={() => setFilter(false)}>
           所有
         </FilterOption>
-        <FilterOption active={filter} onClick={() => handleFilterClick(true)}>
+        <FilterOption active={filter} onClick={() => setFilter(true)}>
           熱門
         </FilterOption>
       </FilterWrapper>
@@ -64,6 +55,5 @@ export const ForestageIssueNavbar = ({
 ForestageIssueNavbar.propTypes = {
   filter: PropTypes.bool,
   setFilter: PropTypes.func,
-  setTrigger: PropTypes.func,
   totalComments: PropTypes.number
 }

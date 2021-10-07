@@ -67,7 +67,7 @@ const IssuePage = () => {
       }
     }
     doAsyncEffects()
-  }, [trigger])
+  }, [trigger, filter])
 
   // socket listening events
   useEffect(() => {
