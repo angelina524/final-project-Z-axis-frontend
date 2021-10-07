@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from '@emotion/styled'
 import io from 'socket.io-client'
-import moment from 'moment'
 
 import BACKEND_BASE_URL from '../../constants/baseURL'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
@@ -81,7 +80,6 @@ const IssuePage = () => {
     const doAsyncEffects = async () => {
       let issueData = {}
       try {
-        // http://localhost:3000/#/issue/0e36ddb504d5ca0cf414fe0fd16fb9bf
         const response = await getIssue(url)
         const { data } = response
         if (!data.ok) throw new Error(data.message)
@@ -123,19 +121,7 @@ const IssuePage = () => {
   }, [])
 
   const menuContent = () => {
-    const beginTime = moment(issue.beginTime).format('YYYY-MM-DD')
-    const finishTime = moment(issue.finishTime).format('YYYY-MM-DD')
-
-    return (
-      <ForestageMenuContent
-        userId={userId}
-        issueUserId={issue.UserId}
-        title={issue.title}
-        description={issue.description}
-        beginDate={beginTime}
-        finishDate={finishTime}
-      />
-    )
+    return <ForestageMenuContent issue={issue} />
   }
 
   return (

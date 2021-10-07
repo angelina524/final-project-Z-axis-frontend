@@ -52,7 +52,7 @@ const CommentSubmitBtn = styled.button`
   cursor: pointer;
 `
 
-const AddCommentForm = ({ IssueId, guestToken, socket, setComments }) => {
+const AddCommentForm = ({ IssueId, socket, setComments }) => {
   const theme = useTheme()
   const [nickname, setNickname] = useState('')
   const [content, setContent] = useState('')
@@ -72,7 +72,6 @@ const AddCommentForm = ({ IssueId, guestToken, socket, setComments }) => {
     setComments((prev) => [...prev, comment])
     setNickname('')
     setContent('')
-    return console.log(nickname, content)
   }
 
   return (
