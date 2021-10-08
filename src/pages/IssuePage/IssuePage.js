@@ -74,11 +74,10 @@ const IssuePage = ({ isBackstage }) => {
         const { data } = response
         if (!data.ok) throw new Error(data.message)
         setComments(data.comments)
-        setIsLoading(false)
       } catch (error) {
         console.log(error.message)
-        setIsLoading(false)
       }
+      setIsLoading(false)
     }
     doAsyncEffects()
   }, [trigger, filter])

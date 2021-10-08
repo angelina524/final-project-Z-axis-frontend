@@ -113,7 +113,6 @@ const EditSection = () => {
 
   useEffect(() => {
     const now = new Date().toISOString().slice(0, 10).replace(/-/g, '/')
-    console.log(now, startDate, endDate)
     const nowStatus = () => {
       if (now < startDate) return '即將發佈'
       return now < endDate ? '進行中' : '已截止'

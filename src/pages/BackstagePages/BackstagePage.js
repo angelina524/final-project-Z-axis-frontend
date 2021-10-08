@@ -48,7 +48,6 @@ const BackstagePage = () => {
         issuesData = data.issuesWithURL
       } catch (error) {
         console.log(error.message)
-        return
       }
       setIsLoading(false)
       setIssues(issuesData)
