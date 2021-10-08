@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useTheme } from '@emotion/react'
 import moment from 'moment'
 
@@ -20,6 +20,8 @@ import {
   StyledLink
 } from './components'
 import { isIssueFinished, isIssueOncoming, isIssueOngoing } from '../../utils'
+import { UserTokenContext } from '../../contexts/tokenContexts'
+import { useHistory } from 'react-router-dom'
 
 const getIssueStatus = (issue) => {
   if (isIssueFinished(issue)) return '已結束'
@@ -30,6 +32,8 @@ const getIssueStatus = (issue) => {
 const BackstagePage = () => {
   const [issues, setIssues] = useState([])
   const theme = useTheme()
+  const { userToken } = useContext(UserTokenContext)
+  const history = useHistory()
 
   useEffect(() => {
     const doAsyncEffects = async () => {
@@ -47,6 +51,10 @@ const BackstagePage = () => {
     }
     doAsyncEffects()
   }, [])
+
+  useEffect(() => {
+    if (!userToken) history.push('/')
+  }, [userToken])
 
   const renderIssues = () =>
     issues

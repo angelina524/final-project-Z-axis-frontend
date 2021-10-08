@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext, useEffect } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 import styled from '@emotion/styled'
 import PropTypes from 'prop-types'
 import { useTheme } from '@emotion/react'
@@ -10,6 +10,7 @@ import { BackstageNavbar } from '../../components/Navbar/BackstageNavbar'
 import Menu from '../../components/Menu/Menu'
 import BackstageMenuContent from '../../components/Menu/BackstageMenuContent'
 import cardList from '../../constants/cardList'
+import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const Wrapper = styled.div`
   top: 4rem;
@@ -80,6 +81,13 @@ CardContainer.propTypes = {
 }
 
 const AddPage = () => {
+  const { userToken } = useContext(UserTokenContext)
+  const history = useHistory()
+
+  useEffect(() => {
+    if (!userToken) history.push('/')
+  }, [userToken])
+
   return (
     <Wrapper>
       <Menu MenuContent={BackstageMenuContent} />
