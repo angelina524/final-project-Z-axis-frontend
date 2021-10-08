@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from '@emotion/styled'
 
@@ -20,30 +20,27 @@ const PageWrapper = styled(Wrapper)`
 
 const BackstageSinglePage = () => {
   const { userToken } = useContext(UserTokenContext)
-
+  const history = useHistory()
   const RedirectHome = () => {
-    const history = useHistory()
     history.push('/')
   }
+  useEffect(() => {
+    if (!userToken) RedirectHome()
+  }, [userToken])
 
   return (
-    <>
-      {userToken && (
-        <PageWrapper padding="0">
-          <Menu MenuContent={BackstageMenuContent} />
-          <BackstageNavbar
-            iconName={cardList[0].iconName}
-            title={cardList[0].cardTitle}
-            buttonName="進入此前台"
-          />
-          {/* TODO */}
-          <EditSection />
-          <QRcodeSection />
-          <GraphSection />
-        </PageWrapper>
-      )}
-      {!userToken && RedirectHome()}
-    </>
+    <PageWrapper padding="0">
+      <Menu MenuContent={BackstageMenuContent} />
+      <BackstageNavbar
+        iconName={cardList[0].iconName}
+        title={cardList[0].cardTitle}
+        buttonName="進入此前台"
+      />
+      {/* TODO */}
+      <EditSection />
+      <QRcodeSection />
+      <GraphSection />
+    </PageWrapper>
   )
 }
 export default BackstageSinglePage

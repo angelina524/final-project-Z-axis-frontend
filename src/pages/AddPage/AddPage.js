@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import styled from '@emotion/styled'
 import PropTypes from 'prop-types'
@@ -82,33 +82,32 @@ CardContainer.propTypes = {
 
 const AddPage = () => {
   const { userToken } = useContext(UserTokenContext)
+  const history = useHistory()
 
   const RedirectHome = () => {
-    const history = useHistory()
     history.push('/')
   }
 
+  useEffect(() => {
+    if (!userToken) RedirectHome()
+  }, [userToken])
+
   return (
-    <>
-      {userToken && (
-        <Wrapper>
-          <Menu MenuContent={BackstageMenuContent} />
-          <BackstageNavbar iconName={plusIcon} title="建立" />
-          <CardsWrapper>
-            {cardList.map((card) => (
-              <CardContainer
-                key={card.cardTitle}
-                path={card.path}
-                iconName={card.iconName}
-                cardTitle={card.cardTitle}
-                cardText={card.cardText}
-              />
-            ))}
-          </CardsWrapper>
-        </Wrapper>
-      )}
-      {!userToken && RedirectHome()}
-    </>
+    <Wrapper>
+      <Menu MenuContent={BackstageMenuContent} />
+      <BackstageNavbar iconName={plusIcon} title="建立" />
+      <CardsWrapper>
+        {cardList.map((card) => (
+          <CardContainer
+            key={card.cardTitle}
+            path={card.path}
+            iconName={card.iconName}
+            cardTitle={card.cardTitle}
+            cardText={card.cardText}
+          />
+        ))}
+      </CardsWrapper>
+    </Wrapper>
   )
 }
 

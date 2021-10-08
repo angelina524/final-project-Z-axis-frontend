@@ -47,11 +47,14 @@ const IssueListPage = () => {
   const [finishedIssues, setFinishedIssues] = useState([])
   const theme = useTheme()
   const { userToken } = useContext(UserTokenContext)
+  const history = useHistory()
 
   const RedirectHome = () => {
-    const history = useHistory()
     history.push('/')
   }
+  useEffect(() => {
+    if (!userToken) RedirectHome()
+  }, [userToken])
 
   useEffect(() => {
     const doAsyncEffects = async () => {
@@ -153,22 +156,17 @@ const IssueListPage = () => {
 
   return (
     <>
-      {userToken && (
-        <>
-          <Menu MenuContent={BackstageMenuContent} />
-          <BackstageSearchNavbar />
-          <ActivityWrapper>
-            <ActivityType>
-              {issueIcon('2x', theme.secondary_200)}
-              留言箱
-            </ActivityType>
-            {renderOncomingSection()}
-            {renderOngoingSection()}
-            {renderFinishedSection()}
-          </ActivityWrapper>
-        </>
-      )}
-      {!userToken && RedirectHome()}
+      <Menu MenuContent={BackstageMenuContent} />
+      <BackstageSearchNavbar />
+      <ActivityWrapper>
+        <ActivityType>
+          {issueIcon('2x', theme.secondary_200)}
+          留言箱
+        </ActivityType>
+        {renderOncomingSection()}
+        {renderOngoingSection()}
+        {renderFinishedSection()}
+      </ActivityWrapper>
     </>
   )
 }

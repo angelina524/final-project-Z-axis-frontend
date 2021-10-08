@@ -41,6 +41,10 @@ const FormPage = () => {
   }
 
   useEffect(() => {
+    if (!userToken) RedirectHome()
+  }, [userToken])
+
+  useEffect(() => {
     if (isEdit) {
       const {
         title,
@@ -134,39 +138,34 @@ const FormPage = () => {
 
   return (
     <>
-      {userToken && (
-        <>
-          <Menu MenuContent={BackstageMenuContent} />
-          <BackstageNavbar iconName={plusIcon} title="建立" />
-          <AddFormWrapper onSubmit={handleFormSubmit}>
-            <FormTitle>{isEdit ? '編輯' : '新增'}留言箱</FormTitle>
-            <InputText
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              name="title"
-              placeholder="標題"
-            />
-            <InputText
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              name="description"
-              placeholder="描述"
-            />
-            <RemindText>超過 5 天或未設置則以 5 天計算</RemindText>
-            <DateRange
-              editableDateInputs={true}
-              onChange={(e) => setDate([e.selection])}
-              moveRangeOnFirstSelection={false}
-              ranges={date}
-              minDate={new Date()}
-              showDateDisplay={false}
-            />
-            {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-            <SubmitBtn type="submit">{isEdit ? '更新' : '送出'}</SubmitBtn>
-          </AddFormWrapper>
-        </>
-      )}
-      {!userToken && RedirectHome()}
+      <Menu MenuContent={BackstageMenuContent} />
+      <BackstageNavbar iconName={plusIcon} title="建立" />
+      <AddFormWrapper onSubmit={handleFormSubmit}>
+        <FormTitle>{isEdit ? '編輯' : '新增'}留言箱</FormTitle>
+        <InputText
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          name="title"
+          placeholder="標題"
+        />
+        <InputText
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          name="description"
+          placeholder="描述"
+        />
+        <RemindText>超過 5 天或未設置則以 5 天計算</RemindText>
+        <DateRange
+          editableDateInputs={true}
+          onChange={(e) => setDate([e.selection])}
+          moveRangeOnFirstSelection={false}
+          ranges={date}
+          minDate={new Date()}
+          showDateDisplay={false}
+        />
+        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+        <SubmitBtn type="submit">{isEdit ? '更新' : '送出'}</SubmitBtn>
+      </AddFormWrapper>
     </>
   )
 }
