@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation, Link, useParams } from 'react-router-dom'
 import styled from '@emotion/styled'
 import PropTypes from 'prop-types'
@@ -76,8 +76,14 @@ export const BackstageNavbar = ({ iconName, title }) => {
   )
 }
 
-export const BackstageSearchNavbar = () => {
+BackstageNavbar.propTypes = {
+  iconName: PropTypes.func,
+  title: PropTypes.string
+}
+
+export const BackstageSearchNavbar = ({ issues, setFilteredIssues }) => {
   const [searchValue, setSearchValue] = useState('')
+  const [isOnComposition, setIsOnComposition] = useState(false)
 
   const handleSearchSubmit = () => {
     if (searchValue === '') return
@@ -86,6 +92,13 @@ export const BackstageSearchNavbar = () => {
     setSearchValue('')
   }
 
+  useEffect(() => {
+    if (isOnComposition) return
+    setFilteredIssues(
+      issues.filter(({ issue }) => issue.title.includes(searchValue))
+    )
+  }, [searchValue, isOnComposition])
+
   return (
     <Navbar>
       <SearchBarWrapper>
@@ -93,6 +106,8 @@ export const BackstageSearchNavbar = () => {
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
           placeholder="輸入標題"
+          onCompositionStart={() => setIsOnComposition(true)}
+          onCompositionEnd={() => setIsOnComposition(false)}
         ></SearchInput>
         <SearchBtn onClick={handleSearchSubmit}>查詢</SearchBtn>
       </SearchBarWrapper>
@@ -100,7 +115,7 @@ export const BackstageSearchNavbar = () => {
   )
 }
 
-BackstageNavbar.propTypes = {
-  iconName: PropTypes.func,
-  title: PropTypes.string
+BackstageSearchNavbar.propTypes = {
+  issues: PropTypes.array,
+  setFilteredIssues: PropTypes.func
 }
