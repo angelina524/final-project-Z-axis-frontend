@@ -92,9 +92,6 @@ function App () {
               <Route exact path="/form">
                 <FormPage />
               </Route>
-              <Route exact path="/issue">
-                <IssuePage />
-              </Route>
               <Route exact path="/backstage">
                 <BackstagePage />
               </Route>

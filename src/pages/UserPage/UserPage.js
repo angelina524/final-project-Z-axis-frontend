@@ -61,6 +61,7 @@ const DeleteUserBtn = styled.div`
   border-radius: 2.5rem;
   color: ${({ theme }) => theme.secondary_900};
   background: ${({ theme }) => theme.secondary_300};
+  cursor: pointer;
 `
 
 const RemindWrapper = styled.div`

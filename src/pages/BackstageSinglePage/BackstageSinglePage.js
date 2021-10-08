@@ -11,6 +11,7 @@ import cardList from '../../constants/cardList'
 import EditSection from './EditSection'
 import QRcodeSection from './QRcodeSection'
 import GraphSection from './GraphSection'
+import IssuePage from '../IssuePage'
 import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const PageWrapper = styled(Wrapper)`
@@ -38,6 +39,7 @@ const BackstageSinglePage = () => {
       <EditSection />
       <QRcodeSection />
       <GraphSection />
+      <IssuePage isBackstage={true} />
     </PageWrapper>
   )
 }
