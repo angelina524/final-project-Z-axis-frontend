@@ -43,7 +43,7 @@ const CommentsWrapper = styled.div`
 `
 
 const RemindText = styled.div`
-  position: absolute;
+  position: fixed;
   bottom: 1rem;
   color: ${({ theme }) => theme.secondary_300};
 `
