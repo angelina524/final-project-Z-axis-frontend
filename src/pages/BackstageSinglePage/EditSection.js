@@ -47,8 +47,9 @@ const EditContent = styled.p`
 `
 
 const RemindWrapper = styled.div`
-  position: absolute;
-  top: 10rem;
+  position: fixed;
+  z-index: 4;
+  top: 13rem;
   left: 0;
   width: 100%;
   background: ${({ theme }) => theme.primary};

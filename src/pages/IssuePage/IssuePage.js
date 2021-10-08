@@ -192,8 +192,8 @@ const IssuePage = ({ isBackstage }) => {
           ))}
       </CommentsWrapper>
       {!isBackstage &&
-        new Date().getTime() >= new Date(issue.beginDate).getTime() &&
-        new Date().getTime() < new Date(issue.finishDate).getTime() && (
+        new Date() >= new Date(issue.beginDate) &&
+        new Date() < new Date(issue.finishDate) && (
           <AddCommentForm
             IssueId={issue.id}
             guestToken={guestToken}
@@ -201,13 +201,11 @@ const IssuePage = ({ isBackstage }) => {
             setComments={setComments}
           />
       )}
-      {!isBackstage &&
-        new Date().getTime() < new Date(issue.beginDate).getTime() && (
-          <RemindText>尚未開放留言</RemindText>
+      {!isBackstage && new Date() < new Date(issue.beginDate) && (
+        <RemindText>尚未開放留言</RemindText>
       )}
-      {!isBackstage &&
-        new Date().getTime() > new Date(issue.finishDate).getTime() && (
-          <RemindText>已截止留言</RemindText>
+      {!isBackstage && new Date() > new Date(issue.finishDate) && (
+        <RemindText>已截止留言</RemindText>
       )}
     </Wrapper>
   )
