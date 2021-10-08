@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 import styled from '@emotion/styled'
 import PropTypes from 'prop-types'
 import { useTheme } from '@emotion/react'
@@ -10,6 +10,7 @@ import { BackstageNavbar } from '../../components/Navbar/BackstageNavbar'
 import Menu from '../../components/Menu/Menu'
 import BackstageMenuContent from '../../components/Menu/BackstageMenuContent'
 import cardList from '../../constants/cardList'
+import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const Wrapper = styled.div`
   top: 4rem;
@@ -80,22 +81,34 @@ CardContainer.propTypes = {
 }
 
 const AddPage = () => {
+  const { userToken } = useContext(UserTokenContext)
+
+  const RedirectHome = () => {
+    const history = useHistory()
+    history.push('/')
+  }
+
   return (
-    <Wrapper>
-      <Menu MenuContent={BackstageMenuContent} />
-      <BackstageNavbar iconName={plusIcon} title="建立" />
-      <CardsWrapper>
-        {cardList.map((card) => (
-          <CardContainer
-            key={card.cardTitle}
-            path={card.path}
-            iconName={card.iconName}
-            cardTitle={card.cardTitle}
-            cardText={card.cardText}
-          />
-        ))}
-      </CardsWrapper>
-    </Wrapper>
+    <>
+      {userToken && (
+        <Wrapper>
+          <Menu MenuContent={BackstageMenuContent} />
+          <BackstageNavbar iconName={plusIcon} title="建立" />
+          <CardsWrapper>
+            {cardList.map((card) => (
+              <CardContainer
+                key={card.cardTitle}
+                path={card.path}
+                iconName={card.iconName}
+                cardTitle={card.cardTitle}
+                cardText={card.cardText}
+              />
+            ))}
+          </CardsWrapper>
+        </Wrapper>
+      )}
+      {!userToken && RedirectHome()}
+    </>
   )
 }
 
