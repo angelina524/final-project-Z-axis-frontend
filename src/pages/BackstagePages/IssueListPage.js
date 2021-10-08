@@ -49,11 +49,8 @@ const IssueListPage = () => {
   const { userToken } = useContext(UserTokenContext)
   const history = useHistory()
 
-  const RedirectHome = () => {
-    history.push('/')
-  }
   useEffect(() => {
-    if (!userToken) RedirectHome()
+    if (!userToken) history.push('/')
   }, [userToken])
 
   useEffect(() => {

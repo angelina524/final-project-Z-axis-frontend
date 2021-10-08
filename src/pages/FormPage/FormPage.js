@@ -36,12 +36,8 @@ const FormPage = () => {
   const [errorMessage, setErrorMessage] = useState('')
   const { userToken } = useContext(UserTokenContext)
 
-  const RedirectHome = () => {
-    history.push('/')
-  }
-
   useEffect(() => {
-    if (!userToken) RedirectHome()
+    if (!userToken) history.push('/')
   }, [userToken])
 
   useEffect(() => {

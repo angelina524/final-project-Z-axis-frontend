@@ -35,10 +35,6 @@ const BackstagePage = () => {
   const { userToken } = useContext(UserTokenContext)
   const history = useHistory()
 
-  const RedirectHome = () => {
-    history.push('/')
-  }
-
   useEffect(() => {
     const doAsyncEffects = async () => {
       let issuesData = []
@@ -57,7 +53,7 @@ const BackstagePage = () => {
   }, [])
 
   useEffect(() => {
-    if (!userToken) RedirectHome()
+    if (!userToken) history.push('/')
   }, [userToken])
 
   const renderIssues = () =>
