@@ -98,32 +98,34 @@ const FormPage = () => {
       })
       try {
         setIsLoading(true)
-        await updateIssue(
+        const response = await updateIssue(
           editIssue.issueId,
           title,
           description,
           moment(startDate).format('YYYY-MM-DD'),
           moment(endDate).format('YYYY-MM-DD')
         )
-        setIsLoading(false)
+        const { data } = response
+        if (!data.ok) throw new Error(data.massage)
       } catch (err) {
         console.log(err)
-        setIsLoading(false)
       }
+      setIsLoading(false)
     } else {
       try {
         setIsLoading(true)
-        await createIssue(
+        const response = await createIssue(
           title,
           description,
           moment(startDate).format('YYYY-MM-DD'),
           moment(endDate).format('YYYY-MM-DD')
         )
-        setIsLoading(false)
+        const { data } = response
+        if (!data.ok) throw new Error(data.massage)
       } catch (err) {
         console.log(err)
-        setIsLoading(false)
       }
+      setIsLoading(false)
     }
     setTitle('')
     setDescription('')

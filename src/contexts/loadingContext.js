@@ -1,5 +1,5 @@
 import { createContext } from 'react'
 
-const loadingContext = createContext(false)
+const LoadingContext = createContext(false)
 
-export default loadingContext
+export default LoadingContext

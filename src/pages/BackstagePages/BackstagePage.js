@@ -46,12 +46,11 @@ const BackstagePage = () => {
         const { data } = response
         if (!data.ok) throw new Error(data.message)
         issuesData = data.issuesWithURL
-        setIsLoading(false)
       } catch (error) {
         console.log(error.message)
-        setIsLoading(false)
         return
       }
+      setIsLoading(false)
       setIssues(issuesData)
     }
     doAsyncEffects()
