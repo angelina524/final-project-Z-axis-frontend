@@ -119,7 +119,7 @@ const CommentBottom = styled.div`
   padding: 0.5rem 1rem;
   ${flexJustifyAlign('flex-start')}
   border-top: ${({ theme }) => theme.border};
-  gap: 1.5rem;
+  gap: 0.9rem;
 `
 
 const Option = styled.div`
@@ -189,6 +189,7 @@ const Pin = styled.div`
 `
 
 const Comment = ({
+  isBackstage,
   comment,
   userId,
   issueUserId,
@@ -427,23 +428,24 @@ const Comment = ({
     </>
   )
 
-  const renderEditAndDeleteCommentOptions = () => (
-    <>
-      <Option
-        onClick={() => {
-          setIsCommentFormOpen((prev) => !prev)
-          setIsReplyOpen(false)
-          setIsReplyFormOpen(false)
-        }}
-      >
-        {editIcon('1x', theme.secondary_300)}
-        <div>編輯留言</div>
-      </Option>
-      <Option onClick={handleDeleteCommentClick}>
-        {deleteIcon('1x', theme.secondary_300)}
-        <div>刪除留言</div>
-      </Option>
-    </>
+  const renderEditCommentOption = () => (
+    <Option
+      onClick={() => {
+        setIsCommentFormOpen((prev) => !prev)
+        setIsReplyOpen(false)
+        setIsReplyFormOpen(false)
+      }}
+    >
+      {editIcon('1x', theme.secondary_300)}
+      <div>編輯留言</div>
+    </Option>
+  )
+
+  const renderDeleteCommentOption = () => (
+    <Option onClick={handleDeleteCommentClick}>
+      {deleteIcon('1x', theme.secondary_300)}
+      <div>刪除留言</div>
+    </Option>
   )
 
   return (
@@ -469,8 +471,11 @@ const Comment = ({
             {userId === issueUserId &&
               comment.reply &&
               renderEditAndDeleteReplyOptions()}
-            {comment.guestToken === guestToken &&
-              renderEditAndDeleteCommentOptions()}
+            {comment.guestToken === guestToken && renderEditCommentOption()}
+            {!isBackstage &&
+              comment.guestToken === guestToken &&
+              renderDeleteCommentOption()}
+            {isBackstage && renderDeleteCommentOption()}
           </CommentBottom>
         )}
       </CommentContainer>
@@ -497,6 +502,7 @@ const Comment = ({
 }
 
 Comment.propTypes = {
+  isBackstage: PropTypes.bool,
   comment: PropTypes.object,
   userId: PropTypes.number,
   issueUserId: PropTypes.number,

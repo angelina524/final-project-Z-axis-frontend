@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from '@emotion/styled'
 import io from 'socket.io-client'
+import PropTypes from 'prop-types'
+import moment from 'moment'
 
 import BACKEND_BASE_URL from '../../constants/baseURL'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
@@ -41,10 +43,17 @@ const CommentsWrapper = styled.div`
     margin: 0 0.5rem;
   }
 `
+
+const RemindText = styled.div`
+  position: fixed;
+  bottom: 1rem;
+  color: ${({ theme }) => theme.secondary_300};
+`
+
 // dev server port
 const socket = io.connect(BACKEND_BASE_URL)
 
-const IssuePage = () => {
+const IssuePage = ({ isBackstage }) => {
   const guestToken = useContext(GuestTokenContext)
   const { userToken } = useContext(UserTokenContext)
   const setIsLoading = useContext(LoadingContext)
@@ -152,8 +161,9 @@ const IssuePage = () => {
 
   return (
     <Wrapper>
-      <Menu MenuContent={menuContent} />
+      {!isBackstage && <Menu MenuContent={menuContent} />}
       <ForestageIssueNavbar
+        isBackstage={isBackstage}
         totalComments={comments.length}
         filter={filter}
         setFilter={setFilter}
@@ -166,6 +176,7 @@ const IssuePage = () => {
           .map((comment) => (
             <Comment
               key={comment.id}
+              isBackstage={isBackstage}
               comment={comment}
               userId={userId}
               issueUserId={issue.UserId}
@@ -183,6 +194,7 @@ const IssuePage = () => {
           .map((comment) => (
             <Comment
               key={comment.id}
+              isBackstage={isBackstage}
               comment={comment}
               userId={userId}
               issueUserId={issue.UserId}
@@ -195,14 +207,34 @@ const IssuePage = () => {
             />
           ))}
       </CommentsWrapper>
-      <AddCommentForm
-        IssueId={issue.id}
-        guestToken={guestToken}
-        socket={socket}
-        setComments={setComments}
-      />
+      {!isBackstage &&
+        new Date(moment(new Date()).format('YYYY-MM-DD')).getTime() >=
+          new Date(issue.beginDate).getTime() &&
+        new Date(moment(new Date()).format('YYYY-MM-DD')).getTime() <
+          new Date(issue.finishDate).getTime() && (
+          <AddCommentForm
+            IssueId={issue.id}
+            guestToken={guestToken}
+            socket={socket}
+            setComments={setComments}
+          />
+      )}
+      {!isBackstage &&
+        new Date(moment(new Date()).format('YYYY-MM-DD')).getTime() <
+          new Date(issue.beginDate).getTime() && (
+          <RemindText>尚未開放留言</RemindText>
+      )}
+      {!isBackstage &&
+        new Date(moment(new Date()).format('YYYY-MM-DD')).getTime() >
+          new Date(issue.finishDate).getTime() && (
+          <RemindText>已截止留言</RemindText>
+      )}
     </Wrapper>
   )
+}
+
+IssuePage.propTypes = {
+  isBackstage: PropTypes.bool
 }
 
 export default IssuePage

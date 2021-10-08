@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import styled from '@emotion/styled'
 
 import Wrapper from '../../components/Wrapper'
@@ -10,6 +11,8 @@ import cardList from '../../constants/cardList'
 import EditSection from './EditSection'
 import QRcodeSection from './QRcodeSection'
 import GraphSection from './GraphSection'
+import IssuePage from '../IssuePage'
+import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const PageWrapper = styled(Wrapper)`
   top: 4rem;
@@ -17,6 +20,13 @@ const PageWrapper = styled(Wrapper)`
 `
 
 const BackstageSinglePage = () => {
+  const { userToken } = useContext(UserTokenContext)
+  const history = useHistory()
+
+  useEffect(() => {
+    if (!userToken) history.push('/')
+  }, [userToken])
+
   return (
     <PageWrapper padding="0">
       <Menu MenuContent={BackstageMenuContent} />
@@ -29,6 +39,7 @@ const BackstageSinglePage = () => {
       <EditSection />
       <QRcodeSection />
       <GraphSection />
+      <IssuePage isBackstage={true} />
     </PageWrapper>
   )
 }

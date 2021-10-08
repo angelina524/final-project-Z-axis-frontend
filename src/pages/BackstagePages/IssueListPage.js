@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
+import { useHistory } from 'react-router-dom'
 import { useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
 import moment from 'moment'
@@ -23,6 +24,7 @@ import { commentIcon, goToTopIcon, issueIcon } from '../../components/icons'
 import { getAllIssues } from '../../webapi/issueApi'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import { isIssueFinished, isIssueOncoming, isIssueOngoing } from '../../utils'
+import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const GoToTopButton = styled.button`
   ${flexJustifyAlign()}
@@ -44,6 +46,12 @@ const IssueListPage = () => {
   const [ongoingIssues, setOngoingIssues] = useState([])
   const [finishedIssues, setFinishedIssues] = useState([])
   const theme = useTheme()
+  const { userToken } = useContext(UserTokenContext)
+  const history = useHistory()
+
+  useEffect(() => {
+    if (!userToken) history.push('/')
+  }, [userToken])
 
   useEffect(() => {
     const doAsyncEffects = async () => {
@@ -78,8 +86,8 @@ const IssueListPage = () => {
     {
       issue: {
         id: 0,
-        title: '趕快建立新的 issue！',
-        description: '快建立，懂？',
+        title: '建立新的留言箱',
+        description: '',
         beginDate: new Date(),
         finishDate: new Date()
       },
@@ -94,7 +102,7 @@ const IssueListPage = () => {
     return issueList.map(({ issue, url, commentCount }) => (
       <ActivityContent
         key={issue.id}
-        to={url === 'example' ? '/form' : `/issues/${url}`}
+        to={url === 'example' ? '/form' : `/backstage/issues/${url}`}
       >
         <ActivityHeader>
           <ActivityInfo>

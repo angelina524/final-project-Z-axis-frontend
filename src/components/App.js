@@ -63,6 +63,7 @@ function App () {
     <GuestTokenContext.Provider value={guestToken}>
       <UserTokenContext.Provider value={{ userToken, setUserToken }}>
         <EditIssueContext.Provider value={{ editIssue, setEditIssue }}>
+<<<<<<< HEAD
           <LoadingContext.Provider value={setIsLoading}>
             {isLoading && <Loader />}
             <Router>
@@ -70,6 +71,61 @@ function App () {
                 <Route exact path="/">
                   <Navbar />
                   <HomePage />
+=======
+          <Router>
+            <Switch>
+              <Route exact path="/">
+                <Navbar />
+                <HomePage />
+              </Route>
+              {/* todo:useContext優化 */}
+              <Route exact path="/login">
+                <Navbar />
+                <LoginPage />
+              </Route>
+              {/* todo:useContext優化 */}
+              <Route exact path="/register">
+                <Navbar />
+                <RegisterPage />
+              </Route>
+              <Route exact path="/user/me">
+                <Navbar />
+                <UserPage />
+              </Route>
+              <Route exact path="/user/me/update-password">
+                <Navbar />
+                <UpdatePassword />
+              </Route>
+              <Route exact path="/user/me/update">
+                <Navbar />
+                <UpdateMe />
+              </Route>
+              <Route exact path="/add">
+                <AddPage />
+              </Route>
+              <Route exact path="/form">
+                <FormPage />
+              </Route>
+              <Route exact path="/backstage">
+                <BackstagePage />
+              </Route>
+              {/* dev data  in BE seeder */}
+              {/* http://localhost:3000/#/issues/0e36ddb504d5ca0cf414fe0fd16fb9bf */}
+              <Route exact path="/issues/:url">
+                <IssuePage />
+              </Route>
+              <Route exact path="/issues">
+                <IssueListPage />
+              </Route>
+              <Route exact path="/backstage">
+                <BackstagePage />
+              </Route>
+              <Route exact path="/backstage/issues/:url">
+                <BackstageSinglePage />
+                {/* loading page */}
+                <Route exact path="/loading">
+                  <Loader />
+>>>>>>> 436549985ec027d60b118bbecf465048cb78eb2b
                 </Route>
                 {/* todo:useContext優化 */}
                 <Route exact path="/login">

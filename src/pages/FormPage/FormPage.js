@@ -19,6 +19,7 @@ import {
   SubmitBtn
 } from '../../components/form'
 import { createIssue, updateIssue } from '../../webapi/issueApi'
+import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const FormPage = () => {
   const { editIssue, setEditIssue } = useContext(EditIssueContext)
@@ -35,6 +36,11 @@ const FormPage = () => {
     }
   ])
   const [errorMessage, setErrorMessage] = useState('')
+  const { userToken } = useContext(UserTokenContext)
+
+  useEffect(() => {
+    if (!userToken) history.push('/')
+  }, [userToken])
 
   useEffect(() => {
     if (isEdit) {
