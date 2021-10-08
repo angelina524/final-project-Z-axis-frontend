@@ -119,7 +119,7 @@ const CommentBottom = styled.div`
   padding: 0.5rem 1rem;
   ${flexJustifyAlign('flex-start')}
   border-top: ${({ theme }) => theme.border};
-  gap: 1.5rem;
+  gap: 0.9rem;
 `
 
 const Option = styled.div`
@@ -189,6 +189,7 @@ const Pin = styled.div`
 `
 
 const Comment = ({
+  isBackstage,
   comment,
   userId,
   issueUserId,
@@ -446,6 +447,13 @@ const Comment = ({
     </>
   )
 
+  const renderDeleteCommentOption = () => (
+    <Option onClick={handleDeleteCommentClick}>
+      {deleteIcon('1x', theme.secondary_300)}
+      <div>刪除留言</div>
+    </Option>
+  )
+
   return (
     <CommentWrapper>
       <CommentAvatarWrapper>
@@ -471,6 +479,8 @@ const Comment = ({
               renderEditAndDeleteReplyOptions()}
             {comment.guestToken === guestToken &&
               renderEditAndDeleteCommentOptions()}
+            {console.log('isBackstage', isBackstage)}
+            {isBackstage && renderDeleteCommentOption()}
           </CommentBottom>
         )}
       </CommentContainer>
@@ -497,6 +507,7 @@ const Comment = ({
 }
 
 Comment.propTypes = {
+  isBackstage: PropTypes.bool,
   comment: PropTypes.object,
   userId: PropTypes.number,
   issueUserId: PropTypes.number,

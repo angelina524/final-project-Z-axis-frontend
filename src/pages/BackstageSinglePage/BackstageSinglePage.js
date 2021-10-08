@@ -10,6 +10,7 @@ import cardList from '../../constants/cardList'
 import EditSection from './EditSection'
 import QRcodeSection from './QRcodeSection'
 import GraphSection from './GraphSection'
+import IssuePage from '../IssuePage'
 
 const PageWrapper = styled(Wrapper)`
   top: 4rem;
@@ -29,6 +30,7 @@ const BackstageSinglePage = () => {
       <EditSection />
       <QRcodeSection />
       <GraphSection />
+      <IssuePage isBackstage={true} />
     </PageWrapper>
   )
 }

@@ -6,15 +6,26 @@ import flexJustifyAlign from '../../styles/flexJustifyAlign'
 const Navbar = styled.div`
   width: 100%;
   height: 4rem;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
   z-index: 5;
   background: ${({ theme }) => theme.secondary_900};
   ${flexJustifyAlign('space-between')}
-  padding-left: 4rem;
+
   padding-right: 10%;
+
+  ${(props) =>
+    props.isBackstage &&
+    `
+    padding-left: 1rem;
+  `}
+  ${(props) =>
+    !props.isBackstage &&
+    `
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding-left: 4rem;
+  `}
 `
 
 const FilterWrapper = styled.div`
@@ -36,9 +47,14 @@ const TotalComments = styled.div`
   font-size: 0.9rem;
 `
 
-export const ForestageIssueNavbar = ({ totalComments, filter, setFilter }) => {
+export const ForestageIssueNavbar = ({
+  isBackstage,
+  totalComments,
+  filter,
+  setFilter
+}) => {
   return (
-    <Navbar>
+    <Navbar isBackstage={isBackstage}>
       <FilterWrapper>
         <FilterOption active={!filter} onClick={() => setFilter(false)}>
           所有
@@ -53,6 +69,7 @@ export const ForestageIssueNavbar = ({ totalComments, filter, setFilter }) => {
 }
 
 ForestageIssueNavbar.propTypes = {
+  isBackstage: PropTypes.bool,
   filter: PropTypes.bool,
   setFilter: PropTypes.func,
   totalComments: PropTypes.number

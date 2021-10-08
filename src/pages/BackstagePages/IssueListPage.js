@@ -78,8 +78,8 @@ const IssueListPage = () => {
     {
       issue: {
         id: 0,
-        title: '趕快建立新的 issue！',
-        description: '快建立，懂？',
+        title: '請建立留言箱',
+        description: '',
         beginDate: new Date(),
         finishDate: new Date()
       },
@@ -94,7 +94,7 @@ const IssueListPage = () => {
     return issueList.map(({ issue, url, commentCount }) => (
       <ActivityContent
         key={issue.id}
-        to={url === 'example' ? '/form' : `/issues/${url}`}
+        to={url === 'example' ? '/form' : `/backstage/issues/${url}`}
       >
         <ActivityHeader>
           <ActivityInfo>
