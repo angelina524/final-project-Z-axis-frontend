@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
+import { useHistory } from 'react-router-dom'
 import { useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
 import moment from 'moment'
@@ -23,6 +24,7 @@ import { commentIcon, goToTopIcon, issueIcon } from '../../components/icons'
 import { getAllIssues } from '../../webapi/issueApi'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import { isIssueFinished, isIssueOncoming, isIssueOngoing } from '../../utils'
+import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const GoToTopButton = styled.button`
   ${flexJustifyAlign()}
@@ -44,6 +46,12 @@ const IssueListPage = () => {
   const [ongoingIssues, setOngoingIssues] = useState([])
   const [finishedIssues, setFinishedIssues] = useState([])
   const theme = useTheme()
+  const { userToken } = useContext(UserTokenContext)
+
+  const RedirectHome = () => {
+    const history = useHistory()
+    history.push('/')
+  }
 
   useEffect(() => {
     const doAsyncEffects = async () => {
@@ -145,17 +153,22 @@ const IssueListPage = () => {
 
   return (
     <>
-      <Menu MenuContent={BackstageMenuContent} />
-      <BackstageSearchNavbar />
-      <ActivityWrapper>
-        <ActivityType>
-          {issueIcon('2x', theme.secondary_200)}
-          留言箱
-        </ActivityType>
-        {renderOncomingSection()}
-        {renderOngoingSection()}
-        {renderFinishedSection()}
-      </ActivityWrapper>
+      {userToken && (
+        <>
+          <Menu MenuContent={BackstageMenuContent} />
+          <BackstageSearchNavbar />
+          <ActivityWrapper>
+            <ActivityType>
+              {issueIcon('2x', theme.secondary_200)}
+              留言箱
+            </ActivityType>
+            {renderOncomingSection()}
+            {renderOngoingSection()}
+            {renderFinishedSection()}
+          </ActivityWrapper>
+        </>
+      )}
+      {!userToken && RedirectHome()}
     </>
   )
 }

@@ -18,6 +18,7 @@ import {
   SubmitBtn
 } from '../../components/form'
 import { createIssue, updateIssue } from '../../webapi/issueApi'
+import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const FormPage = () => {
   const { editIssue, setEditIssue } = useContext(EditIssueContext)
@@ -33,6 +34,11 @@ const FormPage = () => {
     }
   ])
   const [errorMessage, setErrorMessage] = useState('')
+  const { userToken } = useContext(UserTokenContext)
+
+  const RedirectHome = () => {
+    history.push('/')
+  }
 
   useEffect(() => {
     if (isEdit) {
@@ -128,34 +134,39 @@ const FormPage = () => {
 
   return (
     <>
-      <Menu MenuContent={BackstageMenuContent} />
-      <BackstageNavbar iconName={plusIcon} title="建立" />
-      <AddFormWrapper onSubmit={handleFormSubmit}>
-        <FormTitle>{isEdit ? '編輯' : '新增'}留言箱</FormTitle>
-        <InputText
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          name="title"
-          placeholder="標題"
-        />
-        <InputText
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          name="description"
-          placeholder="描述"
-        />
-        <RemindText>超過 5 天或未設置則以 5 天計算</RemindText>
-        <DateRange
-          editableDateInputs={true}
-          onChange={(e) => setDate([e.selection])}
-          moveRangeOnFirstSelection={false}
-          ranges={date}
-          minDate={new Date()}
-          showDateDisplay={false}
-        />
-        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-        <SubmitBtn type="submit">{isEdit ? '更新' : '送出'}</SubmitBtn>
-      </AddFormWrapper>
+      {userToken && (
+        <>
+          <Menu MenuContent={BackstageMenuContent} />
+          <BackstageNavbar iconName={plusIcon} title="建立" />
+          <AddFormWrapper onSubmit={handleFormSubmit}>
+            <FormTitle>{isEdit ? '編輯' : '新增'}留言箱</FormTitle>
+            <InputText
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              name="title"
+              placeholder="標題"
+            />
+            <InputText
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              name="description"
+              placeholder="描述"
+            />
+            <RemindText>超過 5 天或未設置則以 5 天計算</RemindText>
+            <DateRange
+              editableDateInputs={true}
+              onChange={(e) => setDate([e.selection])}
+              moveRangeOnFirstSelection={false}
+              ranges={date}
+              minDate={new Date()}
+              showDateDisplay={false}
+            />
+            {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+            <SubmitBtn type="submit">{isEdit ? '更新' : '送出'}</SubmitBtn>
+          </AddFormWrapper>
+        </>
+      )}
+      {!userToken && RedirectHome()}
     </>
   )
 }

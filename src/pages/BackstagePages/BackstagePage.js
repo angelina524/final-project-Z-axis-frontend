@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useTheme } from '@emotion/react'
 import moment from 'moment'
 
@@ -20,6 +20,8 @@ import {
   StyledLink
 } from './components'
 import { isIssueFinished, isIssueOncoming, isIssueOngoing } from '../../utils'
+import { UserTokenContext } from '../../contexts/tokenContexts'
+import { useHistory } from 'react-router-dom'
 
 const getIssueStatus = (issue) => {
   if (isIssueFinished(issue)) return '已結束'
@@ -30,6 +32,12 @@ const getIssueStatus = (issue) => {
 const BackstagePage = () => {
   const [issues, setIssues] = useState([])
   const theme = useTheme()
+  const { userToken } = useContext(UserTokenContext)
+
+  const RedirectHome = () => {
+    const history = useHistory()
+    history.push('/')
+  }
 
   useEffect(() => {
     const doAsyncEffects = async () => {
@@ -87,48 +95,52 @@ const BackstagePage = () => {
 
   return (
     <>
-      <Menu MenuContent={BackstageMenuContent} />
-      <BackstageSearchNavbar />
-      {renderIssueSection()}
-
-      {/* 以下測驗為假資料先填空，沒有實際功能 */}
-      <ActivityWrapper>
-        <ActivityType>
-          {testIcon('2x', theme.secondary_200)}
-          測驗
-        </ActivityType>
-        <ActivitiesContainer color={theme.secondary_300}>
-          <ActivityContent to="/add">
-            <ActivityHeader>
-              <ActivityInfo>
-                <div>即將發布</div>
-                <div>2021/01/01 - 2021/01/07</div>
-              </ActivityInfo>
-              <div>{commentIcon('sm', theme.secondary_300)} 20</div>
-            </ActivityHeader>
-            <ActivityTitle>你所不知道的 hooks</ActivityTitle>
-            <ActivityDescription>
-              這是一個呱呱呱呱跟啦啦啦的簡介，沒什麼內容...
-            </ActivityDescription>
-          </ActivityContent>
-          <ActivityContent to="/add">
-            <ActivityHeader>
-              <ActivityInfo>
-                <div>即將發布</div>
-                <div>2021/01/01 - 2021/01/07</div>
-              </ActivityInfo>
-              <div>{commentIcon('sm', theme.secondary_300)} 20</div>
-            </ActivityHeader>
-            <ActivityTitle>你所不知道的 hooks</ActivityTitle>
-            <ActivityDescription>
-              這是一個呱呱呱呱跟啦啦啦的簡介，沒什麼內容...
-            </ActivityDescription>
-          </ActivityContent>
-          <PositionedButton color={theme.secondary_300}>
-            <StyledLink to="/add">看更多</StyledLink>
-          </PositionedButton>
-        </ActivitiesContainer>
-      </ActivityWrapper>
+      {userToken && (
+        <>
+          <Menu MenuContent={BackstageMenuContent} />
+          <BackstageSearchNavbar />
+          {renderIssueSection()}
+          {/* 以下測驗為假資料先填空，沒有實際功能 */}
+          <ActivityWrapper>
+            <ActivityType>
+              {testIcon('2x', theme.secondary_200)}
+              測驗
+            </ActivityType>
+            <ActivitiesContainer color={theme.secondary_300}>
+              <ActivityContent to="/add">
+                <ActivityHeader>
+                  <ActivityInfo>
+                    <div>即將發布</div>
+                    <div>2021/01/01 - 2021/01/07</div>
+                  </ActivityInfo>
+                  <div>{commentIcon('sm', theme.secondary_300)} 20</div>
+                </ActivityHeader>
+                <ActivityTitle>你所不知道的 hooks</ActivityTitle>
+                <ActivityDescription>
+                  這是一個呱呱呱呱跟啦啦啦的簡介，沒什麼內容...
+                </ActivityDescription>
+              </ActivityContent>
+              <ActivityContent to="/add">
+                <ActivityHeader>
+                  <ActivityInfo>
+                    <div>即將發布</div>
+                    <div>2021/01/01 - 2021/01/07</div>
+                  </ActivityInfo>
+                  <div>{commentIcon('sm', theme.secondary_300)} 20</div>
+                </ActivityHeader>
+                <ActivityTitle>你所不知道的 hooks</ActivityTitle>
+                <ActivityDescription>
+                  這是一個呱呱呱呱跟啦啦啦的簡介，沒什麼內容...
+                </ActivityDescription>
+              </ActivityContent>
+              <PositionedButton color={theme.secondary_300}>
+                <StyledLink to="/add">看更多</StyledLink>
+              </PositionedButton>
+            </ActivitiesContainer>
+          </ActivityWrapper>
+        </>
+      )}
+      {!userToken && RedirectHome()}
     </>
   )
 }
