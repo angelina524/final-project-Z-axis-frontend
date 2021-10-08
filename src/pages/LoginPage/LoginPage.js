@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 
+import LoadingContext from '../../contexts/loadingContext'
 import { login } from '../../webapi/userApi'
 import useForm from '../../hooks/useForm'
 import storage from '../../localStorageApi'
@@ -16,6 +17,7 @@ import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const LoginPage = () => {
   const { setUserToken } = useContext(UserTokenContext)
+  const setIsLoading = useContext(LoadingContext)
   const {
     email,
     setEmail,
@@ -35,12 +37,15 @@ const LoginPage = () => {
 
     let userToken = ''
     try {
+      setIsLoading(true)
       const response = await login(email, password)
       const { data } = response
       if (!data.ok) throw new Error(data.message)
       userToken = data.token
+      setIsLoading(false)
     } catch (error) {
       setErrorMessage(error.message)
+      setIsLoading(false)
       return
     }
     setUserToken(userToken)

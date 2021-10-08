@@ -15,6 +15,7 @@ import AddCommentForm from '../../components/AddCommentForm'
 import { getAllComments } from '../../webapi/commentApi'
 import { getIssue } from '../../webapi/issueApi'
 import { getMe } from '../../webapi/userApi'
+import LoadingContext from '../../contexts/loadingContext'
 import {
   GuestTokenContext,
   UserTokenContext
@@ -55,6 +56,7 @@ const socket = io.connect(BACKEND_BASE_URL)
 const IssuePage = ({ isBackstage }) => {
   const guestToken = useContext(GuestTokenContext)
   const { userToken } = useContext(UserTokenContext)
+  const setIsLoading = useContext(LoadingContext)
   const { url } = useParams()
   const [issue, setIssue] = useState({})
   const [comments, setComments] = useState([])
@@ -64,8 +66,10 @@ const IssuePage = ({ isBackstage }) => {
   const [trigger, setTrigger] = useState(false)
 
   useEffect(() => {
+    if (!issue.id) return
     const doAsyncEffects = async () => {
       try {
+        setIsLoading(true)
         const response = await getAllComments(issue.id)
         const { data } = response
         if (!data.ok) throw new Error(data.message)
@@ -73,6 +77,7 @@ const IssuePage = ({ isBackstage }) => {
       } catch (error) {
         console.log(error.message)
       }
+      setIsLoading(false)
     }
     doAsyncEffects()
   }, [trigger, filter])
@@ -99,12 +104,15 @@ const IssuePage = ({ isBackstage }) => {
     const doAsyncEffects = async () => {
       let issueData = {}
       try {
+        setIsLoading(true)
         const response = await getIssue(url)
         const { data } = response
         if (!data.ok) throw new Error(data.message)
         issueData = data.issue
+        setIsLoading(false)
       } catch (error) {
         console.log(error.message)
+        setIsLoading(false)
         return
       }
       setIssue(issueData)
@@ -113,12 +121,15 @@ const IssuePage = ({ isBackstage }) => {
 
       let commentsData = []
       try {
+        setIsLoading(true)
         const response = await getAllComments(issueData.id)
         const { data } = response
         if (!data.ok) throw new Error(data.message)
         commentsData = data.comments
+        setIsLoading(false)
       } catch (error) {
         console.log(error.message)
+        setIsLoading(false)
         return
       }
       setComments(commentsData)
@@ -126,12 +137,15 @@ const IssuePage = ({ isBackstage }) => {
       if (!userToken) return
       let userData = {}
       try {
+        setIsLoading(true)
         const response = await getMe()
         const { data } = response
         if (!data.ok) throw new Error(data.message)
         userData = data.user
+        setIsLoading(false)
       } catch (error) {
         console.log(error.message)
+        setIsLoading(false)
         return
       }
       setUserId(userData.id)

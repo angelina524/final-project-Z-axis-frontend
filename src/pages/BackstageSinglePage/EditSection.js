@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Link, useParams, useHistory } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import styled from '@emotion/styled'
-import { useTheme } from '@emotion/react'
 
 import SectionWrapper from './components/SectionWrapper'
 import ButtonOrigin from '../../components/Button'
-import editIssueContext from '../../contexts/editIssueContext'
+import EditIssueContext from '../../contexts/editIssueContext'
+import LoadingContext from '../../contexts/loadingContext'
 import BACKEND_BASE_URL from '../../constants/baseURL'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import { deleteIssue } from '../../webapi/issueApi'
@@ -17,6 +17,7 @@ const Buttons = styled.div`
 const Button = styled(ButtonOrigin)`
   align-self: flex-end;
   justify-self: center;
+  background: ${({ theme }) => theme.secondary300};
   margin: 1rem;
 `
 
@@ -71,9 +72,9 @@ const RemindBtn = styled.button`
 
 const EditSection = () => {
   const history = useHistory()
-  const { secondary_300: secondary300 } = useTheme()
   const { url } = useParams()
-  const { editIssue, setEditIssue } = useContext(editIssueContext)
+  const { editIssue, setEditIssue } = useContext(EditIssueContext)
+  const setIsLoading = useContext(LoadingContext)
   const {
     title,
     description,
@@ -83,35 +84,46 @@ const EditSection = () => {
   const [isDeleteRemindOpen, setIsDeleteRemindOpen] = useState(false)
 
   useEffect(() => {
-    ;(async () => {
-      const res = await fetch(`${BACKEND_BASE_URL}/issues/${url}`)
-      if (!res.ok) return
-      const {
-        issue: { title, description, beginDate, finishDate, id }
-      } = await res.json()
-      setEditIssue({
-        isEdit: true,
-        url,
-        issueId: id,
-        title,
-        description,
-        date: {
-          startDate: beginDate.slice(0, 10).replace(/-/g, '/'),
-          endDate: finishDate.slice(0, 10).replace(/-/g, '/'),
-          key: 'selection'
-        }
-      })
-    })()
-  }, [])
+    try {
+      ;(async () => {
+        setIsLoading(true)
+        const res = await fetch(`${BACKEND_BASE_URL}/issues/${url}`)
+        if (!res.ok) return
+        const {
+          issue: { title, description, beginDate, finishDate, id }
+        } = await res.json()
+        setEditIssue({
+          url,
+          issueId: id,
+          title,
+          description,
+          date: {
+            startDate: beginDate.slice(0, 10).replace(/-/g, '/'),
+            endDate: finishDate.slice(0, 10).replace(/-/g, '/'),
+            key: 'selection'
+          }
+        })
+        setIsLoading(false)
+      })()
+    } catch (err) {
+      console.log(err)
+      setIsLoading(false)
+    }
+  }, [url])
 
   useEffect(() => {
-    const now = new Date().toISOString().slice(0, 10)
+    const now = new Date().toISOString().slice(0, 10).replace(/-/g, '/')
     const nowStatus = () => {
       if (now < startDate) return '即將發佈'
       return now < endDate ? '進行中' : '已截止'
     }
     setStatus(nowStatus())
   }, [startDate, endDate])
+
+  const goToFormPage = () => {
+    setEditIssue((prev) => ({ ...prev, isEdit: true }))
+    history.push('/form')
+  }
 
   const handleIssueDelete = async () => {
     try {
@@ -146,13 +158,8 @@ const EditSection = () => {
         </EditDate>
         <EditContent>{description}</EditContent>
         <Buttons>
-          <Button backgroundColor={secondary300} as={Link} to="/form">
-            編輯
-          </Button>
-          <Button
-            backgroundColor={secondary300}
-            onClick={() => setIsDeleteRemindOpen((prev) => !prev)}
-          >
+          <Button onClick={goToFormPage}>編輯</Button>
+          <Button onClick={() => setIsDeleteRemindOpen((prev) => !prev)}>
             刪除
           </Button>
         </Buttons>

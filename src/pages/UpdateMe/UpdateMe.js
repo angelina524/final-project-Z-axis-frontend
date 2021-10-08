@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 
+import LoadingContext from '../../contexts/loadingContext'
 import { getMe, updateMe } from '../../webapi/userApi'
 import useForm from '../../hooks/useForm'
 import storage from '../../localStorageApi'
@@ -27,6 +28,7 @@ const UpdateMe = () => {
   } = useForm('')
   const history = useHistory()
   const { setUserToken } = useContext(UserTokenContext)
+  const setIsLoading = useContext(LoadingContext)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -36,12 +38,15 @@ const UpdateMe = () => {
 
     let newUserToken = ''
     try {
+      setIsLoading(true)
       const response = await updateMe(nickname, email)
       const { data } = response
       if (!data.ok) throw new Error(data.message)
       newUserToken = data.token
+      setIsLoading(false)
     } catch (error) {
       setErrorMessage(error.message)
+      setIsLoading(false)
       return
     }
 
@@ -54,12 +59,15 @@ const UpdateMe = () => {
     const getUserInformation = async () => {
       let user = {}
       try {
+        setIsLoading(true)
         const response = await getMe()
         const { data } = response
         if (!data.ok) throw new Error(data.message)
         user = data.user
+        setIsLoading(false)
       } catch (error) {
         setErrorMessage(error.message)
+        setIsLoading(false)
         return
       }
       setNickname(user.nickname)

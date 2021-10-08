@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import moment from 'moment'
 import EditIssueContext from '../../contexts/editIssueContext'
+import LoadingContext from '../../contexts/loadingContext'
 import { plusIcon } from '../../components/icons'
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
@@ -22,6 +23,7 @@ import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const FormPage = () => {
   const { editIssue, setEditIssue } = useContext(EditIssueContext)
+  const setIsLoading = useContext(LoadingContext)
   const { isEdit } = editIssue
   const history = useHistory()
   const [title, setTitle] = useState('')
@@ -95,27 +97,35 @@ const FormPage = () => {
         }
       })
       try {
-        await updateIssue(
+        setIsLoading(true)
+        const response = await updateIssue(
           editIssue.issueId,
           title,
           description,
           moment(startDate).format('YYYY-MM-DD'),
           moment(endDate).format('YYYY-MM-DD')
         )
+        const { data } = response
+        if (!data.ok) throw new Error(data.massage)
       } catch (err) {
         console.log(err)
       }
+      setIsLoading(false)
     } else {
       try {
-        await createIssue(
+        setIsLoading(true)
+        const response = await createIssue(
           title,
           description,
           moment(startDate).format('YYYY-MM-DD'),
           moment(endDate).format('YYYY-MM-DD')
         )
+        const { data } = response
+        if (!data.ok) throw new Error(data.massage)
       } catch (err) {
         console.log(err)
       }
+      setIsLoading(false)
     }
     setTitle('')
     setDescription('')

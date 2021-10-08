@@ -54,6 +54,7 @@ const SearchBtn = styled.button`
 
 const Button = styled(ButtonOrigin)`
   margin-right: 1rem;
+  background: ${({ theme }) => theme.primary};
 `
 
 export const BackstageNavbar = ({ iconName, title }) => {
@@ -67,7 +68,7 @@ export const BackstageNavbar = ({ iconName, title }) => {
         <span>{title}</span>
       </div>
       {location.pathname.indexOf('/backstage/issues') === 0 && (
-        <Button backgroundColor={theme.primary} as={Link} to={`/issues/${url}`}>
+        <Button as={Link} to={`/issues/${url}`}>
           進入此前台
         </Button>
       )}

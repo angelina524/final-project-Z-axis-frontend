@@ -7,6 +7,7 @@ import BackstageMenuContent from '../../components/Menu/BackstageMenuContent'
 import Menu from '../../components/Menu/Menu'
 import { commentIcon, issueIcon } from '../../components/icons'
 import { getAllIssues } from '../../webapi/issueApi'
+import LoadingContext from '../../contexts/loadingContext'
 import {
   ActivitiesContainer,
   ActivityContent,
@@ -32,11 +33,13 @@ const getIssueStatus = (issue) => {
 const BackstagePage = () => {
   const [issues, setIssues] = useState([])
   const theme = useTheme()
+  const setIsLoading = useContext(LoadingContext)
   const { userToken } = useContext(UserTokenContext)
   const history = useHistory()
 
   useEffect(() => {
     const doAsyncEffects = async () => {
+      setIsLoading(true)
       let issuesData = []
       try {
         const response = await getAllIssues(3)
@@ -45,8 +48,8 @@ const BackstagePage = () => {
         issuesData = data.issuesWithURL
       } catch (error) {
         console.log(error.message)
-        return
       }
+      setIsLoading(false)
       setIssues(issuesData)
     }
     doAsyncEffects()

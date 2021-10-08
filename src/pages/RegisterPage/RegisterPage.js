@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
+import LoadingContext from '../../contexts/loadingContext'
 import { register } from '../../webapi/userApi'
 import useForm from '../../hooks/useForm'
 import storage from '../../localStorageApi'
@@ -17,6 +18,7 @@ import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const RegisterPage = ({ isNow }) => {
   const { setUserToken } = useContext(UserTokenContext)
+  const setIsLoading = useContext(LoadingContext)
   const {
     nickname,
     setNickname,
@@ -38,12 +40,15 @@ const RegisterPage = ({ isNow }) => {
 
     let userToken = ''
     try {
+      setIsLoading(true)
       const response = await register(nickname, email, password)
       const { data } = response
       if (!data.ok) throw new Error(data.message)
       userToken = data.token
+      setIsLoading(false)
     } catch (error) {
       setErrorMessage(error.message)
+      setIsLoading(false)
       return
     }
     setUserToken(userToken)
