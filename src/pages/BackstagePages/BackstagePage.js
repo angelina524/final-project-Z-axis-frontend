@@ -32,6 +32,7 @@ const getIssueStatus = (issue) => {
 
 const BackstagePage = () => {
   const [issues, setIssues] = useState([])
+  const [filteredIssues, setFilteredIssues] = useState([])
   const theme = useTheme()
   const setIsLoading = useContext(LoadingContext)
   const { userToken } = useContext(UserTokenContext)
@@ -56,11 +57,15 @@ const BackstagePage = () => {
   }, [])
 
   useEffect(() => {
+    setFilteredIssues(issues)
+  }, [issues])
+
+  useEffect(() => {
     if (!userToken) history.push('/')
   }, [userToken])
 
   const renderIssues = () =>
-    issues
+    filteredIssues
       .sort((a, b) => new Date(b.issue.beginDate) - new Date(a.issue.beginDate))
       .map(({ issue, url, commentCount }) => (
         <ActivityContent key={issue.id} to={`/backstage/issues/${url}`}>
@@ -99,7 +104,10 @@ const BackstagePage = () => {
   return (
     <>
       <Menu MenuContent={BackstageMenuContent} />
-      <BackstageSearchNavbar />
+      <BackstageSearchNavbar
+        issues={issues}
+        setFilteredIssues={setFilteredIssues}
+      />
       {renderIssueSection()}
     </>
   )
