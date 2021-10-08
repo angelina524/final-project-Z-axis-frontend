@@ -60,7 +60,7 @@ const ButtonContainer = ({ filter, setFilter, data, setData, lineColor }) => {
       for (const i in Array(5).fill(0)) {
         dataArray.push({
           date: '10/1' + i,
-          views: randomN(100 + i * 10),
+          likes: randomN(100 + i * 10),
           comments: randomN(30 - i),
           replies: randomN(10)
         })
@@ -70,7 +70,7 @@ const ButtonContainer = ({ filter, setFilter, data, setData, lineColor }) => {
     setData(getData())
   }, [])
 
-  const allViewsNumber = data.reduce((acc, cur) => acc + cur.views, 0)
+  const allLikesNumber = data.reduce((acc, cur) => acc + cur.likes, 0)
   const allCommentsNumber = data.reduce((acc, cur) => acc + cur.comments, 0)
   const allRepliesNumber = data.reduce((acc, cur) => acc + cur.replies, 0)
 
@@ -81,19 +81,19 @@ const ButtonContainer = ({ filter, setFilter, data, setData, lineColor }) => {
   const ButtonArray = [
     { name: '所有資料', filterName: 'all', dataNumber: 'all data' },
     {
-      name: '總瀏覽數',
-      filterName: 'views',
-      dataNumber: allViewsNumber,
-      color: lineColor.views
+      name: '按讚數',
+      filterName: 'likes',
+      dataNumber: allLikesNumber,
+      color: lineColor.likes
     },
     {
-      name: '總留言數',
+      name: '留言數',
       filterName: 'comments',
       dataNumber: allCommentsNumber,
       color: lineColor.comments
     },
     {
-      name: '總回覆數',
+      name: '回覆數',
       filterName: 'replies',
       dataNumber: allRepliesNumber,
       color: lineColor.replies
@@ -133,7 +133,7 @@ const GraphSection = () => {
 
   const LINE_TYPE = 'monotone'
   const LINE_COLOR = {
-    views: '#f99',
+    likes: '#f99',
     comments: '#3d6',
     replies: '#eb3'
   }
@@ -163,11 +163,11 @@ const GraphSection = () => {
           <YAxis />
           <Tooltip />
           <Legend />
-          {isLineShow('views') && (
+          {isLineShow('likes') && (
             <Line
               type={LINE_TYPE}
-              dataKey="views"
-              stroke={LINE_COLOR.views}
+              dataKey="likes"
+              stroke={LINE_COLOR.likes}
               activeDot={{ r: 6 }}
             />
           )}
