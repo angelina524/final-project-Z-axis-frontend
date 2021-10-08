@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import styled from '@emotion/styled'
 import io from 'socket.io-client'
 import PropTypes from 'prop-types'
+import moment from 'moment'
 
 import BACKEND_BASE_URL from '../../constants/baseURL'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
@@ -192,8 +193,10 @@ const IssuePage = ({ isBackstage }) => {
           ))}
       </CommentsWrapper>
       {!isBackstage &&
-        new Date() >= new Date(issue.beginDate) &&
-        new Date() < new Date(issue.finishDate) && (
+        new Date(moment(new Date()).format('YYYY-MM-DD')).getTime() >=
+          new Date(issue.beginDate).getTime() &&
+        new Date(moment(new Date()).format('YYYY-MM-DD')).getTime() <
+          new Date(issue.finishDate).getTime() && (
           <AddCommentForm
             IssueId={issue.id}
             guestToken={guestToken}
@@ -201,11 +204,15 @@ const IssuePage = ({ isBackstage }) => {
             setComments={setComments}
           />
       )}
-      {!isBackstage && new Date() < new Date(issue.beginDate) && (
-        <RemindText>尚未開放留言</RemindText>
+      {!isBackstage &&
+        new Date(moment(new Date()).format('YYYY-MM-DD')).getTime() <
+          new Date(issue.beginDate).getTime() && (
+          <RemindText>尚未開放留言</RemindText>
       )}
-      {!isBackstage && new Date() > new Date(issue.finishDate) && (
-        <RemindText>已截止留言</RemindText>
+      {!isBackstage &&
+        new Date(moment(new Date()).format('YYYY-MM-DD')).getTime() >
+          new Date(issue.finishDate).getTime() && (
+          <RemindText>已截止留言</RemindText>
       )}
     </Wrapper>
   )

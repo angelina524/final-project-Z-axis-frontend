@@ -428,23 +428,17 @@ const Comment = ({
     </>
   )
 
-  const renderEditAndDeleteCommentOptions = () => (
-    <>
-      <Option
-        onClick={() => {
-          setIsCommentFormOpen((prev) => !prev)
-          setIsReplyOpen(false)
-          setIsReplyFormOpen(false)
-        }}
-      >
-        {editIcon('1x', theme.secondary_300)}
-        <div>編輯留言</div>
-      </Option>
-      <Option onClick={handleDeleteCommentClick}>
-        {deleteIcon('1x', theme.secondary_300)}
-        <div>刪除留言</div>
-      </Option>
-    </>
+  const renderEditCommentOption = () => (
+    <Option
+      onClick={() => {
+        setIsCommentFormOpen((prev) => !prev)
+        setIsReplyOpen(false)
+        setIsReplyFormOpen(false)
+      }}
+    >
+      {editIcon('1x', theme.secondary_300)}
+      <div>編輯留言</div>
+    </Option>
   )
 
   const renderDeleteCommentOption = () => (
@@ -477,8 +471,10 @@ const Comment = ({
             {userId === issueUserId &&
               comment.reply &&
               renderEditAndDeleteReplyOptions()}
-            {comment.guestToken === guestToken &&
-              renderEditAndDeleteCommentOptions()}
+            {comment.guestToken === guestToken && renderEditCommentOption()}
+            {!isBackstage &&
+              comment.guestToken === guestToken &&
+              renderDeleteCommentOption()}
             {isBackstage && renderDeleteCommentOption()}
           </CommentBottom>
         )}
