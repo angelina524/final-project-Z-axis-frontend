@@ -479,7 +479,6 @@ const Comment = ({
               renderEditAndDeleteReplyOptions()}
             {comment.guestToken === guestToken &&
               renderEditAndDeleteCommentOptions()}
-            {console.log('isBackstage', isBackstage)}
             {isBackstage && renderDeleteCommentOption()}
           </CommentBottom>
         )}

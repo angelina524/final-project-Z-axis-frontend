@@ -43,7 +43,7 @@ const CommentsWrapper = styled.div`
 `
 
 const RemindText = styled.div`
-  position: fixed;
+  position: absolute;
   bottom: 1rem;
   color: ${({ theme }) => theme.secondary_300};
 `
@@ -92,12 +92,7 @@ const IssuePage = ({ isBackstage }) => {
     socket.on('deleteComment', (id) => {
       setComments((prev) => prev.filter((comment) => comment.id !== id))
     })
-    window.scrollTo(0, document.body.scrollHeight)
   }, [socket])
-
-  useEffect(() => {
-    window.scrollTo(0, document.body.scrollHeight)
-  }, [comments])
 
   useEffect(() => {
     const doAsyncEffects = async () => {
@@ -196,7 +191,8 @@ const IssuePage = ({ isBackstage }) => {
             />
           ))}
       </CommentsWrapper>
-      {new Date().getTime() >= new Date(issue.beginDate).getTime() &&
+      {!isBackstage &&
+        new Date().getTime() >= new Date(issue.beginDate).getTime() &&
         new Date().getTime() < new Date(issue.finishDate).getTime() && (
           <AddCommentForm
             IssueId={issue.id}
@@ -205,11 +201,13 @@ const IssuePage = ({ isBackstage }) => {
             setComments={setComments}
           />
       )}
-      {new Date().getTime() < new Date(issue.beginDate).getTime() && (
-        <RemindText>尚未開放留言</RemindText>
+      {!isBackstage &&
+        new Date().getTime() < new Date(issue.beginDate).getTime() && (
+          <RemindText>尚未開放留言</RemindText>
       )}
-      {new Date().getTime() > new Date(issue.finishDate).getTime() && (
-        <RemindText>已截止留言</RemindText>
+      {!isBackstage &&
+        new Date().getTime() > new Date(issue.finishDate).getTime() && (
+          <RemindText>已截止留言</RemindText>
       )}
     </Wrapper>
   )

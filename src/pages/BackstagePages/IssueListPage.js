@@ -78,7 +78,7 @@ const IssueListPage = () => {
     {
       issue: {
         id: 0,
-        title: '請建立留言箱',
+        title: '建立新的留言箱',
         description: '',
         beginDate: new Date(),
         finishDate: new Date()

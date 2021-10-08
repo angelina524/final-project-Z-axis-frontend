@@ -6,20 +6,18 @@ import flexJustifyAlign from '../../styles/flexJustifyAlign'
 const Navbar = styled.div`
   width: 100%;
   height: 4rem;
-  z-index: 5;
+  z-index: 4;
   background: ${({ theme }) => theme.secondary_900};
   ${flexJustifyAlign('space-between')}
 
   padding-right: 10%;
 
   ${(props) =>
-    props.isBackstage &&
-    `
+    props.isBackstage
+      ? `
     padding-left: 1rem;
-  `}
-  ${(props) =>
-    !props.isBackstage &&
-    `
+  `
+      : `
       position: fixed;
       top: 0;
       left: 0;
