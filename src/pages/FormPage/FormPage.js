@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import moment from 'moment'
 import EditIssueContext from '../../contexts/editIssueContext'
+import LoadingContext from '../../contexts/loadingContext'
 import { plusIcon } from '../../components/icons'
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
@@ -21,6 +22,7 @@ import { createIssue, updateIssue } from '../../webapi/issueApi'
 
 const FormPage = () => {
   const { editIssue, setEditIssue } = useContext(EditIssueContext)
+  const setIsLoading = useContext(LoadingContext)
   const { isEdit } = editIssue
   const history = useHistory()
   const [title, setTitle] = useState('')
@@ -89,6 +91,7 @@ const FormPage = () => {
         }
       })
       try {
+        setIsLoading(true)
         await updateIssue(
           editIssue.issueId,
           title,
@@ -96,19 +99,24 @@ const FormPage = () => {
           moment(startDate).format('YYYY-MM-DD'),
           moment(endDate).format('YYYY-MM-DD')
         )
+        setIsLoading(false)
       } catch (err) {
         console.log(err)
+        setIsLoading(false)
       }
     } else {
       try {
+        setIsLoading(true)
         await createIssue(
           title,
           description,
           moment(startDate).format('YYYY-MM-DD'),
           moment(endDate).format('YYYY-MM-DD')
         )
+        setIsLoading(false)
       } catch (err) {
         console.log(err)
+        setIsLoading(false)
       }
     }
     setTitle('')

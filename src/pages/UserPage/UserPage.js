@@ -8,6 +8,7 @@ import { UserFormWrapper, FormTitle } from '../../components/form'
 import Avatar from '../../components/Avatar'
 import { editIcon } from '../../components/icons'
 import { UserTokenContext } from '../../contexts/tokenContexts'
+import LoadingContext from '../../contexts/loadingContext'
 
 const UserInfoWrapper = styled.div`
   position: relative;
@@ -87,6 +88,7 @@ const RemindBtn = styled.button`
 
 const UserPage = () => {
   const { setUserToken } = useContext(UserTokenContext)
+  const setIsLoading = useContext(LoadingContext)
   const theme = useTheme()
   const history = useHistory()
   const [nickname, setNickname] = useState('')
@@ -97,12 +99,15 @@ const UserPage = () => {
     const getUserInformation = async () => {
       let user = {}
       try {
+        setIsLoading(true)
         const response = await getMe()
         const { data } = response
         if (!data.ok) throw new Error(data.message)
         user = data.user
+        setIsLoading(false)
       } catch (error) {
         console.log(error.message)
+        setIsLoading(false)
         return
       }
       setNickname(user.nickname)
@@ -114,11 +119,14 @@ const UserPage = () => {
 
   const handleUserDelete = async () => {
     try {
+      setIsLoading(false)
       const response = await deleteMe()
       const { data } = response
       if (!data.ok) throw new Error(data.message)
+      setIsLoading(false)
     } catch (error) {
       console.log(error.message)
+      setIsLoading(false)
       return
     }
 

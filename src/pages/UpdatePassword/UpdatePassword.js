@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 
+import LoadingContext from '../../contexts/loadingContext'
 import { updatePassword } from '../../webapi/userApi'
 import useForm from '../../hooks/useForm'
 import {
@@ -14,6 +15,7 @@ import {
 import BackToUserPageBtn from '../../components/BackToUserPageBtn'
 
 const UpdatePassword = () => {
+  const setIsLoading = useContext(LoadingContext)
   const {
     oldPassword,
     setOldPassword,
@@ -34,6 +36,7 @@ const UpdatePassword = () => {
     if (!isFormValid) return
 
     try {
+      setIsLoading(true)
       const response = await updatePassword(
         oldPassword,
         newPassword,
@@ -41,8 +44,10 @@ const UpdatePassword = () => {
       )
       const { data } = response
       if (!data.ok) throw new Error(data.message)
+      setIsLoading(false)
     } catch (error) {
       setErrorMessage(error.message)
+      setIsLoading(false)
       return
     }
 

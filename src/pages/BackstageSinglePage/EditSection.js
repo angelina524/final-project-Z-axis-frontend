@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import styled from '@emotion/styled'
-import { useTheme } from '@emotion/react'
 
 import SectionWrapper from './components/SectionWrapper'
 import ButtonOrigin from '../../components/Button'
-import editIssueContext from '../../contexts/editIssueContext'
+import EditIssueContext from '../../contexts/editIssueContext'
+import LoadingContext from '../../contexts/loadingContext'
 import BACKEND_BASE_URL from '../../constants/baseURL'
 
 const Button = styled(ButtonOrigin)`
   align-self: flex-end;
   justify-self: center;
+  background: ${({ theme }) => theme.secondary300};
 `
 
 const EditWrapper = styled.div`
@@ -40,37 +41,44 @@ const EditContent = styled.p`
 `
 
 const EditSection = () => {
-  const { secondary_300: secondary300 } = useTheme()
   const { url } = useParams()
-  const { editIssue, setEditIssue } = useContext(editIssueContext)
+  const { editIssue, setEditIssue } = useContext(EditIssueContext)
+  const setIsLoading = useContext(LoadingContext)
   const {
     title,
     description,
     date: { startDate, endDate }
   } = editIssue
   const [status, setStatus] = useState('')
+  const history = useHistory()
 
   useEffect(() => {
-    ;(async () => {
-      const res = await fetch(`${BACKEND_BASE_URL}/issues/${url}`)
-      if (!res.ok) return
-      const {
-        issue: { title, description, beginDate, finishDate, id }
-      } = await res.json()
-      setEditIssue({
-        isEdit: true,
-        url,
-        issueId: id,
-        title,
-        description,
-        date: {
-          startDate: beginDate.slice(0, 10).replace(/-/g, '/'),
-          endDate: finishDate.slice(0, 10).replace(/-/g, '/'),
-          key: 'selection'
-        }
-      })
-    })()
-  }, [])
+    try {
+      ;(async () => {
+        setIsLoading(true)
+        const res = await fetch(`${BACKEND_BASE_URL}/issues/${url}`)
+        if (!res.ok) return
+        const {
+          issue: { title, description, beginDate, finishDate, id }
+        } = await res.json()
+        setEditIssue({
+          url,
+          issueId: id,
+          title,
+          description,
+          date: {
+            startDate: beginDate.slice(0, 10).replace(/-/g, '/'),
+            endDate: finishDate.slice(0, 10).replace(/-/g, '/'),
+            key: 'selection'
+          }
+        })
+        setIsLoading(false)
+      })()
+    } catch (err) {
+      console.log(err)
+      setIsLoading(false)
+    }
+  }, [url])
 
   useEffect(() => {
     const now = new Date().toISOString().slice(0, 10)
@@ -81,6 +89,11 @@ const EditSection = () => {
     setStatus(nowStatus())
   }, [startDate, endDate])
 
+  const goToFormPage = () => {
+    setEditIssue((prev) => ({ ...prev, isEdit: true }))
+    history.push('/form')
+  }
+
   return (
     <SectionWrapper isGreyBackground={true}>
       <EditWrapper>
@@ -90,9 +103,7 @@ const EditSection = () => {
           {startDate} - {endDate}
         </EditDate>
         <EditContent>{description}</EditContent>
-        <Button backgroundColor={secondary300} as={Link} to="/form">
-          編輯
-        </Button>
+        <Button onClick={goToFormPage}>編輯</Button>
       </EditWrapper>
     </SectionWrapper>
   )

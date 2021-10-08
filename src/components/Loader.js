@@ -16,7 +16,7 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #fff;
-  min-height: calc(100vh - 2rem);
+  min-height: 100vh;
 `
 
 const LoaderWrapper = styled.div`
@@ -46,12 +46,12 @@ const Circle = styled.span`
   position: absolute;
   top: 0;
   left: 0;
-  border: 2px solid #4167b2;
+  border: 2px solid ${({ theme }) => theme.primary};
   animation: ${rotate} 5s linear infinite;
 `
 
 const LoadingText = styled.h2`
-  color: #4167b2;
+  color: ${({ theme }) => theme.primary};
   background-color: transparent;
 `
 

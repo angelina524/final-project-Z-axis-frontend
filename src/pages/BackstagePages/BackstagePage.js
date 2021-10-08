@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useTheme } from '@emotion/react'
 import moment from 'moment'
 
@@ -7,6 +7,7 @@ import BackstageMenuContent from '../../components/Menu/BackstageMenuContent'
 import Menu from '../../components/Menu/Menu'
 import { commentIcon, issueIcon, testIcon } from '../../components/icons'
 import { getAllIssues } from '../../webapi/issueApi'
+import LoadingContext from '../../contexts/loadingContext'
 import {
   ActivitiesContainer,
   ActivityContent,
@@ -30,17 +31,21 @@ const getIssueStatus = (issue) => {
 const BackstagePage = () => {
   const [issues, setIssues] = useState([])
   const theme = useTheme()
+  const setIsLoading = useContext(LoadingContext)
 
   useEffect(() => {
     const doAsyncEffects = async () => {
+      setIsLoading(true)
       let issuesData = []
       try {
         const response = await getAllIssues(3)
         const { data } = response
         if (!data.ok) throw new Error(data.message)
         issuesData = data.issuesWithURL
+        setIsLoading(false)
       } catch (error) {
         console.log(error.message)
+        setIsLoading(false)
         return
       }
       setIssues(issuesData)

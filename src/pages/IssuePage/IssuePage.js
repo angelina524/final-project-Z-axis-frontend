@@ -13,6 +13,7 @@ import AddCommentForm from '../../components/AddCommentForm'
 import { getAllComments } from '../../webapi/commentApi'
 import { getIssue } from '../../webapi/issueApi'
 import { getMe } from '../../webapi/userApi'
+import LoadingContext from '../../contexts/loadingContext'
 import {
   GuestTokenContext,
   UserTokenContext
@@ -46,6 +47,7 @@ const socket = io.connect(BACKEND_BASE_URL)
 const IssuePage = () => {
   const guestToken = useContext(GuestTokenContext)
   const { userToken } = useContext(UserTokenContext)
+  const setIsLoading = useContext(LoadingContext)
   const { url } = useParams()
   const [issue, setIssue] = useState({})
   const [comments, setComments] = useState([])
@@ -55,14 +57,18 @@ const IssuePage = () => {
   const [trigger, setTrigger] = useState(false)
 
   useEffect(() => {
+    if (!issue.id) return
     const doAsyncEffects = async () => {
       try {
+        setIsLoading(true)
         const response = await getAllComments(issue.id)
         const { data } = response
         if (!data.ok) throw new Error(data.message)
         setComments(data.comments)
+        setIsLoading(false)
       } catch (error) {
         console.log(error.message)
+        setIsLoading(false)
       }
     }
     doAsyncEffects()
@@ -84,23 +90,21 @@ const IssuePage = () => {
     socket.on('deleteComment', (id) => {
       setComments((prev) => prev.filter((comment) => comment.id !== id))
     })
-    window.scrollTo(0, document.body.scrollHeight)
   }, [socket])
-
-  useEffect(() => {
-    window.scrollTo(0, document.body.scrollHeight)
-  }, [comments])
 
   useEffect(() => {
     const doAsyncEffects = async () => {
       let issueData = {}
       try {
+        setIsLoading(true)
         const response = await getIssue(url)
         const { data } = response
         if (!data.ok) throw new Error(data.message)
         issueData = data.issue
+        setIsLoading(false)
       } catch (error) {
         console.log(error.message)
+        setIsLoading(false)
         return
       }
       setIssue(issueData)
@@ -109,12 +113,15 @@ const IssuePage = () => {
 
       let commentsData = []
       try {
+        setIsLoading(true)
         const response = await getAllComments(issueData.id)
         const { data } = response
         if (!data.ok) throw new Error(data.message)
         commentsData = data.comments
+        setIsLoading(false)
       } catch (error) {
         console.log(error.message)
+        setIsLoading(false)
         return
       }
       setComments(commentsData)
@@ -122,12 +129,15 @@ const IssuePage = () => {
       if (!userToken) return
       let userData = {}
       try {
+        setIsLoading(true)
         const response = await getMe()
         const { data } = response
         if (!data.ok) throw new Error(data.message)
         userData = data.user
+        setIsLoading(false)
       } catch (error) {
         console.log(error.message)
+        setIsLoading(false)
         return
       }
       setUserId(userData.id)
