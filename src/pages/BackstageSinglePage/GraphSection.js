@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import styled from '@emotion/styled'
 import PropTypes from 'prop-types'
+import { useParams } from 'react-router-dom'
 import SectionWrapper from './components/SectionWrapper'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import { getIssueData } from '../../webapi/issueApi'
@@ -13,6 +14,7 @@ import {
   Tooltip,
   Legend
 } from 'recharts'
+import LoadingContext from '../../contexts/loadingContext'
 
 const Buttons = styled.div`
   width: 100%;
@@ -105,9 +107,11 @@ ButtonContainer.propTypes = {
 }
 
 // main component ------------------------
-const GraphSection = ({ url, setIsLoading }) => {
+const GraphSection = () => {
   const [filter, setFilter] = useState('all')
   const [data, setData] = useState([])
+  const setIsLoading = useContext(LoadingContext)
+  const { url } = useParams()
 
   const LINE_TYPE = 'monotone'
   const LINE_COLOR = {
@@ -189,10 +193,6 @@ const GraphSection = ({ url, setIsLoading }) => {
       </GraphWrapper>
     </SectionWrapper>
   )
-}
-GraphSection.propTypes = {
-  url: PropTypes.string,
-  setIsLoading: PropTypes.func
 }
 
 export default GraphSection

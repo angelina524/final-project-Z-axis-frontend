@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 import moment from 'moment'
 import EditIssueContext from '../../contexts/editIssueContext'
 import LoadingContext from '../../contexts/loadingContext'
-import { plusIcon } from '../../components/icons'
+import { editIcon, plusIcon } from '../../components/icons'
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
 import { DateRange } from 'react-date-range'
@@ -20,11 +20,9 @@ import {
 } from '../../components/form'
 import { createIssue, updateIssue } from '../../webapi/issueApi'
 import { UserTokenContext } from '../../contexts/tokenContexts'
+import defaultEditIssue from '../../constants/defaultEditIssue'
 
 const FormPage = () => {
-  const { editIssue, setEditIssue } = useContext(EditIssueContext)
-  const setIsLoading = useContext(LoadingContext)
-  const { isEdit } = editIssue
   const history = useHistory()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
@@ -36,28 +34,31 @@ const FormPage = () => {
     }
   ])
   const [errorMessage, setErrorMessage] = useState('')
+  const setIsLoading = useContext(LoadingContext)
   const { userToken } = useContext(UserTokenContext)
+  const { editIssue, setEditIssue } = useContext(EditIssueContext)
+  const { isEdit } = editIssue
 
   useEffect(() => {
     if (!userToken) history.push('/')
   }, [userToken])
 
   useEffect(() => {
-    if (isEdit) {
-      const {
-        title,
-        description,
-        date: { startDate, endDate }
-      } = editIssue
-      setTitle(title)
-      setDescription(description)
-      setDate([
-        {
-          startDate: new Date(startDate),
-          endDate: new Date(endDate),
-          key: 'selection'
-        }
-      ])
+    if (!isEdit) return
+    const { title, description, date } = editIssue
+    const { startDate, endDate } = date
+    setTitle(title)
+    setDescription(description)
+    setDate([
+      {
+        startDate: new Date(startDate),
+        endDate: new Date(endDate),
+        key: 'selection'
+      }
+    ])
+
+    return () => {
+      setEditIssue(defaultEditIssue)
     }
   }, [editIssue, isEdit])
 
@@ -85,67 +86,43 @@ const FormPage = () => {
       endDate = moment(date[0].endDate).format('YYYY-MM-DD')
     }
 
-    if (isEdit) {
-      setEditIssue({
-        isEdit: false,
+    try {
+      setIsLoading(true)
+      const issueFormData = [
         title,
         description,
-        date: {
-          startDate: moment(startDate).format('YYYY-MM-DD'),
-          endDate: moment(endDate).format('YYYY-MM-DD'),
+        moment(startDate).format('YYYY-MM-DD'),
+        moment(endDate).format('YYYY-MM-DD')
+      ]
+      const response = isEdit
+        ? await updateIssue(editIssue.issueId, ...issueFormData)
+        : await createIssue(...issueFormData)
+      const { data } = response
+      if (!data.ok) throw new Error(data.massage)
+      setIsLoading(false)
+      setTitle('')
+      setDescription('')
+      setDate([
+        {
+          startDate: new Date(),
+          endDate: null,
           key: 'selection'
         }
-      })
-      try {
-        setIsLoading(true)
-        const response = await updateIssue(
-          editIssue.issueId,
-          title,
-          description,
-          moment(startDate).format('YYYY-MM-DD'),
-          moment(endDate).format('YYYY-MM-DD')
-        )
-        const { data } = response
-        if (!data.ok) throw new Error(data.massage)
-      } catch (err) {
-        console.log(err)
-      }
-      setIsLoading(false)
-    } else {
-      try {
-        setIsLoading(true)
-        const response = await createIssue(
-          title,
-          description,
-          moment(startDate).format('YYYY-MM-DD'),
-          moment(endDate).format('YYYY-MM-DD')
-        )
-        const { data } = response
-        if (!data.ok) throw new Error(data.massage)
-      } catch (err) {
-        console.log(err)
-      }
-      setIsLoading(false)
-    }
-    setTitle('')
-    setDescription('')
-    setDate([
-      {
-        startDate: new Date(),
-        endDate: null,
-        key: 'selection'
-      }
-    ])
-    if (isEdit) {
-      setEditIssue((prev) => ({ ...prev, isEdit: false }))
-      history.push('/backstage/issues/' + editIssue.url)
+      ])
+      if (isEdit) setEditIssue((prev) => ({ ...prev, isEdit: false }))
+      history.push(`/backstage/issues/${isEdit ? editIssue.url : data.url}`)
+    } catch (err) {
+      console.log(err)
     }
   }
 
   return (
     <>
       <Menu MenuContent={BackstageMenuContent} />
-      <BackstageNavbar iconName={plusIcon} title="建立" />
+      <BackstageNavbar
+        iconName={isEdit ? editIcon : plusIcon}
+        title={isEdit ? '編輯' : '建立'}
+      />
       <AddFormWrapper onSubmit={handleFormSubmit}>
         <FormTitle>{isEdit ? '編輯' : '新增'}留言箱</FormTitle>
         <InputText

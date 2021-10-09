@@ -19,22 +19,13 @@ import { createGuest } from '../webapi/guestApi'
 import { BackstagePage, IssueListPage } from '../pages/BackstagePages'
 import BackstageSinglePage from '../pages/BackstageSinglePage'
 import storage from '../localStorageApi'
+import defaultEditIssue from '../constants/defaultEditIssue'
 
 function App () {
   const [guestToken, setGuestToken] = useState(storage.getGuestToken() || '')
   const [userToken, setUserToken] = useState(storage.getUserToken() || '')
   const [isLoading, setIsLoading] = useState(false)
-  const [editIssue, setEditIssue] = useState({
-    isEdit: false,
-    issueId: 0,
-    title: '',
-    description: '',
-    date: {
-      startDate: null,
-      endDate: null,
-      key: 'selection'
-    }
-  })
+  const [editIssue, setEditIssue] = useState(defaultEditIssue)
 
   useEffect(() => {
     const doAsyncEffects = async () => {

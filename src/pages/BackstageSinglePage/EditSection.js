@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import styled from '@emotion/styled'
 
 import SectionWrapper from './components/SectionWrapper'
 import ButtonOrigin from '../../components/Button'
 import EditIssueContext from '../../contexts/editIssueContext'
+import LoadingContext from '../../contexts/loadingContext'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import { deleteIssue } from '../../webapi/issueApi'
+import BACKEND_BASE_URL from '../../constants/baseURL'
 
 const Buttons = styled.div`
   ${flexJustifyAlign()}
@@ -70,7 +72,9 @@ const RemindBtn = styled.button`
 
 const EditSection = () => {
   const history = useHistory()
+  const { url } = useParams()
   const { editIssue, setEditIssue } = useContext(EditIssueContext)
+  const setIsLoading = useContext(LoadingContext)
   const {
     title,
     description,
@@ -80,10 +84,37 @@ const EditSection = () => {
   const [isDeleteRemindOpen, setIsDeleteRemindOpen] = useState(false)
 
   useEffect(() => {
+    try {
+      ;(async () => {
+        setIsLoading(true)
+        const res = await fetch(`${BACKEND_BASE_URL}/issues/${url}`)
+        if (!res.ok) return
+        const { issue } = await res.json()
+        const { title, description, beginDate, finishDate, id } = issue
+        setEditIssue((prev) => ({
+          ...prev,
+          url,
+          issueId: id,
+          title,
+          description,
+          date: {
+            startDate: beginDate.slice(0, 10).replace(/-/g, '/'),
+            endDate: finishDate.slice(0, 10).replace(/-/g, '/'),
+            key: 'selection'
+          }
+        }))
+      })()
+    } catch (err) {
+      console.log(err)
+    }
+    setIsLoading(false)
+  }, [])
+
+  useEffect(() => {
     const now = new Date().toISOString().slice(0, 10).replace(/-/g, '/')
     const nowStatus = () => {
       if (now < startDate) return '即將發佈'
-      return now < endDate ? '進行中' : '已截止'
+      return now <= endDate ? '進行中' : '已截止'
     }
     setStatus(nowStatus())
   }, [startDate, endDate])

@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 export const isEmailFormatValid = (email) => {
   const regex =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
@@ -9,9 +11,17 @@ export const isPasswordFormatValid = (email) => {
   return regex.test(email)
 }
 
+export const formatDate = (date, separator = '-') =>
+  moment(date).format(`YYYY${separator}MM${separator}DD`)
+
 export const isIssueFinished = (issue) =>
-  new Date().getTime() > new Date(issue.finishDate).getTime()
+  new Date(formatDate(new Date())).getTime() >
+  new Date(formatDate(issue.finishDate)).getTime()
 export const isIssueOncoming = (issue) =>
-  new Date().getTime() < new Date(issue.beginDate).getTime()
+  new Date(formatDate(new Date())).getTime() <
+  new Date(formatDate(issue.beginDate)).getTime()
 export const isIssueOngoing = (issue) =>
-  new Date().getTime() >= new Date(issue.beginDate).getTime()
+  new Date(formatDate(new Date())).getTime() >=
+    new Date(formatDate(issue.beginDate)).getTime() &&
+  new Date(formatDate(new Date())).getTime() <=
+    new Date(formatDate(issue.finishDate)).getTime()
