@@ -31,6 +31,9 @@ export const getAllIssues = async (limit = 999) =>
 export const getIssue = async (issueURL) =>
   await instance.get(`/issues/${issueURL}`)
 
+export const getIssueData = async (issueURL) =>
+  await instance.get(`/issues/data/${issueURL}`)
+
 export const pinCommentOnTop = async (issueId, commentId) =>
   await instance.patch(`/issues/${issueId}/pinCommentOnTop`, { commentId })
 

@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useState, useContext, useEffect } from 'react'
+import { useParams, useHistory } from 'react-router-dom'
 import styled from '@emotion/styled'
 
 import Wrapper from '../../components/Wrapper'
@@ -7,6 +7,9 @@ import BackstageMenuContent from '../../components/Menu/BackstageMenuContent'
 import { BackstageNavbar } from '../../components/Navbar/BackstageNavbar'
 import Menu from '../../components/Menu/Menu'
 import cardList from '../../constants/cardList'
+import EditIssueContext from '../../contexts/editIssueContext'
+import LoadingContext from '../../contexts/loadingContext'
+import BACKEND_BASE_URL from '../../constants/baseURL'
 
 import EditSection from './EditSection'
 import QRcodeSection from './QRcodeSection'
@@ -21,11 +24,43 @@ const PageWrapper = styled(Wrapper)`
 
 const BackstageSinglePage = () => {
   const { userToken } = useContext(UserTokenContext)
+  const { setEditIssue } = useContext(EditIssueContext)
+  const setIsLoading = useContext(LoadingContext)
   const history = useHistory()
+  const { url } = useParams()
+  const [issueData, setIssueData] = useState({})
 
   useEffect(() => {
     if (!userToken) history.push('/')
   }, [userToken])
+
+  useEffect(() => {
+    try {
+      ;(async () => {
+        setIsLoading(true)
+        const res = await fetch(`${BACKEND_BASE_URL}/issues/${url}`)
+        if (!res.ok) return
+        const { issue } = await res.json()
+        const { title, description, beginDate, finishDate, id } = issue
+        setEditIssue({
+          url,
+          issueId: id,
+          title,
+          description,
+          date: {
+            startDate: beginDate.slice(0, 10).replace(/-/g, '/'),
+            endDate: finishDate.slice(0, 10).replace(/-/g, '/'),
+            key: 'selection'
+          }
+        })
+        setIssueData(issue)
+        setIsLoading(false)
+      })()
+    } catch (err) {
+      console.log(err)
+      setIsLoading(false)
+    }
+  }, [url])
 
   return (
     <PageWrapper padding="0">
@@ -38,7 +73,7 @@ const BackstageSinglePage = () => {
       {/* TODO */}
       <EditSection />
       <QRcodeSection />
-      <GraphSection />
+      <GraphSection issueData={issueData} url={url} />
       <IssuePage isBackstage={true} />
     </PageWrapper>
   )

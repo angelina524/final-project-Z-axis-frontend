@@ -209,7 +209,7 @@ const IssuePage = ({ isBackstage }) => {
       {!isBackstage &&
         new Date(moment(new Date()).format('YYYY-MM-DD')).getTime() >=
           new Date(issue.beginDate).getTime() &&
-        new Date(moment(new Date()).format('YYYY-MM-DD')).getTime() <
+        new Date(moment(new Date()).format('YYYY-MM-DD')).getTime() <=
           new Date(issue.finishDate).getTime() && (
           <AddCommentForm
             IssueId={issue.id}

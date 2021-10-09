@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { useParams, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import styled from '@emotion/styled'
 
 import SectionWrapper from './components/SectionWrapper'
 import ButtonOrigin from '../../components/Button'
 import EditIssueContext from '../../contexts/editIssueContext'
-import LoadingContext from '../../contexts/loadingContext'
-import BACKEND_BASE_URL from '../../constants/baseURL'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import { deleteIssue } from '../../webapi/issueApi'
 
@@ -72,9 +70,7 @@ const RemindBtn = styled.button`
 
 const EditSection = () => {
   const history = useHistory()
-  const { url } = useParams()
   const { editIssue, setEditIssue } = useContext(EditIssueContext)
-  const setIsLoading = useContext(LoadingContext)
   const {
     title,
     description,
@@ -82,34 +78,6 @@ const EditSection = () => {
   } = editIssue
   const [status, setStatus] = useState('')
   const [isDeleteRemindOpen, setIsDeleteRemindOpen] = useState(false)
-
-  useEffect(() => {
-    try {
-      ;(async () => {
-        setIsLoading(true)
-        const res = await fetch(`${BACKEND_BASE_URL}/issues/${url}`)
-        if (!res.ok) return
-        const {
-          issue: { title, description, beginDate, finishDate, id }
-        } = await res.json()
-        setEditIssue({
-          url,
-          issueId: id,
-          title,
-          description,
-          date: {
-            startDate: beginDate.slice(0, 10).replace(/-/g, '/'),
-            endDate: finishDate.slice(0, 10).replace(/-/g, '/'),
-            key: 'selection'
-          }
-        })
-        setIsLoading(false)
-      })()
-    } catch (err) {
-      console.log(err)
-      setIsLoading(false)
-    }
-  }, [url])
 
   useEffect(() => {
     const now = new Date().toISOString().slice(0, 10).replace(/-/g, '/')
