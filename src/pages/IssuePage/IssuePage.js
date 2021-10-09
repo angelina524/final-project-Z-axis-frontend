@@ -51,7 +51,12 @@ const RemindText = styled.div`
 `
 
 // dev server port
-const socket = io.connect(BACKEND_BASE_URL)
+const socket = io.connect(BACKEND_BASE_URL, {
+  widthCredentials: true,
+  extraHeaders: {
+    'X-Z-Header': 'z-axis'
+  }
+})
 
 const IssuePage = ({ isBackstage }) => {
   const guestToken = useContext(GuestTokenContext)
