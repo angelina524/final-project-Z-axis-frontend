@@ -222,6 +222,10 @@ const Comment = ({
     doAsyncEffects()
   }, [])
 
+  useEffect(() => {
+    setReply(comment.reply)
+  }, [comment])
+
   const handlePinCommentOnTopClick = async () => {
     try {
       const response =
@@ -244,6 +248,16 @@ const Comment = ({
       const response = await updateReply(IssueId, commentId, reply.trim())
       const { data } = response
       if (!data.ok) throw new Error(data.message)
+      setComments((prev) =>
+        prev.map((prevComment) => {
+          if (prevComment.id !== commentId) return prevComment
+          return {
+            ...prevComment,
+            reply: reply.trim(),
+            replyCreateAt: new Date()
+          }
+        })
+      )
     } catch (error) {
       console.log(error.message)
       return
@@ -259,6 +273,16 @@ const Comment = ({
       const response = await updateReply(IssueId, commentId, '')
       const { data } = response
       if (!data.ok) throw new Error(data.message)
+      setComments((prev) =>
+        prev.map((prevComment) => {
+          if (prevComment.id !== commentId) return prevComment
+          return {
+            ...prevComment,
+            reply: '',
+            replyCreateAt: new Date()
+          }
+        })
+      )
     } catch (error) {
       console.log(error.message)
       return
