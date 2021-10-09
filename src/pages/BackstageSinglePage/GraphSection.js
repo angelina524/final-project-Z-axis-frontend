@@ -99,14 +99,13 @@ const ButtonContainer = ({ filter, setFilter, data, lineColor }) => {
 }
 ButtonContainer.propTypes = {
   data: PropTypes.array,
-  setData: PropTypes.func,
   filter: PropTypes.string,
   setFilter: PropTypes.func,
   lineColor: PropTypes.object
 }
 
 // main component ------------------------
-const GraphSection = ({ url }) => {
+const GraphSection = ({ url, setIsLoading }) => {
   const [filter, setFilter] = useState('all')
   const [data, setData] = useState([])
 
@@ -125,9 +124,9 @@ const GraphSection = ({ url }) => {
     if (!url) return
     const doAsyncEffects = async () => {
       try {
+        setIsLoading(true)
         const response = await getIssueData(url)
         const { data } = response
-        console.log(data)
         if (!data.ok) throw new Error(data.message)
         setData(
           data.data.map((e) => ({
@@ -138,6 +137,7 @@ const GraphSection = ({ url }) => {
       } catch (error) {
         console.log(error.message)
       }
+      setIsLoading(false)
     }
     doAsyncEffects()
   }, [url])
@@ -191,7 +191,8 @@ const GraphSection = ({ url }) => {
   )
 }
 GraphSection.propTypes = {
-  url: PropTypes.string
+  url: PropTypes.string,
+  setIsLoading: PropTypes.func
 }
 
 export default GraphSection

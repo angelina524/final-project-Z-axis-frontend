@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import styled from '@emotion/styled'
 
@@ -28,7 +28,6 @@ const BackstageSinglePage = () => {
   const setIsLoading = useContext(LoadingContext)
   const history = useHistory()
   const { url } = useParams()
-  const [issueData, setIssueData] = useState({})
 
   useEffect(() => {
     if (!userToken) history.push('/')
@@ -53,7 +52,6 @@ const BackstageSinglePage = () => {
             key: 'selection'
           }
         })
-        setIssueData(issue)
         setIsLoading(false)
       })()
     } catch (err) {
@@ -70,10 +68,9 @@ const BackstageSinglePage = () => {
         title={cardList[0].cardTitle}
         buttonName="進入此前台"
       />
-      {/* TODO */}
       <EditSection />
       <QRcodeSection />
-      <GraphSection issueData={issueData} url={url} />
+      <GraphSection url={url} setIsLoading={setIsLoading} />
       <IssuePage isBackstage={true} />
     </PageWrapper>
   )
