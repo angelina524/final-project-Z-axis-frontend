@@ -1,6 +1,6 @@
 import axios from 'axios'
 import storage from '../localStorageApi'
-import BACKEND_BASE_URL from '../constants/baseURL'
+import { BACKEND_BASE_URL } from '../constants/baseURL'
 
 const instance = axios.create({
   baseURL: BACKEND_BASE_URL

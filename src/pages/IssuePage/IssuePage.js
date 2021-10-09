@@ -4,7 +4,7 @@ import styled from '@emotion/styled'
 import io from 'socket.io-client'
 import PropTypes from 'prop-types'
 
-import BACKEND_BASE_URL from '../../constants/baseURL'
+import { BACKEND_BASE_URL } from '../../constants/baseURL'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import { ForestageIssueNavbar } from '../../components/Navbar/ForestageNavbar'
 import Menu from '../../components/Menu/Menu'

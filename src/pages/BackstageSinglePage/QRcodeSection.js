@@ -5,7 +5,7 @@ import styled from '@emotion/styled'
 
 import logo from '../../logo.svg'
 import SectionWrapper from './components/SectionWrapper'
-import { FRONTEND_BASE_URL } from '../../constants/baseURL.js'
+import { FRONTEND_BASE_URL } from '../../constants/baseURL'
 
 const QRcodeWrapper = styled.div`
   display: flex;

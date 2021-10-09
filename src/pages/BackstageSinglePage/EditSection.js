@@ -8,7 +8,7 @@ import EditIssueContext from '../../contexts/editIssueContext'
 import LoadingContext from '../../contexts/loadingContext'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import { deleteIssue } from '../../webapi/issueApi'
-import BACKEND_BASE_URL from '../../constants/baseURL'
+import { BACKEND_BASE_URL } from '../../constants/baseURL'
 
 const Buttons = styled.div`
   ${flexJustifyAlign()}
