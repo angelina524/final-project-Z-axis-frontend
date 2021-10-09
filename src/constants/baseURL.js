@@ -1,6 +1,6 @@
 export const BACKEND_BASE_URL =
   process.env.NODE_ENV === 'production'
-    ? 'http://api.ben6515.tw'
+    ? 'https://ben6515.tw'
     : 'http://localhost:5001'
 
 export const FRONTEND_BASE_URL =
