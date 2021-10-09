@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
-import PropType from 'prop-types'
+import PropTypes from 'prop-types'
 import SectionWrapper from './components/SectionWrapper'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
+import { getIssueData } from '../../webapi/issueApi'
 import {
   LineChart,
   Line,
@@ -47,29 +48,7 @@ const GraphWrapper = styled.div`
   ${flexJustifyAlign('center')}
 `
 
-const ButtonContainer = ({ filter, setFilter, data, setData, lineColor }) => {
-  useEffect(() => {
-    // TODO: get real data
-
-    // dev data
-    const randomN = (num) => {
-      return Math.round(Math.random() * num)
-    }
-    const getData = () => {
-      const dataArray = []
-      for (const i in Array(5).fill(0)) {
-        dataArray.push({
-          date: '10/1' + i,
-          likes: randomN(100 + i * 10),
-          comments: randomN(30 - i),
-          replies: randomN(10)
-        })
-      }
-      return dataArray
-    }
-    setData(getData())
-  }, [])
-
+const ButtonContainer = ({ filter, setFilter, data, lineColor }) => {
   const allLikesNumber = data.reduce((acc, cur) => acc + cur.likes, 0)
   const allCommentsNumber = data.reduce((acc, cur) => acc + cur.comments, 0)
   const allRepliesNumber = data.reduce((acc, cur) => acc + cur.replies, 0)
@@ -119,15 +98,14 @@ const ButtonContainer = ({ filter, setFilter, data, setData, lineColor }) => {
   )
 }
 ButtonContainer.propTypes = {
-  data: PropType.array,
-  setData: PropType.func,
-  filter: PropType.string,
-  setFilter: PropType.func,
-  lineColor: PropType.object
+  data: PropTypes.array,
+  filter: PropTypes.string,
+  setFilter: PropTypes.func,
+  lineColor: PropTypes.object
 }
 
 // main component ------------------------
-const GraphSection = () => {
+const GraphSection = ({ url, setIsLoading }) => {
   const [filter, setFilter] = useState('all')
   const [data, setData] = useState([])
 
@@ -141,6 +119,28 @@ const GraphSection = () => {
   const graphWidth = deviceWidth > 600 ? 600 : deviceWidth
   const graphMargin = { top: 10, right: 30, left: 0, bottom: 30 }
   const isLineShow = (filterName) => filter === 'all' || filter === filterName
+
+  useEffect(() => {
+    if (!url) return
+    const doAsyncEffects = async () => {
+      try {
+        setIsLoading(true)
+        const response = await getIssueData(url)
+        const { data } = response
+        if (!data.ok) throw new Error(data.message)
+        setData(
+          data.data.map((e) => ({
+            ...e,
+            date: e.date.slice(5, 10).replace(/-/, '/')
+          }))
+        )
+      } catch (error) {
+        console.log(error.message)
+      }
+      setIsLoading(false)
+    }
+    doAsyncEffects()
+  }, [url])
 
   return (
     <SectionWrapper isGreyBackground={true}>
@@ -189,6 +189,10 @@ const GraphSection = () => {
       </GraphWrapper>
     </SectionWrapper>
   )
+}
+GraphSection.propTypes = {
+  url: PropTypes.string,
+  setIsLoading: PropTypes.func
 }
 
 export default GraphSection
