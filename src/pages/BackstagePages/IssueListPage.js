@@ -25,6 +25,7 @@ import { getAllIssues } from '../../webapi/issueApi'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import { isIssueFinished, isIssueOncoming, isIssueOngoing } from '../../utils'
 import { UserTokenContext } from '../../contexts/tokenContexts'
+import LoadingContext from '../../contexts/loadingContext'
 
 const GoToTopButton = styled.button`
   ${flexJustifyAlign()}
@@ -42,10 +43,13 @@ const GoToTopButton = styled.button`
 `
 
 const IssueListPage = () => {
+  const [issues, setIssues] = useState([])
+  const [filteredIssues, setFilteredIssues] = useState([])
   const [oncomingIssues, setOncomingIssues] = useState([])
   const [ongoingIssues, setOngoingIssues] = useState([])
   const [finishedIssues, setFinishedIssues] = useState([])
   const theme = useTheme()
+  const setIsLoading = useContext(LoadingContext)
   const { userToken } = useContext(UserTokenContext)
   const history = useHistory()
 
@@ -55,32 +59,44 @@ const IssueListPage = () => {
 
   useEffect(() => {
     const doAsyncEffects = async () => {
+      setIsLoading(true)
       let issuesData = []
       try {
         const response = await getAllIssues()
         const { data } = response
         if (!data.ok) throw new Error(data.message)
         issuesData = data.issuesWithURL
+        setIssues(issuesData)
       } catch (error) {
         console.log(error.message)
-        return
       }
-      for (const issueData of issuesData) {
-        if (isIssueFinished(issueData.issue)) {
-          setFinishedIssues((prev) => [...prev, issueData])
-          continue
-        }
-        if (isIssueOncoming(issueData.issue)) {
-          setOncomingIssues((prev) => [...prev, issueData])
-          continue
-        }
-        if (isIssueOngoing(issueData.issue)) {
-          setOngoingIssues((prev) => [...prev, issueData])
-        }
-      }
+      setIsLoading(false)
     }
     doAsyncEffects()
   }, [])
+
+  useEffect(() => {
+    setFilteredIssues(issues)
+  }, [issues])
+
+  useEffect(() => {
+    setFinishedIssues([])
+    setOncomingIssues([])
+    setOngoingIssues([])
+    for (const issueData of filteredIssues) {
+      if (isIssueFinished(issueData.issue)) {
+        setFinishedIssues((prev) => [...prev, issueData])
+        continue
+      }
+      if (isIssueOncoming(issueData.issue)) {
+        setOncomingIssues((prev) => [...prev, issueData])
+        continue
+      }
+      if (isIssueOngoing(issueData.issue)) {
+        setOngoingIssues((prev) => [...prev, issueData])
+      }
+    }
+  }, [filteredIssues])
 
   const exampleIssue = [
     {
@@ -154,7 +170,10 @@ const IssueListPage = () => {
   return (
     <>
       <Menu MenuContent={BackstageMenuContent} />
-      <BackstageSearchNavbar />
+      <BackstageSearchNavbar
+        issues={issues}
+        setFilteredIssues={setFilteredIssues}
+      />
       <ActivityWrapper>
         <ActivityType>
           {issueIcon('2x', theme.secondary_200)}
