@@ -20,7 +20,7 @@ const QRcodeWrapper = styled.div`
 `
 
 const Title = styled.h2`
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   align-self: flex-start;
 `
 

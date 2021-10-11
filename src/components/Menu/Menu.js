@@ -16,6 +16,7 @@ const MenuWrapper = styled.aside`
   bottom: 0;
   left: 0;
   right: 20vw;
+  min-height: 100vh;
   background-color: ${({ theme }) => theme.secondary_900};
   box-shadow: ${({ theme, isMenuOpen }) => isMenuOpen && theme.boxShadow};
   padding: 1.5rem;
@@ -25,7 +26,7 @@ const MenuWrapper = styled.aside`
 
 const Nickname = styled.p`
   color: ${({ theme }) => theme.secondary_300};
-  font-size: 0.9rem;
+  font-size: 0.875rem;
 `
 
 const Footer = styled.footer`
@@ -42,7 +43,7 @@ const Footer = styled.footer`
     color: ${({ theme }) => theme.secondary_000};
   }
   p {
-    font-size: 0.9rem;
+    font-size: 0.875rem;
   }
 `
 

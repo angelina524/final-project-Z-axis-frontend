@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { HashRouter as Router, Switch, Route } from 'react-router-dom'
+import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 
 import Navbar from './Navbar/Navbar'
-import Loader from '../components/Loader'
+import ScrollToTop from './ScrollToTop'
+import Loader from './Loader'
+import storage from '../localStorageApi'
 import HomePage from '../pages/HomePage'
 import LoginPage from '../pages/LoginPage'
 import RegisterPage from '../pages/RegisterPage'
@@ -12,13 +14,12 @@ import UpdateMe from '../pages/UpdateMe'
 import AddPage from '../pages/AddPage'
 import FormPage from '../pages/FormPage'
 import IssuePage from '../pages/IssuePage'
+import { BackstagePage, IssueListPage } from '../pages/BackstagePages'
+import BackstageSinglePage from '../pages/BackstageSinglePage'
 import { GuestTokenContext, UserTokenContext } from '../contexts/tokenContexts'
 import EditIssueContext from '../contexts/editIssueContext'
 import LoadingContext from '../contexts/loadingContext'
 import { createGuest } from '../webapi/guestApi'
-import { BackstagePage, IssueListPage } from '../pages/BackstagePages'
-import BackstageSinglePage from '../pages/BackstageSinglePage'
-import storage from '../localStorageApi'
 import defaultEditIssue from '../constants/defaultEditIssue'
 
 function App () {
@@ -57,42 +58,54 @@ function App () {
           <LoadingContext.Provider value={setIsLoading}>
             {isLoading && <Loader />}
             <Router>
+              <ScrollToTop />
               <Switch>
                 <Route exact path="/">
                   <Navbar />
                   <HomePage />
                 </Route>
                 {/* todo:useContext優化 */}
-                <Route exact path="/login">
-                  <Navbar />
-                  <LoginPage />
-                </Route>
+                {!userToken && (
+                  <Route exact path="/login">
+                    <Navbar />
+                    <LoginPage />
+                  </Route>
+                )}
                 {/* todo:useContext優化 */}
-                <Route exact path="/register">
-                  <Navbar />
-                  <RegisterPage />
-                </Route>
-                <Route exact path="/user/me">
-                  <Navbar />
-                  <UserPage />
-                </Route>
-                <Route exact path="/user/me/update-password">
-                  <Navbar />
-                  <UpdatePassword />
-                </Route>
-                <Route exact path="/user/me/update">
-                  <Navbar />
-                  <UpdateMe />
-                </Route>
-                <Route exact path="/add">
-                  <AddPage />
-                </Route>
-                <Route exact path="/form">
-                  <FormPage />
-                </Route>
-                <Route exact path="/backstage">
-                  <BackstagePage />
-                </Route>
+                {!userToken && (
+                  <Route exact path="/register">
+                    <Navbar />
+                    <RegisterPage />
+                  </Route>
+                )}
+                {userToken && (
+                  <Route exact path="/user/me">
+                    <Navbar />
+                    <UserPage />
+                  </Route>
+                )}
+                {userToken && (
+                  <Route exact path="/user/me/update-password">
+                    <Navbar />
+                    <UpdatePassword />
+                  </Route>
+                )}
+                {userToken && (
+                  <Route exact path="/user/me/update">
+                    <Navbar />
+                    <UpdateMe />
+                  </Route>
+                )}
+                {userToken && (
+                  <Route exact path="/add">
+                    <AddPage />
+                  </Route>
+                )}
+                {userToken && (
+                  <Route exact path="/form">
+                    <FormPage />
+                  </Route>
+                )}
                 {/* dev data  in BE seeder */}
                 {/* http://localhost:3000/#/issues/0e36ddb504d5ca0cf414fe0fd16fb9bf */}
                 <Route exact path="/issues/:url">
@@ -101,16 +114,17 @@ function App () {
                 <Route exact path="/issues">
                   <IssueListPage />
                 </Route>
-                <Route exact path="/backstage">
-                  <BackstagePage />
-                </Route>
-                <Route exact path="/backstage/issues/:url">
-                  <BackstageSinglePage />
-                  {/* loading page */}
-                  <Route exact path="/loading">
-                    <Loader />
+                {userToken && (
+                  <Route exact path="/backstage">
+                    <BackstagePage />
                   </Route>
-                </Route>
+                )}
+                {userToken && (
+                  <Route exact path="/backstage/issues/:url">
+                    <BackstageSinglePage />
+                  </Route>
+                )}
+                <Redirect to="/" />
               </Switch>
             </Router>
           </LoadingContext.Provider>

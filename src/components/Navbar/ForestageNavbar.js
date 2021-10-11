@@ -42,7 +42,7 @@ const FilterOption = styled.div`
 
 const TotalComments = styled.div`
   color: ${({ theme }) => theme.secondary_300};
-  font-size: 0.9rem;
+  font-size: 0.875rem;
 `
 
 export const ForestageIssueNavbar = ({

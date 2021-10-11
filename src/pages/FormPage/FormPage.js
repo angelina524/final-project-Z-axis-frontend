@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import moment from 'moment'
+import { DateRange } from 'react-date-range'
+import styled from '@emotion/styled'
+import 'react-date-range/dist/styles.css'
+import 'react-date-range/dist/theme/default.css'
+
 import EditIssueContext from '../../contexts/editIssueContext'
 import LoadingContext from '../../contexts/loadingContext'
 import { editIcon, plusIcon } from '../../components/icons'
-import 'react-date-range/dist/styles.css'
-import 'react-date-range/dist/theme/default.css'
-import { DateRange } from 'react-date-range'
 import { BackstageNavbar } from '../../components/Navbar/BackstageNavbar'
 import Menu from '../../components/Menu/Menu'
 import BackstageMenuContent from '../../components/Menu/BackstageMenuContent'
@@ -16,11 +18,17 @@ import {
   InputText,
   RemindText,
   ErrorMessage,
-  SubmitBtn
+  SubmitBtn,
+  INPUT_HEIGHT,
+  SUBMIT_BUTTON_MARGIN
 } from '../../components/form'
 import { createIssue, updateIssue } from '../../webapi/issueApi'
-import { UserTokenContext } from '../../contexts/tokenContexts'
 import defaultEditIssue from '../../constants/defaultEditIssue'
+
+const PositionedErrorMessage = styled(ErrorMessage)`
+  bottom: calc(${INPUT_HEIGHT} + calc(${SUBMIT_BUTTON_MARGIN} * 2));
+  transform: translateY(0);
+`
 
 const FormPage = () => {
   const history = useHistory()
@@ -35,13 +43,8 @@ const FormPage = () => {
   ])
   const [errorMessage, setErrorMessage] = useState('')
   const setIsLoading = useContext(LoadingContext)
-  const { userToken } = useContext(UserTokenContext)
   const { editIssue, setEditIssue } = useContext(EditIssueContext)
   const { isEdit } = editIssue
-
-  useEffect(() => {
-    if (!userToken) history.push('/')
-  }, [userToken])
 
   useEffect(() => {
     if (!isEdit) return
@@ -146,7 +149,9 @@ const FormPage = () => {
           minDate={new Date()}
           showDateDisplay={false}
         />
-        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+        {errorMessage && (
+          <PositionedErrorMessage>{errorMessage}</PositionedErrorMessage>
+        )}
         <SubmitBtn type="submit">{isEdit ? '更新' : '送出'}</SubmitBtn>
       </AddFormWrapper>
     </>

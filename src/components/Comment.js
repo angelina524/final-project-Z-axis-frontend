@@ -41,7 +41,7 @@ const Nickname = styled.div`
   width: 75%;
   top: -20px;
   left: 50px;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   z-index: 1;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -131,7 +131,7 @@ const Option = styled.div`
     margin-top: 0.2rem;
     text-align: center;
     color: ${({ theme }) => theme.secondary_300};
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
 `
 
@@ -146,7 +146,7 @@ const CommentInfo = styled.div`
 
 const CreatedTime = styled.div`
   color: ${({ theme }) => theme.secondary_300};
-  font-size: 0.8rem;
+  font-size: 0.75rem;
 `
 
 const ReplyForm = styled.form`

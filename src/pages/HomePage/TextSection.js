@@ -20,6 +20,7 @@ const TextWrapper = styled.div`
   p {
     line-height: 2;
     letter-spacing: 1px;
+    font-size: 1.125rem;
   }
 `
 
