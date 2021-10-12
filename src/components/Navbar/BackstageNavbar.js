@@ -35,14 +35,14 @@ const SearchBarWrapper = styled.div`
 
 const SearchInput = styled.input`
   border: none;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
 
   &:focus {
     outline: none;
   }
 
   &:placeholder {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
   }
 `
 

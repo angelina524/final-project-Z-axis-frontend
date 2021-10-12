@@ -22,7 +22,7 @@ const MenuAvatarWrapper = styled.div`
 `
 
 const EditBtn = styled(Link)`
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   padding: 0.3rem 1rem;
   border-radius: 2.5rem;
   border: ${({ theme }) => theme.border};

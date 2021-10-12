@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { useHistory } from 'react-router-dom'
 import { useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
 import moment from 'moment'
@@ -24,7 +23,6 @@ import { commentIcon, goToTopIcon, issueIcon } from '../../components/icons'
 import { getAllIssues } from '../../webapi/issueApi'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import { isIssueFinished, isIssueOncoming, isIssueOngoing } from '../../utils'
-import { UserTokenContext } from '../../contexts/tokenContexts'
 import LoadingContext from '../../contexts/loadingContext'
 
 const GoToTopButton = styled.button`
@@ -50,12 +48,6 @@ const IssueListPage = () => {
   const [finishedIssues, setFinishedIssues] = useState([])
   const theme = useTheme()
   const setIsLoading = useContext(LoadingContext)
-  const { userToken } = useContext(UserTokenContext)
-  const history = useHistory()
-
-  useEffect(() => {
-    if (!userToken) history.push('/')
-  }, [userToken])
 
   useEffect(() => {
     const doAsyncEffects = async () => {

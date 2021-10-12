@@ -24,11 +24,11 @@ const MainTitleWrapper = styled.div`
   letter-spacing: 2px;
   h1 {
     color: ${({ theme }) => theme.secondary_100};
-    font-size: 2.6rem;
+    font-size: 2.625rem;
     margin-bottom: 2rem;
   }
   p {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
   }
 `
 

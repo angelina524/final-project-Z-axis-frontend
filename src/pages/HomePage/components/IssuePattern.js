@@ -27,35 +27,16 @@ const Comment = styled.div`
   position: absolute;
   right: 0;
   top: 18px;
-  &:before {
+  &::before {
     content: '';
     display: block;
     position: absolute;
-    background-color: ${({ theme }) => theme.secondary_300};
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    top: -3px;
-    left: -8px;
-    z-index: -1;
-  }
-  &:after {
-    content: '';
-    display: block;
-    position: absolute;
-    background-color: ${({ theme }) => theme.secondary_850};
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
     top: -12px;
     left: -8px;
-    z-index: -1;
-  }
-`
-
-const LastComment = styled(Comment)`
-  &:after {
-    background-color: ${({ theme }) => theme.secondary_900};
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    box-shadow: 0px 10px 0 0 ${({ theme }) => theme.secondary_300};
   }
 `
 
@@ -72,7 +53,7 @@ const issuePattern = () => {
       </CommentWrapper>
       <CommentWrapper>
         <Avatar />
-        <LastComment />
+        <Comment />
       </CommentWrapper>
     </Wrapper>
   )

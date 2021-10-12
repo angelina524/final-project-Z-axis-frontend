@@ -21,8 +21,6 @@ import {
   StyledLink
 } from './components'
 import { isIssueFinished, isIssueOncoming, isIssueOngoing } from '../../utils'
-import { UserTokenContext } from '../../contexts/tokenContexts'
-import { useHistory } from 'react-router-dom'
 
 const getIssueStatus = (issue) => {
   if (isIssueFinished(issue)) return '已結束'
@@ -35,8 +33,6 @@ const BackstagePage = () => {
   const [filteredIssues, setFilteredIssues] = useState([])
   const theme = useTheme()
   const setIsLoading = useContext(LoadingContext)
-  const { userToken } = useContext(UserTokenContext)
-  const history = useHistory()
 
   useEffect(() => {
     const doAsyncEffects = async () => {
@@ -59,10 +55,6 @@ const BackstagePage = () => {
   useEffect(() => {
     setFilteredIssues(issues)
   }, [issues])
-
-  useEffect(() => {
-    if (!userToken) history.push('/')
-  }, [userToken])
 
   const renderIssues = () =>
     filteredIssues

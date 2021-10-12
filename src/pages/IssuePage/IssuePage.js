@@ -22,7 +22,7 @@ import {
 import { isIssueFinished, isIssueOncoming, isIssueOngoing } from '../../utils'
 
 const Wrapper = styled.div`
-  height: calc(100vh-4rem);
+  height: calc(100vh - 4rem);
   top: 4rem;
   width: 100%;
   position: relative;
@@ -30,6 +30,12 @@ const Wrapper = styled.div`
   padding: 0 1rem;
   ${flexJustifyAlign('space-between')}
   flex-direction: column;
+`
+
+const BackstageCommentsBlockTitle = styled.h2`
+  align-self: flex-start;
+  padding-left: 1rem;
+  font-size: 1.25rem;
 `
 
 const CommentsWrapper = styled.div`
@@ -166,6 +172,9 @@ const IssuePage = ({ isBackstage }) => {
   return (
     <Wrapper>
       {!isBackstage && <Menu MenuContent={menuContent} />}
+      {isBackstage && (
+        <BackstageCommentsBlockTitle>前台留言區</BackstageCommentsBlockTitle>
+      )}
       <ForestageIssueNavbar
         isBackstage={isBackstage}
         totalComments={comments.length}

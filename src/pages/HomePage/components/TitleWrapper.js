@@ -5,10 +5,11 @@ const TitleWrapper = styled.div`
   letter-spacing: 2px;
   h3 {
     color: ${({ theme }) => theme.primary};
-    font-size: 1.6rem;
+    font-size: 1.75rem;
     margin-bottom: 0.6rem;
   }
   p {
+    font-size: 1rem;
     line-height: 2;
     letter-spacing: 1px;
   }

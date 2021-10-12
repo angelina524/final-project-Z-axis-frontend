@@ -36,11 +36,12 @@ const Button = styled.div`
   background: ${({ active, theme }) =>
     active ? theme.secondary_900 : theme.secondary_850};
   span:nth-of-type(1) {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     color: ${({ active, color, theme }) =>
       active ? color : theme.secondary_000};
   }
   span:nth-of-type(2) {
+    font-size: 1rem;
     color: ${({ active, theme }) =>
       active ? theme.primary : theme.secondary_300};
   }

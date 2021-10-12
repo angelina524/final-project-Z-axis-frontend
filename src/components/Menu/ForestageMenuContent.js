@@ -21,12 +21,12 @@ const ActivityType = styled.div`
 `
 
 const ActivityDuration = styled.p`
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: ${({ theme }) => theme.secondary_300};
 `
 
 const ActivityDescription = styled.p`
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   line-height: 2rem;
 `
 

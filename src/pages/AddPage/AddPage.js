@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import React from 'react'
+import { Link } from 'react-router-dom'
 import styled from '@emotion/styled'
 import PropTypes from 'prop-types'
 import { useTheme } from '@emotion/react'
@@ -10,7 +10,6 @@ import { BackstageNavbar } from '../../components/Navbar/BackstageNavbar'
 import Menu from '../../components/Menu/Menu'
 import BackstageMenuContent from '../../components/Menu/BackstageMenuContent'
 import cardList from '../../constants/cardList'
-import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const Wrapper = styled.div`
   top: 4rem;
@@ -49,15 +48,16 @@ const CardContent = styled.div`
   text-align: center;
   width: 70%;
   margin: 0 0.8rem;
+  flex-shrink: 0;
 `
 
 const CardTitle = styled.div`
-  font-size: 1.2rem;
+  font-size: 1rem;
   margin-bottom: 0.6rem;
 `
 
 const CardText = styled.div`
-  font-size: 0.9rem;
+  font-size: 0.75rem;
 `
 
 const CardContainer = ({ path, iconName, cardTitle, cardText }) => {
@@ -80,31 +80,22 @@ CardContainer.propTypes = {
   cardText: PropTypes.string
 }
 
-const AddPage = () => {
-  const { userToken } = useContext(UserTokenContext)
-  const history = useHistory()
-
-  useEffect(() => {
-    if (!userToken) history.push('/')
-  }, [userToken])
-
-  return (
-    <Wrapper>
-      <Menu MenuContent={BackstageMenuContent} />
-      <BackstageNavbar iconName={plusIcon} title="建立" />
-      <CardsWrapper>
-        {cardList.map((card) => (
-          <CardContainer
-            key={card.cardTitle}
-            path={card.path}
-            iconName={card.iconName}
-            cardTitle={card.cardTitle}
-            cardText={card.cardText}
-          />
-        ))}
-      </CardsWrapper>
-    </Wrapper>
-  )
-}
+const AddPage = () => (
+  <Wrapper>
+    <Menu MenuContent={BackstageMenuContent} />
+    <BackstageNavbar iconName={plusIcon} title="建立" />
+    <CardsWrapper>
+      {cardList.map((card) => (
+        <CardContainer
+          key={card.cardTitle}
+          path={card.path}
+          iconName={card.iconName}
+          cardTitle={card.cardTitle}
+          cardText={card.cardText}
+        />
+      ))}
+    </CardsWrapper>
+  </Wrapper>
+)
 
 export default AddPage

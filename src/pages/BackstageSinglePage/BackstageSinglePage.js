@@ -1,5 +1,4 @@
-import React, { useContext, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import React from 'react'
 import styled from '@emotion/styled'
 
 import Wrapper from '../../components/Wrapper'
@@ -12,34 +11,25 @@ import EditSection from './EditSection'
 import QRcodeSection from './QRcodeSection'
 import GraphSection from './GraphSection'
 import IssuePage from '../IssuePage'
-import { UserTokenContext } from '../../contexts/tokenContexts'
 
 const PageWrapper = styled(Wrapper)`
   top: 4rem;
   margin-bottom: 8rem;
 `
 
-const BackstageSinglePage = () => {
-  const { userToken } = useContext(UserTokenContext)
-  const history = useHistory()
+const BackstageSinglePage = () => (
+  <PageWrapper padding="0">
+    <Menu MenuContent={BackstageMenuContent} />
+    <BackstageNavbar
+      iconName={cardList[0].iconName}
+      title={cardList[0].cardTitle}
+      buttonName="進入此前台"
+    />
+    <EditSection />
+    <QRcodeSection />
+    <GraphSection />
+    <IssuePage isBackstage={true} />
+  </PageWrapper>
+)
 
-  useEffect(() => {
-    if (!userToken) history.push('/')
-  }, [userToken])
-
-  return (
-    <PageWrapper padding="0">
-      <Menu MenuContent={BackstageMenuContent} />
-      <BackstageNavbar
-        iconName={cardList[0].iconName}
-        title={cardList[0].cardTitle}
-        buttonName="進入此前台"
-      />
-      <EditSection />
-      <QRcodeSection />
-      <GraphSection />
-      <IssuePage isBackstage={true} />
-    </PageWrapper>
-  )
-}
 export default BackstageSinglePage
