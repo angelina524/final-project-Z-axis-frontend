@@ -60,7 +60,8 @@ const RemindText = styled.div`
 const socket = io.connect(BACKEND_BASE_URL, {
   widthCredentials: true,
   extraHeaders: {
-    'X-Z-Header': 'z-axis'
+    'X-Z-Header': 'z-axis',
+    'Access-Control-Allow-Origin': '*'
   }
 })
 
