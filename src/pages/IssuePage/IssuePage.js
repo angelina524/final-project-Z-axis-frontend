@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from '@emotion/styled'
-import io from 'socket.io-client'
+import { io } from 'socket.io-client'
 import PropTypes from 'prop-types'
 
 import { BACKEND_BASE_URL } from '../../constants/baseURL'
@@ -57,13 +57,7 @@ const RemindText = styled.div`
 `
 
 // dev server port
-const socket = io.connect(BACKEND_BASE_URL, {
-  widthCredentials: true,
-  extraHeaders: {
-    'X-Z-Header': 'z-axis',
-    'Access-Control-Allow-Origin': '*'
-  }
-})
+const socket = io.connect(BACKEND_BASE_URL)
 
 const IssuePage = ({ isBackstage }) => {
   const guestToken = useContext(GuestTokenContext)
