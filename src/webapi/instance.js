@@ -10,6 +10,7 @@ instance.interceptors.request.use((config) => {
   config.headers.Authorization = `Bearer ${storage.getUserToken()}`
   config.headers['guest-token'] = storage.getGuestToken()
   config.headers['X-Z-Header'] = 'z-axis'
+  config.headers['Access-Control-Allow-Origin'] = '*'
   return config
 })
 
