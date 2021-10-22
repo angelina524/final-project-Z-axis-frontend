@@ -8,6 +8,7 @@ import { hamburgerIcon } from '../icons'
 import storage from '../../localStorageApi'
 import { UserTokenContext } from '../../contexts/tokenContexts'
 import { getMe } from '../../webapi/userApi'
+import { device } from '../../styles/media'
 
 const MenuWrapper = styled.aside`
   z-index: 10;
@@ -17,11 +18,16 @@ const MenuWrapper = styled.aside`
   left: 0;
   right: 20vw;
   min-height: 100vh;
+  /* width: 75%; */
   background-color: ${({ theme }) => theme.secondary_900};
   box-shadow: ${({ theme, isMenuOpen }) => isMenuOpen && theme.boxShadow};
   padding: 1.5rem;
   transition: transform 500ms ease, box-shadow 500ms ease;
   transform: ${({ isMenuOpen }) => !isMenuOpen && 'translate(-80vw)'};
+  /* @media ${device.desktop} {
+    right: 75vw;
+    width: 420px;
+  } */
 `
 
 const Nickname = styled.p`
@@ -68,6 +74,9 @@ const StyledHamburger = styled(Hamburger)`
   transition: transform 500ms ease;
   transform: translateX(${({ isMenuOpen }) => (isMenuOpen ? '-2rem' : '3rem')});
   cursor: pointer;
+  /* @media ${device.desktop} {
+\
+  } */
 `
 
 const Menu = ({ MenuContent }) => {

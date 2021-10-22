@@ -4,6 +4,7 @@ import styled from '@emotion/styled'
 import BackgroundCircleDashed from './components/BackgroundCircleDashed'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import Section from './components/Section'
+import { device } from '../../styles/media'
 
 const SecondBackgroundCircleDashed = styled(BackgroundCircleDashed)`
   transform: scale(1.6);
@@ -21,6 +22,12 @@ const TextWrapper = styled.div`
     line-height: 2;
     letter-spacing: 1px;
     font-size: 1.125rem;
+  }
+  @media ${device.desktop} {
+    max-width: 1400px;
+    position: absolute;
+    top: -60vh;
+    left: 40vh;
   }
 `
 
