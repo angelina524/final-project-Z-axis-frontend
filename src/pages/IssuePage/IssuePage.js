@@ -42,10 +42,11 @@ const BackstageCommentsBlockTitle = styled.h2`
 const CommentsWrapper = styled.div`
   width: 95%;
   position: relative;
-  padding: 2rem 0 0rem;
+  padding-top: 2rem;
   margin-bottom: 7rem;
   ${flexJustifyAlign('flex-start')}
   ${scrollbarStyle}
+  overflow-x: hidden;
   overflow-y: scroll;
   flex-direction: column;
   gap: 1rem;

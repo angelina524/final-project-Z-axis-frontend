@@ -157,7 +157,7 @@ const GraphSection = () => {
   return (
     <SectionWrapper isGreyBackground={true}>
       <TitleWrapper>
-        <Title>前台連結</Title>
+        <Title>分析告報</Title>
         <ButtonContainer
           filter={filter}
           setFilter={setFilter}
