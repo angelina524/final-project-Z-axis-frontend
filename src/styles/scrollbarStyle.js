@@ -1,6 +1,6 @@
 import theme from './theme'
 
-export default () => `
+export default `
   ::-webkit-scrollbar {
     width: 0.5rem;
     height: 0.5rem;

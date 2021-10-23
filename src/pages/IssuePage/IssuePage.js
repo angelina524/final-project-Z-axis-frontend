@@ -45,7 +45,7 @@ const CommentsWrapper = styled.div`
   padding: 2rem 0 0rem;
   margin-bottom: 7rem;
   ${flexJustifyAlign('flex-start')}
-  ${scrollbarStyle()}
+  ${scrollbarStyle}
   overflow-y: scroll;
   flex-direction: column;
   gap: 1rem;

@@ -41,7 +41,7 @@ const URLWrapper = styled.div`
   border-radius: 1.3rem;
   border: 1px solid ${({ theme }) => theme.secondary_300};
   padding: 0.3rem 1rem;
-  ${scrollbarStyle()}
+  ${scrollbarStyle}
 `
 
 const CopyWrapper = styled.a`
