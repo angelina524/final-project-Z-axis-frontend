@@ -32,6 +32,7 @@ Z-axis 提供即時匿名留言、按讚投票、測驗互動、抽獎活動、�
 - [API Documentation | HackMD](https://hackmd.io/LBJwuLekR_mO9pIdLfhSZQ)
 - [Database structure | drawSQL](https://drawsql.app/z-axis/diagrams/z-axis-sql#)
   
+### ✨ [專案介紹影片](https://youtu.be/-sDzeKgKeGw)
 
 ### ✨ [Demo](https://zaxis.netlify.app/#/)
 
