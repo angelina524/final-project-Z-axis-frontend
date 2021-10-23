@@ -3,6 +3,7 @@ import styled from '@emotion/styled'
 import PropTypes from 'prop-types'
 import { useParams } from 'react-router-dom'
 import SectionWrapper from './components/SectionWrapper'
+import Title from './components/Title'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import { getIssueData } from '../../webapi/issueApi'
 import {
@@ -18,8 +19,8 @@ import LoadingContext from '../../contexts/loadingContext'
 
 const Buttons = styled.div`
   width: 100%;
-  min-width: 400px;
-  padding: 1rem 2rem;
+  min-width: calc(400px - 4rem);
+  padding: 1rem 0rem;
   ${flexJustifyAlign('space-between')}
   flex-flow: row wrap;
 `
@@ -45,6 +46,10 @@ const Button = styled.div`
     color: ${({ active, theme }) =>
       active ? theme.primary : theme.secondary_300};
   }
+`
+
+const TitleWrapper = styled.div`
+  padding: 1rem 2rem;
 `
 
 const GraphWrapper = styled.div`
@@ -109,7 +114,7 @@ ButtonContainer.propTypes = {
 
 // main component ------------------------
 const GraphSection = () => {
-  const [filter, setFilter] = useState('all')
+  const [filter, setFilter] = useState('')
   const [data, setData] = useState([])
   const setIsLoading = useContext(LoadingContext)
   const { url } = useParams()
@@ -128,8 +133,8 @@ const GraphSection = () => {
   useEffect(() => {
     if (!url) return
     const doAsyncEffects = async () => {
+      setIsLoading(true)
       try {
-        setIsLoading(true)
         const response = await getIssueData(url)
         const { data } = response
         if (!data.ok) throw new Error(data.message)
@@ -139,23 +144,28 @@ const GraphSection = () => {
             date: e.date.slice(5, 10).replace(/-/, '/')
           }))
         )
+        setFilter('all')
       } catch (error) {
         console.log(error.message)
+      } finally {
+        setIsLoading(false)
       }
-      setIsLoading(false)
     }
     doAsyncEffects()
   }, [url])
 
   return (
     <SectionWrapper isGreyBackground={true}>
-      <ButtonContainer
-        filter={filter}
-        setFilter={setFilter}
-        data={data}
-        setData={setData}
-        lineColor={LINE_COLOR}
-      />
+      <TitleWrapper>
+        <Title>前台連結</Title>
+        <ButtonContainer
+          filter={filter}
+          setFilter={setFilter}
+          data={data}
+          setData={setData}
+          lineColor={LINE_COLOR}
+        />
+      </TitleWrapper>
       <GraphWrapper>
         <LineChart
           width={graphWidth}

@@ -20,6 +20,7 @@ import {
   UserTokenContext
 } from '../../contexts/tokenContexts'
 import { isIssueFinished, isIssueOncoming, isIssueOngoing } from '../../utils'
+import scrollbarStyle from '../../styles/scrollbarStyle'
 
 const Wrapper = styled.div`
   height: calc(100vh - 4rem);
@@ -41,8 +42,11 @@ const BackstageCommentsBlockTitle = styled.h2`
 const CommentsWrapper = styled.div`
   width: 95%;
   position: relative;
-  padding: 2rem 0 7rem;
-  ${flexJustifyAlign()}
+  padding: 2rem 0 0rem;
+  margin-bottom: 7rem;
+  ${flexJustifyAlign('flex-start')}
+  ${scrollbarStyle()}
+  overflow-y: scroll;
   flex-direction: column;
   gap: 1rem;
   svg {
