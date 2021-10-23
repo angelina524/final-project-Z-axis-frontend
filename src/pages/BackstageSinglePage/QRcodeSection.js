@@ -5,7 +5,9 @@ import styled from '@emotion/styled'
 
 import logo from '../../logo.svg'
 import SectionWrapper from './components/SectionWrapper'
+import Title from './components/Title'
 import { FRONTEND_BASE_URL } from '../../constants/baseURL'
+import scrollbarStyle from '../../styles/scrollbarStyle'
 
 const QRcodeWrapper = styled.div`
   display: flex;
@@ -17,11 +19,6 @@ const QRcodeWrapper = styled.div`
     width: 100%;
     height: 100%;
   }
-`
-
-const Title = styled.h2`
-  font-size: 1.25rem;
-  align-self: flex-start;
 `
 
 const QRcodeImageWrapper = styled.div`
@@ -44,18 +41,7 @@ const URLWrapper = styled.div`
   border-radius: 1.3rem;
   border: 1px solid ${({ theme }) => theme.secondary_300};
   padding: 0.3rem 1rem;
-  ::-webkit-scrollbar {
-    width: 0.5rem;
-    height: 0.5rem;
-  }
-  ::-webkit-scrollbar-track {
-    background: ${({ theme }) => theme.secondary_850};
-    border-radius: 0.5rem;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: ${({ theme }) => theme.secondary_300};
-    border-radius: 0.5rem;
-  }
+  ${scrollbarStyle}
 `
 
 const CopyWrapper = styled.a`
