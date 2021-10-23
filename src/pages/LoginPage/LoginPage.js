@@ -14,6 +14,7 @@ import {
   SubmitBtn
 } from '../../components/form'
 import { UserTokenContext } from '../../contexts/tokenContexts'
+import DesktopFormStyle from '../HomePage/components/DesktopFormStyle'
 
 const LoginPage = () => {
   const { setUserToken } = useContext(UserTokenContext)
@@ -59,6 +60,7 @@ const LoginPage = () => {
 
   return (
     <UserFormWrapper onSubmit={handleSubmit}>
+      <DesktopFormStyle />
       <FormTitle>登入</FormTitle>
       <InputText
         value={email}

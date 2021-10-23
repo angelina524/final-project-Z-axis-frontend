@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import flexJustifyAlign from '../../styles/flexJustifyAlign'
 import optionList from '../../constants/optionList'
 import Avatar from '../../components/Avatar'
+// import { device } from '../../styles/media'
 
 const BackStageMenu = styled.div`
   ${flexJustifyAlign()}

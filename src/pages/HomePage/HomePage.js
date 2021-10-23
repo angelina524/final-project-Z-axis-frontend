@@ -10,9 +10,14 @@ import SurveySection from './SurveySection'
 import RegisterPage from '../RegisterPage'
 import Wrapper from '../../components/Wrapper'
 import cardList from '../../constants/cardList'
+import SectionWrapper from './components/SectionWrapper'
+import { device } from '../../styles/media'
 
 const HomePageWrapper = styled(Wrapper)`
   min-height: 300vh;
+  @media ${device.desktop} {
+    max-height: 505vh;
+  }
 `
 
 const HomePage = () => {
@@ -20,11 +25,13 @@ const HomePage = () => {
     <HomePageWrapper>
       <MainSection />
       <TextSection />
-      <IssueSection cardItem={cardList[0]} />
-      <TestSection cardItem={cardList[1]} />
-      <LotterySection cardItem={cardList[2]} />
-      <SurveySection cardItem={cardList[3]} />
-      <RegisterPage isNow={true} />
+      <SectionWrapper>
+        <IssueSection cardItem={cardList[0]} />
+        <TestSection cardItem={cardList[1]} />
+        <LotterySection cardItem={cardList[2]} />
+        <SurveySection cardItem={cardList[3]} />
+        <RegisterPage isNow={true} />
+      </SectionWrapper>
     </HomePageWrapper>
   )
 }

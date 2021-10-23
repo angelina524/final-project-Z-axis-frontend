@@ -13,6 +13,7 @@ import {
   PromptLink
 } from '../../components/form'
 import BackToUserPageBtn from '../../components/BackToUserPageBtn'
+import DesktopFormStyle from '../HomePage/components/DesktopFormStyle'
 
 const UpdatePassword = () => {
   const setIsLoading = useContext(LoadingContext)
@@ -60,6 +61,7 @@ const UpdatePassword = () => {
 
   return (
     <UserFormWrapper onSubmit={handleSubmit}>
+      <DesktopFormStyle />
       <FormTitle>修改密碼</FormTitle>
       <InputText
         value={oldPassword}

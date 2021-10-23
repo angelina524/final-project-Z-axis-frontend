@@ -1,21 +1,20 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { device } from '../../../styles/media'
 
 export const SvgWrapper = styled.svg`
   width: 300px;
   height: 300px;
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 20vh;
+  right: 5vh;
   z-index: -1;
-  @media ${device.desktop} {
-    transform: scale(1.6);
-    left: 15vh;
+  transform: scale(1.6);
+  @media (max-width: 768px) {
+    display: none;
   }
 `
 
-const Curve = () => {
+const FormCurve = () => {
   return (
     <SvgWrapper>
       <path
@@ -28,4 +27,4 @@ const Curve = () => {
   )
 }
 
-export default Curve
+export default FormCurve

@@ -15,6 +15,7 @@ import {
 } from '../../components/form'
 import BackToUserPageBtn from '../../components/BackToUserPageBtn'
 import { UserTokenContext } from '../../contexts/tokenContexts'
+import DesktopFormStyle from '../HomePage/components/DesktopFormStyle'
 
 const UpdateMe = () => {
   const {
@@ -82,6 +83,7 @@ const UpdateMe = () => {
 
   return (
     <UserFormWrapper onSubmit={handleSubmit}>
+      <DesktopFormStyle />
       <FormTitle>修改個人資料</FormTitle>
       <InputText
         value={nickname}

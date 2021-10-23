@@ -15,6 +15,7 @@ import {
   PromptLink
 } from '../../components/form'
 import { UserTokenContext } from '../../contexts/tokenContexts'
+import DesktopFormStyle from '../HomePage/components/DesktopFormStyle'
 
 const RegisterPage = ({ isNow }) => {
   const { setUserToken } = useContext(UserTokenContext)
@@ -62,6 +63,7 @@ const RegisterPage = ({ isNow }) => {
 
   return (
     <UserFormWrapper isNow={isNow} onSubmit={handleSubmit}>
+      <DesktopFormStyle />
       <FormTitle>{isNow && '立即'}註冊</FormTitle>
       <InputText
         value={nickname}
